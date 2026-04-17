@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Евгений Онегин — Интерактивный урок литературы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --night:     #0F0D18;
+  --night2:    #1A1728;
+  --night3:    #252235;
+  --violet:    #6B5CE7;
+  --violet-lt: #EDE9FF;
+  --rose:      #C8557A;
+  --rose-lt:   #FAEEF2;
+  --gold:      #E8B86D;
+  --gold-lt:   #FDF5E4;
+  --cream:     #FAF8F4;
+  --ivory:     #F3EFE6;
+  --ink:       #1C1918;
+  --ink-muted: #6B6057;
+  --border:    rgba(28,25,24,0.11);
+  --green:     #2E7D5E;
+  --green-lt:  #EAF5EE;
+  --radius:    14px;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Jost', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--night);
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 2rem 4.5rem;
+  text-align: center;
+}
+.star-field {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 65%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 58% 14%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 72% 80%, rgba(255,255,255,0.3)  0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 35%, rgba(255,255,255,0.4)  0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 45%, rgba(232,184,109,0.4)  0%, transparent 100%),
+    radial-gradient(2px 2px at 80% 12%, rgba(232,184,109,0.3)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 90%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 52%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 93% 70%, rgba(255,255,255,0.4) 0%, transparent 100%);
+}
+.hero-glow {
+  position: absolute;
+  top: -120px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(107,92,231,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  width: 30px; height: 1px;
+  background: rgba(232,184,109,0.45);
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.15em;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-author {
+  position: relative;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.08em;
+  margin-bottom: 2rem;
+}
+.hero-quote {
+  position: relative;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 460px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.8;
+}
+.hero-modules {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.hero-module {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 99px;
+  padding: 6px 18px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+.hero-module strong { color: var(--gold); font-weight: 600; margin-right: 5px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 840px; margin: 0 auto; padding: 0 1.5rem; }
+
+.section-head { padding: 3rem 0 1.2rem; }
+.section-tag {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--violet); margin-bottom: 0.35rem;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700; line-height: 1.2;
+  color: var(--ink); margin-bottom: 0.3rem;
+}
+.section-desc {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--ink-muted);
+}
+
+.divider {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.5rem 0;
+  color: var(--border);
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.divider span { font-family: var(--serif); font-size: 1.2rem; color: var(--gold); letter-spacing: 0.3em; }
+
+/* ── QUIZ (FORMAT 1) ── */
+.quiz-box {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.quiz-top {
+  background: var(--night);
+  padding: 1rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.quiz-top-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--gold);
+}
+.quiz-progress-wrap { display: flex; align-items: center; gap: 10px; }
+.quiz-dots { display: flex; gap: 5px; }
+.quiz-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.2s;
+}
+.quiz-dot.done    { background: var(--gold); }
+.quiz-dot.current { background: rgba(232,184,109,0.55); }
+.quiz-count { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+.quiz-inner { padding: 1.5rem; }
+.quiz-q-num {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--violet); margin-bottom: 0.5rem;
+}
+.quiz-q-text {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+.quiz-q-text em { font-style: italic; color: var(--rose); }
+.quiz-options { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1rem; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  text-align: left;
+  font-family: var(--sans);
+  color: var(--ink);
+  line-height: 1.4;
+}
+.quiz-opt:hover:not(.locked) { border-color: var(--violet); background: var(--violet-lt); transform: translateX(3px); }
+.quiz-opt .opt-letter {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--night);
+  color: var(--gold);
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.quiz-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.quiz-opt.correct .opt-letter { background: var(--green); color: #fff; }
+.quiz-opt.wrong   { background: #FEF6F6; border-color: #E0AEAD; }
+.quiz-opt.wrong .opt-letter { background: var(--rose); color: #fff; }
+.quiz-opt.locked  { cursor: default; }
+
+.quiz-feedback {
+  display: none;
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.9rem; color: var(--ink-muted);
+  padding: 0.7rem 1rem;
+  background: var(--ivory);
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback strong { color: var(--green); font-style: normal; font-weight: 600; }
+.quiz-feedback.wrong-fb strong { color: var(--rose); }
+
+.quiz-next-btn {
+  background: var(--night);
+  color: var(--gold);
+  border: none;
+  padding: 0.65rem 1.4rem;
+  border-radius: 9px;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.18s;
+  display: none;
+}
+.quiz-next-btn.show { display: inline-flex; align-items: center; gap: 6px; }
+.quiz-next-btn:hover { background: var(--violet); color: #fff; }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+.quiz-result.show { display: block; }
+.quiz-result-score {
+  font-family: var(--serif);
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: var(--night);
+  line-height: 1;
+  margin-bottom: 0.1rem;
+}
+.quiz-result-score span { font-size: 2rem; color: var(--ink-muted); }
+.quiz-result-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--violet);
+  margin-bottom: 0.5rem;
+}
+.quiz-result-msg {
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  margin-bottom: 1.5rem;
+}
+.quiz-restart {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--ink-muted);
+  padding: 0.6rem 1.3rem;
+  border-radius: 9px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.quiz-restart:hover { border-color: var(--night); color: var(--night); }
+
+/* ── MATCH (FORMAT 2) ── */
+.match-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 580px) { .match-layout { grid-template-columns: 1fr; } }
+.match-col-label {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 0.6rem;
+}
+.match-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  font-family: var(--serif);
+  font-size: 0.97rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.12s;
+  user-select: none;
+  position: relative;
+}
+.match-card.hero-col { font-weight: 600; font-size: 1rem; }
+.match-card.quote-col { font-style: italic; color: var(--ink-muted); font-size: 0.88rem; }
+.match-card:hover:not(.matched):not(.locked) {
+  border-color: var(--rose);
+  background: var(--rose-lt);
+  transform: translateY(-2px);
+}
+.match-card.selected { border-color: var(--violet); background: var(--violet-lt); box-shadow: 0 0 0 2px rgba(107,92,231,0.2); }
+.match-card.matched { border-color: var(--green); background: var(--green-lt); cursor: default; }
+.match-card.wrong-shake { border-color: var(--rose); background: var(--rose-lt); }
+.match-card .match-tick { display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--green); font-weight:700; }
+.match-card.matched .match-tick { display:inline; }
+
+.match-status {
+  text-align: center;
+  margin-top: 0.8rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink-muted);
+  min-height: 1.4em;
+}
+.match-status strong { color: var(--green); font-style: normal; }
+.match-controls { text-align: center; margin-top: 0.6rem; }
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--ink-muted);
+  padding: 0.5rem 1.1rem;
+  border-radius: 9px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── REFLECTION (FORMAT 3) ── */
+.reflect-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.3rem 1.4rem;
+  margin-bottom: 0.85rem;
+}
+.reflect-q {
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 0.9rem;
+  line-height: 1.5;
+}
+.reflect-q-num {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--rose); display: block; margin-bottom: 0.3rem;
+}
+.reflect-opts { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+.reflect-opt {
+  background: var(--ivory);
+  border: 1.5px solid var(--border);
+  border-radius: 99px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  font-family: var(--sans);
+  color: var(--ink);
+}
+.reflect-opt:hover:not(.chosen) { border-color: var(--rose); background: var(--rose-lt); transform: scale(1.03); }
+.reflect-opt.chosen { border-color: var(--violet); background: var(--violet-lt); color: var(--violet); font-weight: 500; }
+.reflect-response {
+  display: none;
+  margin-top: 0.75rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--ink-muted);
+  background: var(--ivory);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  line-height: 1.6;
+  border-left: 2px solid var(--gold);
+}
+.reflect-response.show { display: block; }
+
+.reflect-summary {
+  display: none;
+  background: var(--night);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+.reflect-summary.show { display: block; }
+.reflect-summary p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+}
+.reflect-summary strong { color: var(--gold); font-style: normal; }
+
+/* ── SCORE RIBBON ── */
+.ribbon {
+  background: var(--night2);
+  padding: 0.6rem 1.5rem;
+  display: flex; justify-content: center;
+  align-items: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.ribbon-item { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+.ribbon-item strong { color: var(--gold); font-size: 13px; margin-left: 4px; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--night);
+  padding: 2.5rem;
+  text-align: center;
+  margin-top: 3.5rem;
+}
+.footer-verse {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.35);
+  line-height: 2;
+  margin-bottom: 1rem;
+}
+.footer-meta { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+.quiz-box, .match-layout, .reflect-card { animation: fadeUp 0.35s ease backwards; }
+.reflect-card:nth-child(1) { animation-delay: 0.05s; }
+.reflect-card:nth-child(2) { animation-delay: 0.12s; }
+.reflect-card:nth-child(3) { animation-delay: 0.19s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.match-card.wrong-shake { animation: shake 0.28s ease; }
+@keyframes popScore { 0%{transform:scale(0.7);opacity:0} 70%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
+.quiz-result.show .quiz-result-score { animation: popScore 0.4s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="star-field"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-eyebrow">Урок литературы · 9 класс</div>
+  <h1><em>Евгений Онегин</em></h1>
+  <div class="hero-author">А. С. Пушкин</div>
+  <div class="hero-quote">«Я к вам пишу — чего же боле?<br>Что я могу ещё сказать?»</div>
+  <div class="hero-modules">
+    <div class="hero-module"><strong>1</strong>Викторина «Экзамен у Пушкина»</div>
+    <div class="hero-module"><strong>2</strong>Герои и цитаты</div>
+    <div class="hero-module"><strong>3</strong>Шкала эмоций</div>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon" id="ribbon">
+  <div class="ribbon-item">Викторина:<strong id="quizRibbon">0/7</strong></div>
+  <div class="ribbon-item">Пар найдено:<strong id="matchRibbon">0/5</strong></div>
+  <div class="ribbon-item">Ответов дано:<strong id="reflectRibbon">0/3</strong></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ════ FORMAT 1: QUIZ ════ -->
+  <div class="section-head">
+    <div class="section-tag">Формат 1</div>
+    <div class="section-title">Экзамен у Пушкина</div>
+    <div class="section-desc">7 вопросов — от истории создания до тайны финала. Бонус засчитывается как 2 балла.</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-top">
+      <div class="quiz-top-title">«Онегин-эксперт» или «Пора перечитывать»?</div>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-dots" id="quizDots"></div>
+        <div class="quiz-count" id="quizCount">1 / 7</div>
+      </div>
+    </div>
+    <div id="quizInner" class="quiz-inner"></div>
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-result-score" id="quizScoreNum">0<span>/9</span></div>
+      <div class="quiz-result-title" id="quizRank"></div>
+      <div class="quiz-result-msg" id="quizRankMsg"></div>
+      <button class="quiz-restart" onclick="quizReset()">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <div class="divider"><span>❧</span></div>
+
+  <!-- ════ FORMAT 2: MATCH ════ -->
+  <div class="section-head">
+    <div class="section-tag">Формат 2</div>
+    <div class="section-title">Герои и цитаты</div>
+    <div class="section-desc">Нажми на имя персонажа, затем на его характеристику. Найди все пять пар.</div>
+  </div>
+
+  <div class="match-layout">
+    <div>
+      <div class="match-col-label">Персонаж</div>
+      <div id="matchHeroes"></div>
+    </div>
+    <div>
+      <div class="match-col-label">Характеристика / цитата</div>
+      <div id="matchQuotes"></div>
+    </div>
+  </div>
+  <div class="match-status" id="matchStatus">Выбери героя, затем его цитату.</div>
+  <div class="match-controls"><button class="btn-ghost" onclick="matchReset()">↩ Сбросить</button></div>
+
+  <div class="divider"><span>❧</span></div>
+
+  <!-- ════ FORMAT 3: REFLECTION ════ -->
+  <div class="section-head">
+    <div class="section-tag">Формат 3</div>
+    <div class="section-title">Шкала эмоций</div>
+    <div class="section-desc">Быстрая рефлексия после урока. Нет правильных ответов — только твои впечатления.</div>
+  </div>
+
+  <div id="reflectList"></div>
+
+  <div class="reflect-summary" id="reflectSummary">
+    <p>Твои ответы сохранены. <strong>Спасибо!</strong><br>
+    «Онегин» задаёт вопросы — мы ищем ответы уже двести лет.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-verse">
+    «Дни мчались; в воздухе нагретом<br>
+    Уж разрешалася зима…»
+  </div>
+  <div class="footer-meta">Интерактивный урок литературы · Евгений Онегин</div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   QUIZ DATA
+════════════════════════════════ */
+const QUESTIONS = [
+  {
+    num: 1, pts: 1, tag: 'История создания',
+    text: 'Сколько лет Пушкин работал над «<em>Евгением Онегиным</em>»?',
+    opts: ['5 лет', '7 с половиной лет', '10 лет'],
+    correct: 1,
+    fb: 'Верно! 1823–1831 — восемь лет, но именно «7 с половиной лет» — цифра самого Пушкина.'
+  },
+  {
+    num: 2, pts: 1, tag: 'География',
+    text: 'Где проходила Болдинская осень — ключевой этап работы над романом?',
+    opts: ['Одесса', 'Михайловское', 'Болдино'],
+    correct: 2,
+    fb: 'Верно! Осень 1830 года в Болдино — три самых плодотворных месяца в жизни Пушкина.'
+  },
+  {
+    num: 3, pts: 1, tag: 'Жанр',
+    text: 'Как Пушкин сам определял жанр «<em>Евгения Онегина</em>»?',
+    opts: ['Поэма', 'Роман в стихах', 'Повесть в стихах'],
+    correct: 1,
+    fb: 'Верно! «Роман в стихах» — принципиально важное авторское определение жанра.'
+  },
+  {
+    num: 4, pts: 1, tag: 'Онегинская строфа',
+    text: 'Из скольких строк состоит онегинская строфа?',
+    opts: ['12', '14', '16'],
+    correct: 1,
+    fb: 'Верно! 14 строк — как сонет, но со своей уникальной системой рифмовки.'
+  },
+  {
+    num: 5, pts: 1, tag: 'Рифмовка',
+    text: 'Какие четыре вида рифм в онегинской строфе — в правильном порядке?',
+    opts: [
+      'Парная, перекрёстная, кольцевая, парная',
+      'Перекрёстная, парная, кольцевая, парная',
+      'Кольцевая, перекрёстная, парная, кольцевая'
+    ],
+    correct: 1,
+    fb: 'Верно! AbAb CCdd EffE gg — перекрёстная + парная + кольцевая + парное двустишие.'
+  },
+  {
+    num: 6, pts: 1, tag: 'Лирические отступления',
+    text: 'Что такое лирическое отступление в «Онегине»?',
+    opts: [
+      'Момент, когда автор шутит над героями',
+      'Момент, когда автор «выпадает» из сюжета и говорит напрямую с читателем',
+      'Монолог Татьяны'
+    ],
+    correct: 1,
+    fb: 'Верно! Пушкин-рассказчик — отдельный «герой», который комментирует всё происходящее.'
+  },
+  {
+    num: 7, pts: 2, tag: 'Бонус-вопрос · 2 балла',
+    text: 'Почему Пушкин не закончил роман ни смертью Онегина, ни свадьбой с Татьяной?',
+    opts: [
+      'Хотел показать, что жизнь не укладывается в шаблоны',
+      'Устал и просто оборвал роман',
+      '«Открытый финал» — сознательный приём, чтобы читатель сам додумывал'
+    ],
+    correct: 2,
+    fb: 'Верно! Открытый финал — одна из новаторских черт романа. Пушкин оставляет жизнь как она есть, без хэппи-энда.'
+  }
+];
+
+let qIdx = 0, qScore = 0, qAnswered = 0;
+
+function quizRender() {
+  const q = QUESTIONS[qIdx];
+  const inner = document.getElementById('quizInner');
+  document.getElementById('quizResult').classList.remove('show');
+  inner.style.display = '';
+
+  // dots
+  const dots = document.getElementById('quizDots');
+  dots.innerHTML = QUESTIONS.map((_, i) =>
+    `<div class="quiz-dot ${i < qIdx ? 'done' : i === qIdx ? 'current' : ''}"></div>`
+  ).join('');
+  document.getElementById('quizCount').textContent = (qIdx + 1) + ' / 7';
+
+  inner.innerHTML = `
+    <div class="quiz-q-num">Вопрос ${q.num} · ${q.tag}</div>
+    <div class="quiz-q-text">${q.text}</div>
+    <div class="quiz-options" id="quizOpts">
+      ${q.opts.map((o, i) => `
+        <button class="quiz-opt" data-idx="${i}" onclick="quizAnswer(${i})">
+          <span class="opt-letter">${String.fromCharCode(65+i)}</span>${o}
+        </button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="quizFb"></div>
+    <button class="quiz-next-btn" id="quizNext" onclick="quizNext()">
+      ${qIdx < 6 ? 'Следующий вопрос →' : 'Узнать результат →'}
+    </button>`;
+}
+
+function quizAnswer(chosen) {
+  const q = QUESTIONS[qIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => { o.classList.add('locked'); o.disabled = true; });
+  const fb = document.getElementById('quizFb');
+  if (chosen === q.correct) {
+    opts[chosen].classList.add('correct');
+    fb.innerHTML = `<strong>Правильно!</strong> ${q.fb}`;
+    fb.classList.add('show');
+    qScore += q.pts;
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[q.correct].classList.add('correct');
+    fb.innerHTML = `<strong>Не совсем.</strong> ${q.fb}`;
+    fb.classList.add('show', 'wrong-fb');
+  }
+  document.getElementById('quizNext').classList.add('show');
+  qAnswered++;
+  document.getElementById('quizRibbon').textContent = qScore + '/9';
+}
+
+function quizNext() {
+  qIdx++;
+  if (qIdx >= QUESTIONS.length) { quizShowResult(); return; }
+  quizRender();
+}
+
+function quizShowResult() {
+  document.getElementById('quizInner').style.display = 'none';
+  const r = document.getElementById('quizResult');
+  r.classList.add('show');
+  document.getElementById('quizScoreNum').innerHTML = qScore + '<span>/9</span>';
+  const ranks = [
+    [8, 9, 'Онегин-эксперт', 'Блестяще! Пушкин был бы доволен.'],
+    [5, 7, 'Читатель со стажем', 'Хорошо! Пара деталей ускользнула, но суть схвачена.'],
+    [0, 4, 'Пора перечитывать', 'Не беда — откройте первую главу. Это приятнее, чем кажется.']
+  ];
+  const rank = ranks.find(([a,b]) => qScore >= a && qScore <= b);
+  document.getElementById('quizRank').textContent = '«' + rank[2] + '»';
+  document.getElementById('quizRankMsg').textContent = rank[3];
+  // dots all done
+  document.getElementById('quizDots').innerHTML = QUESTIONS.map(() =>
+    `<div class="quiz-dot done"></div>`).join('');
+  document.getElementById('quizCount').textContent = '7 / 7';
+}
+
+function quizReset() {
+  qIdx = 0; qScore = 0; qAnswered = 0;
+  document.getElementById('quizRibbon').textContent = '0/9';
+  quizRender();
+}
+
+quizRender();
+
+/* ════════════════════════════════
+   MATCH DATA
+════════════════════════════════ */
+const PAIRS = [
+  { id: 1, hero: 'Евгений Онегин',     quote: '«Учёный малый, но педант»' },
+  { id: 2, hero: 'Владимир Ленский',   quote: '«Он из Германии туманной / Привёз учёности плоды»' },
+  { id: 3, hero: 'Татьяна Ларина',     quote: '«Дика, печальна, молчалива, / Как лань лесная боязлива»' },
+  { id: 4, hero: 'Ольга Ларина',       quote: '«Всегда скромна, всегда послушна, / Всегда как утро весела»' },
+  { id: 5, hero: 'Автор (Пушкин)',     quote: '«Я думал уж о форме плана / И как героя назову»' }
+];
+
+let mState = { selHero: null, selQuote: null, matched: new Set() };
+
+function matchRender() {
+  mState = { selHero: null, selQuote: null, matched: new Set() };
+  const heroes = [...PAIRS].sort(() => Math.random() - 0.5);
+  const quotes = [...PAIRS].sort(() => Math.random() - 0.5);
+  const hc = document.getElementById('matchHeroes');
+  const qc = document.getElementById('matchQuotes');
+  hc.innerHTML = ''; qc.innerHTML = '';
+  heroes.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-card hero-col';
+    el.dataset.id = p.id;
+    el.innerHTML = p.hero + '<span class="match-tick">✓</span>';
+    el.addEventListener('click', () => mClick(el, 'hero'));
+    hc.appendChild(el);
+  });
+  quotes.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-card quote-col';
+    el.dataset.id = p.id;
+    el.innerHTML = p.quote + '<span class="match-tick">✓</span>';
+    el.addEventListener('click', () => mClick(el, 'quote'));
+    qc.appendChild(el);
+  });
+  document.getElementById('matchStatus').innerHTML = 'Выбери героя, затем его цитату.';
+  document.getElementById('matchRibbon').textContent = '0/5';
+}
+
+function mClick(el, role) {
+  if (el.classList.contains('matched')) return;
+  if (role === 'hero') {
+    document.querySelectorAll('.match-card.hero-col').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    mState.selHero = el;
+  } else {
+    document.querySelectorAll('.match-card.quote-col').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    mState.selQuote = el;
+  }
+  if (mState.selHero && mState.selQuote) {
+    if (mState.selHero.dataset.id === mState.selQuote.dataset.id) {
+      mState.selHero.classList.remove('selected'); mState.selHero.classList.add('matched');
+      mState.selQuote.classList.remove('selected'); mState.selQuote.classList.add('matched');
+      mState.matched.add(mState.selHero.dataset.id);
+      mState.selHero = null; mState.selQuote = null;
+      const n = mState.matched.size;
+      document.getElementById('matchRibbon').textContent = n + '/5';
+      document.getElementById('matchStatus').innerHTML =
+        n === 5 ? '<strong>Великолепно — все пять пар найдены!</strong>' : `Найдено: ${n} из 5`;
+    } else {
+      const h = mState.selHero, q = mState.selQuote;
+      h.classList.add('wrong-shake'); q.classList.add('wrong-shake');
+      document.getElementById('matchStatus').textContent = 'Не совпадает — попробуй ещё раз.';
+      setTimeout(() => {
+        h.classList.remove('selected','wrong-shake');
+        q.classList.remove('selected','wrong-shake');
+      }, 350);
+      mState.selHero = null; mState.selQuote = null;
+    }
+  }
+}
+
+function matchReset() { matchRender(); }
+matchRender();
+
+/* ════════════════════════════════
+   REFLECTION DATA
+════════════════════════════════ */
+const REFLECT = [
+  {
+    q: 'Что вас удивило больше всего в истории создания романа?',
+    opts: ['Длительность (7+ лет)', 'Болдинская осень', 'Главы выходили отдельно', 'Роман в стихах — это ново'],
+    responses: [
+      'Да, редкое произведение создавалось так долго — и при этом сохранило единство стиля.',
+      'Болдино — почти магическое место. Карантин превратился в эпоху.',
+      'Читатели ждали продолжения как сериала — прямо современно!',
+      'Именно! Это был жанровый эксперимент, которому не было аналогов в русской литературе.'
+    ]
+  },
+  {
+    q: 'Онегинская строфа — это гениально или слишком сложно?',
+    opts: ['Гениально!', 'Сложно, но красиво', 'Слишком заморочно', 'Нужно разобраться'],
+    responses: [
+      'И правда — 14 строк с четырьмя видами рифм, которые читаются как живая речь. Это высший пилотаж.',
+      'Хороший ответ. Красота часто требует сложности.',
+      'Это честно. Но попробуйте прочесть вслух — ритм затягивает.',
+      'Отличная мотивация! Разберитесь — и стихи «зазвучат».'
+    ]
+  },
+  {
+    q: 'Хочется ли вам теперь прочитать (или перечитать) «Онегина»?',
+    opts: ['Да, полностью!', 'Хотя бы первую главу', 'Нет, мне хватило школы', 'Уже читаю'],
+    responses: [
+      'Удачного чтения! Обратите внимание на лирические отступления — они самое ценное.',
+      'Отличное решение. Первая глава — идеальное введение в мир Онегина.',
+      'Понять, но не полюбить — тоже результат. Через несколько лет взгляд может измениться.',
+      'Завидуем! Первое знакомство случается только один раз.'
+    ]
+  }
+];
+
+let reflectAnswered = 0;
+
+function reflectRender() {
+  reflectAnswered = 0;
+  document.getElementById('reflectRibbon').textContent = '0/3';
+  document.getElementById('reflectSummary').classList.remove('show');
+  const list = document.getElementById('reflectList');
+  list.innerHTML = '';
+  REFLECT.forEach((item, ri) => {
+    const card = document.createElement('div');
+    card.className = 'reflect-card';
+    card.innerHTML = `
+      <span class="reflect-q-num">Вопрос ${ri+1}</span>
+      <div class="reflect-q">${item.q}</div>
+      <div class="reflect-opts">
+        ${item.opts.map((o, oi) => `
+          <button class="reflect-opt" id="ropt-${ri}-${oi}" onclick="reflectPick(${ri},${oi})">${o}</button>
+        `).join('')}
+      </div>
+      <div class="reflect-response" id="rresp-${ri}"></div>`;
+    list.appendChild(card);
+  });
+}
+
+function reflectPick(ri, oi) {
+  const item = REFLECT[ri];
+  document.querySelectorAll(`#ropt-${ri}-0, #ropt-${ri}-1, #ropt-${ri}-2, #ropt-${ri}-3`).forEach(b => {
+    if (b) b.classList.remove('chosen');
+  });
+  const btn = document.getElementById(`ropt-${ri}-${oi}`);
+  if (!btn) return;
+  const alreadyAnswered = document.getElementById(`rresp-${ri}`).classList.contains('show');
+  btn.classList.add('chosen');
+  document.querySelectorAll(`[id^="ropt-${ri}-"]`).forEach(b => b.disabled = true);
+  const resp = document.getElementById(`rresp-${ri}`);
+  resp.textContent = item.responses[oi];
+  if (!resp.classList.contains('show')) {
+    resp.classList.add('show');
+    if (!alreadyAnswered) {
+      reflectAnswered++;
+      document.getElementById('reflectRibbon').textContent = reflectAnswered + '/3';
+    }
+  }
+  if (reflectAnswered === 3) {
+    setTimeout(() => document.getElementById('reflectSummary').classList.add('show'), 300);
+  }
+}
+
+reflectRender();
+</script>
+</body>
+</html>

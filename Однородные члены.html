@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Запятые при однородных членах — Практикум</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #C1282A;
+    --red-light: #FAEDED;
+    --red-dark: #8B1A1C;
+    --ink: #1A1209;
+    --ink-muted: #5C5043;
+    --cream: #FAF7F2;
+    --cream-dark: #F0EBE1;
+    --gold: #C8972A;
+    --green: #1F6B3A;
+    --green-light: #EAF5EE;
+    --border: rgba(26,18,9,0.12);
+    --radius: 12px;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Golos Text', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: var(--red);
+    opacity: 0.18;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.12;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto 1rem;
+  }
+  .hero h1 em {
+    color: #F09595;
+    font-style: normal;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px;
+    margin: 0 auto 2rem;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #F09595;
+    line-height: 1;
+  }
+  .hero-stat span {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─── LAYOUT ─── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ─── RULES PANEL ─── */
+  .rules-section {
+    padding: 2.5rem 0;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .rules-toggle {
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .rules-toggle:hover { background: var(--red-dark); }
+  .rules-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  .rules-toggle.open .arrow { transform: rotate(180deg); }
+
+  .rules-grid {
+    display: none;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+  }
+  .rules-grid.visible { display: grid; }
+
+  .rule-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    transition: border-color 0.18s;
+  }
+  .rule-card:hover { border-color: var(--red); }
+  .rule-card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.5rem;
+  }
+  .rule-icon {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rule-icon.yes { background: #EAF5EE; color: var(--green); }
+  .rule-icon.no  { background: #FAEDED; color: var(--red); }
+  .rule-card h3 {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .rule-card p {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  .rule-example {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--ink-muted);
+    background: var(--cream-dark);
+    padding: 3px 8px;
+    border-radius: 5px;
+    display: inline-block;
+  }
+
+  /* ─── QUIZ SECTION ─── */
+  .quiz-section {
+    padding: 1rem 0 3rem;
+  }
+
+  .quiz-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-progress {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+  }
+  .quiz-progress strong {
+    color: var(--ink);
+  }
+  .btn-check-all {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-check-all:hover { background: var(--red-dark); }
+  .btn-check-all:active { transform: scale(0.97); }
+  .btn-reset {
+    background: transparent;
+    color: var(--ink-muted);
+    border: 1.5px solid var(--border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-reset:hover { border-color: var(--ink); color: var(--ink); }
+
+  .score-bar-wrap {
+    background: var(--cream-dark);
+    border-radius: 99px;
+    height: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%;
+    background: var(--red);
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ─── SENTENCE CARD ─── */
+  .sentence-card {
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 0.85rem;
+    transition: border-color 0.2s;
+  }
+  .sentence-card.correct  { border-color: var(--green); background: #F4FBF6; }
+  .sentence-card.wrong    { border-color: var(--red); background: #FEF6F6; }
+  .sentence-card.pristine:hover { border-color: rgba(26,18,9,0.3); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 0.6rem;
+  }
+  .card-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .sentence-card.correct .card-num { background: var(--green-light); color: var(--green); }
+  .sentence-card.wrong   .card-num { background: var(--red-light); color: var(--red); }
+
+  .sentence-text {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--ink);
+    flex: 1;
+    cursor: default;
+  }
+
+  /* slots between words */
+  .slot {
+    display: inline-block;
+    position: relative;
+    width: 14px;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: baseline;
+    user-select: none;
+  }
+  .slot::before {
+    content: '·';
+    color: var(--cream-dark);
+    font-size: 1.1rem;
+    transition: color 0.15s;
+  }
+  .slot.active::before {
+    content: ',';
+    color: var(--red);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .slot:hover::before {
+    color: var(--ink-muted);
+  }
+  .slot.active:hover::before {
+    color: var(--red-dark);
+  }
+  .slot.locked { cursor: default; pointer-events: none; }
+  .slot.locked.active::before { color: var(--green); }
+  .slot.locked.wrong-comma::before { color: var(--red); content: ','; }
+  .slot.locked.missed::before { content: ','; color: #E24B4A; text-decoration: underline; opacity: 0.7; }
+
+  .hint-text {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    display: none;
+    line-height: 1.5;
+  }
+  .hint-text.show { display: block; }
+  .hint-icon { color: var(--green); margin-right: 4px; }
+  .hint-icon.wrong-hint { color: var(--red); }
+
+  /* ─── RESULT PANEL ─── */
+  .result-panel {
+    display: none;
+    background: var(--ink);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  .result-panel.show { display: block; }
+  .result-score-big {
+    font-family: var(--serif);
+    font-size: 4rem;
+    font-weight: 900;
+    color: #F09595;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .result-label {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+  }
+  .result-msg {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 460px;
+    margin: 0 auto 1.5rem;
+  }
+  .btn-retry {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.6rem;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-retry:hover { background: var(--red-dark); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--cream-dark);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes popIn {
+    0%   { transform: scale(0.92); opacity: 0; }
+    100% { transform: scale(1);    opacity: 1; }
+  }
+  .sentence-card { animation: popIn 0.3s ease backwards; }
+  .sentence-card:nth-child(1)  { animation-delay: 0.02s; }
+  .sentence-card:nth-child(2)  { animation-delay: 0.05s; }
+  .sentence-card:nth-child(3)  { animation-delay: 0.08s; }
+  .sentence-card:nth-child(4)  { animation-delay: 0.11s; }
+  .sentence-card:nth-child(5)  { animation-delay: 0.14s; }
+  .sentence-card:nth-child(6)  { animation-delay: 0.17s; }
+  .sentence-card:nth-child(7)  { animation-delay: 0.20s; }
+  .sentence-card:nth-child(8)  { animation-delay: 0.23s; }
+  .sentence-card:nth-child(9)  { animation-delay: 0.26s; }
+  .sentence-card:nth-child(10) { animation-delay: 0.29s; }
+  .sentence-card:nth-child(11) { animation-delay: 0.32s; }
+  .sentence-card:nth-child(12) { animation-delay: 0.35s; }
+  .sentence-card:nth-child(13) { animation-delay: 0.38s; }
+  .sentence-card:nth-child(14) { animation-delay: 0.41s; }
+  .sentence-card:nth-child(15) { animation-delay: 0.44s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Русский язык · 5–7 класс</div>
+  <h1>Запятые при <em>однородных</em> членах</h1>
+  <p class="hero-sub">Интерактивный практикум: расставь запятые в предложениях, нажимая на точки между словами.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>15</strong><span>предложений</span></div>
+    <div class="hero-stat"><strong>6</strong><span>правил</span></div>
+    <div class="hero-stat"><strong>∞</strong><span>попыток</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- RULES -->
+  <div class="rules-section">
+    <div class="section-label">Шпаргалка</div>
+    <div class="section-title">Правила в двух словах</div>
+
+    <button class="rules-toggle" id="rulesToggle" onclick="toggleRules()">
+      Показать правила <span class="arrow">▼</span>
+    </button>
+
+    <div class="rules-grid" id="rulesGrid">
+
+      <div class="rule-card">
+        <div class="rule-card-top">
+          <div class="rule-icon yes">✓</div>
+          <h3>Нет союзов — ставь запятую</h3>
+        </div>
+        <p>Между однородными членами без союза всегда запятая.</p>
+        <span class="rule-example">яблоки, груши, бананы</span>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-card-top">
+          <div class="rule-icon no">✕</div>
+          <h3>Одиночный «и» — запятой нет</h3>
+        </div>
+        <p>Перед одним союзом «и», соединяющим два члена, запятая не нужна.</p>
+        <span class="rule-example">яблоки и груши</span>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-card-top">
+          <div class="rule-icon yes">✓</div>
+          <h3>«а», «но», «да» (=но) — запятая</h3>
+        </div>
+        <p>Противительные союзы всегда отделяются запятой.</p>
+        <span class="rule-example">вкусные, но дорогие</span>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-card-top">
+          <div class="rule-icon yes">✓</div>
+          <h3>Повторяющиеся «и…и», «то…то», «ни…ни»</h3>
+        </div>
+        <p>Запятая перед каждым повторяющимся союзом, кроме первого.</p>
+        <span class="rule-example">и спорт, и музыку, и книги</span>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-card-top">
+          <div class="rule-icon yes">✓</div>
+          <h3>Двойные: «не только… но и»</h3>
+        </div>
+        <p>Запятая ставится перед второй частью двойного союза.</p>
+        <span class="rule-example">не только читает, но и пишет</span>
+      </div>
+
+      <div class="rule-card">
+        <div class="rule-card-top">
+          <div class="rule-icon no">✕</div>
+          <h3>Фразеологизмы и «парные» глаголы</h3>
+        </div>
+        <p>«Ни свет ни заря», «и так и сяк», два глагола одного действия — без запятых.</p>
+        <span class="rule-example">пойду проветрюсь</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-section">
+    <div class="section-label">Задание</div>
+    <div class="section-title">Расставь запятые</div>
+    <p style="font-size:0.9rem;color:var(--ink-muted);margin-bottom:1.2rem;">
+      Нажми на <strong style="color:var(--ink)">точку (·)</strong> между словами, чтобы поставить или убрать запятую. Затем нажми «Проверить».
+    </p>
+
+    <div class="quiz-controls">
+      <div class="quiz-progress">Проверено: <strong id="checkedCount">0</strong> / 15</div>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+        <button class="btn-reset" onclick="resetAll()">Сбросить</button>
+        <button class="btn-check-all" onclick="checkAll()">Проверить всё</button>
+      </div>
+    </div>
+
+    <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreBar"></div></div>
+
+    <div id="quizContainer"></div>
+
+    <div class="result-panel" id="resultPanel">
+      <div class="result-score-big" id="resultScore">0/15</div>
+      <div class="result-label">правильных предложений</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="btn-retry" onclick="resetAll()">Попробовать ещё раз</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Практикум по русскому языку · Однородные члены предложения
+</div>
+
+<script>
+const SENTENCES = [
+  {
+    words: ["Мама", "купила", "яблоки", "груши", "и", "бананы."],
+    commas: [false, false, true, false, false],
+    hint: "Нет союза между «яблоки» и «груши» → запятая; перед одиночным «и» → запятая не нужна."
+  },
+  {
+    words: ["Солнце", "светило", "и", "грело."],
+    commas: [false, false, false],
+    hint: "Одиночный союз «и» соединяет два глагола → запятая не нужна."
+  },
+  {
+    words: ["Он", "любил", "и", "спорт", "и", "музыку", "и", "книги."],
+    commas: [false, false, false, true, false, true, false],
+    hint: "Повторяющийся союз «и» → запятая перед каждым, кроме первого."
+  },
+  {
+    words: ["Яблоки", "были", "вкусные", "но", "дорогие."],
+    commas: [false, false, true, false],
+    hint: "Противительный союз «но» → запятая всегда."
+  },
+  {
+    words: ["Он", "бегал", "и", "так", "и", "сяк."],
+    commas: [false, false, false, false, false],
+    hint: "«И так и сяк» — фразеологизм → запятых нет."
+  },
+  {
+    words: ["Пойду", "проветрюсь", "и", "отдохну."],
+    commas: [false, false, false],
+    hint: "Два глагола движения обозначают одно сложное действие → запятая не нужна."
+  },
+  {
+    words: ["В", "лесу", "росли", "сосны", "берёзы", "осины", "и", "дубы."],
+    commas: [false, false, false, true, true, false, false],
+    hint: "Перечисление без союзов → запятые; перед одиночным «и» → запятой нет."
+  },
+  {
+    words: ["Он", "говорил", "о", "школе", "об", "учителях", "и", "о", "друзьях."],
+    commas: [false, false, false, true, false, false, false, false],
+    hint: "Разные предлоги («о», «об», «о») делают однородные члены явными → запятые."
+  },
+  {
+    words: ["Ни", "свет", "ни", "заря", "он", "уже", "был", "на", "ногах."],
+    commas: [false, false, false, false, false, false, false, false],
+    hint: "«Ни свет ни заря» — фразеологизм → запятых нет."
+  },
+  {
+    words: ["Он", "не", "только", "читает", "книги", "но", "и", "пишет", "стихи."],
+    commas: [false, false, false, false, true, false, false, false],
+    hint: "Двойной союз «не только… но и» → запятая перед второй частью (перед «но»)."
+  },
+  {
+    words: ["Я", "люблю", "и", "лето", "и", "осень", "и", "зиму", "но", "весну", "люблю", "больше", "всех."],
+    commas: [false, false, false, true, false, true, false, true, false, false, false, false],
+    hint: "Повторяющиеся «и» дают запятые + противительный «но» тоже требует запятой."
+  },
+  {
+    words: ["Схожу", "посмотрю", "новый", "фильм."],
+    commas: [false, false, false],
+    hint: "Два глагола движения + действие — одно намерение → запятая не нужна."
+  },
+  {
+    words: ["Кот", "спал", "на", "диване", "на", "кресле", "и", "на", "подоконнике."],
+    commas: [false, false, false, true, false, false, false, false],
+    hint: "Однородные обстоятельства с одинаковым предлогом → запятые для ясности."
+  },
+  {
+    words: ["Он", "работал", "быстро", "но", "небрежно."],
+    commas: [false, false, true, false],
+    hint: "Противительный союз «но» → запятая всегда."
+  },
+  {
+    words: ["То", "дождь", "то", "снег", "то", "солнце", "—", "непонятно,", "что", "надеть."],
+    commas: [false, true, false, true, false, false, false, false, false],
+    hint: "Повторяющийся союз «то… то» → запятая перед каждым, кроме первого."
+  }
+];
+
+let state = [];
+
+function buildQuiz() {
+  state = SENTENCES.map(s => ({
+    userCommas: s.commas.map(() => false),
+    checked: false,
+    correct: null
+  }));
+  renderAll();
+}
+
+function renderAll() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  SENTENCES.forEach((s, si) => renderCard(s, si, container));
+  updateProgress();
+}
+
+function renderCard(s, si, container) {
+  const st = state[si];
+  const card = document.createElement('div');
+  card.className = 'sentence-card pristine' +
+    (st.checked ? (st.correct ? ' correct' : ' wrong') : '');
+  card.id = 'card-' + si;
+
+  const header = document.createElement('div');
+  header.className = 'card-header';
+
+  const num = document.createElement('div');
+  num.className = 'card-num';
+  num.textContent = si + 1;
+  header.appendChild(num);
+
+  const textDiv = document.createElement('div');
+  textDiv.className = 'sentence-text';
+
+  s.words.forEach((w, wi) => {
+    if (wi > 0) {
+      if (w !== '—') {
+        const slot = document.createElement('span');
+        slot.className = 'slot' +
+          (st.userCommas[wi - 1] ? ' active' : '') +
+          (st.checked ? ' locked' : '');
+        const slotIdx = wi - 1;
+        if (st.checked) {
+          const correct = s.commas[slotIdx];
+          const user    = st.userCommas[slotIdx];
+          if (correct && user)  slot.classList.add('active');
+          if (!correct && user) slot.classList.add('wrong-comma');
+          if (correct && !user) slot.classList.add('missed');
+        }
+        if (!st.checked) {
+          slot.addEventListener('click', () => toggleSlot(si, slotIdx));
+        }
+        textDiv.appendChild(slot);
+      } else {
+        textDiv.appendChild(document.createTextNode(' '));
+      }
+    }
+    const wspan = document.createElement('span');
+    wspan.textContent = w;
+    textDiv.appendChild(wspan);
+  });
+
+  header.appendChild(textDiv);
+  card.appendChild(header);
+
+  const hint = document.createElement('div');
+  hint.className = 'hint-text' + (st.checked ? ' show' : '');
+  if (st.checked) {
+    hint.innerHTML = `<span class="hint-icon ${st.correct ? '' : 'wrong-hint'}">${st.correct ? '✓' : '✗'}</span> ${s.hint}`;
+  }
+  card.appendChild(hint);
+
+  container.appendChild(card);
+}
+
+function toggleSlot(si, slotIdx) {
+  if (state[si].checked) return;
+  state[si].userCommas[slotIdx] = !state[si].userCommas[slotIdx];
+  const container = document.getElementById('quizContainer');
+  const old = document.getElementById('card-' + si);
+  const newCard = document.createElement('div');
+  container.replaceChild(newCard, old);
+  newCard.id = 'card-' + si;
+  renderCardInPlace(SENTENCES[si], si, newCard);
+}
+
+function renderCardInPlace(s, si, card) {
+  const st = state[si];
+  card.className = 'sentence-card pristine' +
+    (st.checked ? (st.correct ? ' correct' : ' wrong') : '');
+
+  const header = document.createElement('div');
+  header.className = 'card-header';
+
+  const num = document.createElement('div');
+  num.className = 'card-num';
+  num.textContent = si + 1;
+  header.appendChild(num);
+
+  const textDiv = document.createElement('div');
+  textDiv.className = 'sentence-text';
+
+  s.words.forEach((w, wi) => {
+    if (wi > 0) {
+      if (w !== '—') {
+        const slot = document.createElement('span');
+        slot.className = 'slot' +
+          (st.userCommas[wi - 1] ? ' active' : '') +
+          (st.checked ? ' locked' : '');
+        const slotIdx = wi - 1;
+        if (st.checked) {
+          const correct = s.commas[slotIdx];
+          const user    = st.userCommas[slotIdx];
+          if (correct && user)  slot.classList.add('active');
+          if (!correct && user) slot.classList.add('wrong-comma');
+          if (correct && !user) slot.classList.add('missed');
+        }
+        if (!st.checked) {
+          slot.addEventListener('click', () => toggleSlot(si, slotIdx));
+        }
+        textDiv.appendChild(slot);
+      } else {
+        textDiv.appendChild(document.createTextNode(' '));
+      }
+    }
+    const wspan = document.createElement('span');
+    wspan.textContent = w;
+    textDiv.appendChild(wspan);
+  });
+
+  header.appendChild(textDiv);
+  card.appendChild(header);
+
+  const hint = document.createElement('div');
+  hint.className = 'hint-text' + (st.checked ? ' show' : '');
+  if (st.checked) {
+    hint.innerHTML = `<span class="hint-icon ${st.correct ? '' : 'wrong-hint'}">${st.correct ? '✓' : '✗'}</span> ${s.hint}`;
+  }
+  card.appendChild(hint);
+}
+
+function checkAll() {
+  SENTENCES.forEach((s, si) => {
+    const st = state[si];
+    st.checked = true;
+    st.correct = s.commas.every((c, i) => c === st.userCommas[i]);
+  });
+
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  SENTENCES.forEach((s, si) => renderCard(s, si, container));
+  updateProgress();
+  showResult();
+}
+
+function updateProgress() {
+  const checked = state.filter(s => s.checked).length;
+  const correct  = state.filter(s => s.checked && s.correct).length;
+  document.getElementById('checkedCount').textContent = correct;
+  const pct = state.some(s => s.checked) ? (correct / 15 * 100) : 0;
+  document.getElementById('scoreBar').style.width = pct + '%';
+}
+
+function showResult() {
+  const correct = state.filter(s => s.correct).length;
+  const panel = document.getElementById('resultPanel');
+  document.getElementById('resultScore').textContent = correct + '/15';
+  const msgs = [
+    [15, 15, "Отлично! Вы мастер запятых — ни одной ошибки!"],
+    [12, 14, "Очень хорошо! Ещё немного практики — и будет идеально."],
+    [9,  11, "Неплохо! Повторите правила о повторяющихся союзах и фразеологизмах."],
+    [0,  8,  "Не расстраивайтесь! Изучите шпаргалку выше и попробуйте снова."]
+  ];
+  const msg = msgs.find(([a, b]) => correct >= a && correct <= b);
+  document.getElementById('resultMsg').textContent = msg[2];
+  panel.classList.add('show');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetAll() {
+  document.getElementById('resultPanel').classList.remove('show');
+  buildQuiz();
+}
+
+function toggleRules() {
+  const grid = document.getElementById('rulesGrid');
+  const btn  = document.getElementById('rulesToggle');
+  const open = grid.classList.toggle('visible');
+  btn.classList.toggle('open', open);
+  btn.innerHTML = (open ? 'Скрыть правила' : 'Показать правила') +
+    ' <span class="arrow">▼</span>';
+  if (open) btn.classList.add('open');
+  else btn.classList.remove('open');
+}
+
+buildQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Александр Невский — Интерактивный урок истории</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Spectral:ital,wght@0,400;0,600;1,400&family=Mulish:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:      #C9962A;
+  --gold-lt:   #F5E8C6;
+  --gold-dk:   #8B6510;
+  --red:       #8B1A1C;
+  --red-lt:    #F9EDED;
+  --ink:       #1A1410;
+  --parchment: #FBF7EE;
+  --parch-dk:  #EDE5D4;
+  --parch-bd:  #D9CEB5;
+  --blue:      #1A3A5C;
+  --blue-lt:   #EAF0F8;
+  --green:     #1B5E32;
+  --green-lt:  #EAF4EE;
+  --muted:     #6B5E4A;
+  --radius:    12px;
+  --serif:     'Cinzel', 'Georgia', serif;
+  --body-serif:'Spectral', Georgia, serif;
+  --sans:      'Mulish', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--parchment);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+}
+.hero-ornament {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.hero-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.06;
+}
+.hero-circle.c1 { width: 320px; height: 320px; top: -100px; left: -80px; }
+.hero-circle.c2 { width: 200px; height: 200px; bottom: -60px; right: -50px; }
+.hero-year {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  border: 1px solid rgba(201,150,42,0.4);
+  padding: 5px 18px;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  max-width: 680px;
+  margin: 0 auto 0.5rem;
+}
+.hero h1 span { color: var(--gold); }
+.hero-sub {
+  font-family: var(--body-serif);
+  font-style: italic;
+  color: rgba(255,255,255,0.55);
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+}
+.hero-pills {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.pill {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+}
+.pill strong { color: var(--gold); font-weight: 600; }
+
+/* ─── LAYOUT ─── */
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 3rem 0 1rem;
+}
+.section-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  margin-bottom: 0.4rem;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.section-desc {
+  font-family: var(--body-serif);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ─── INTERACTIVE 1: DIALOGUE ─── */
+.dialogue-box {
+  background: #fff;
+  border: 1.5px solid var(--parch-bd);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.dlg-header {
+  background: var(--ink);
+  padding: 1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dlg-crown {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.dlg-header-text h3 {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.dlg-header-text p {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.45);
+}
+.dlg-body { padding: 1.5rem; }
+.dlg-situation {
+  background: var(--parch-dk);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--body-serif);
+  font-size: 0.97rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.dlg-situation em {
+  color: var(--gold-dk);
+  font-style: normal;
+  font-weight: 600;
+}
+.dlg-question {
+  font-family: var(--body-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+.dlg-choices { display: flex; flex-direction: column; gap: 0.6rem; }
+.choice-btn {
+  background: var(--parchment);
+  border: 1.5px solid var(--parch-bd);
+  border-radius: 9px;
+  padding: 0.8rem 1rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s, background 0.18s, transform 0.1s;
+  line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--gold); background: var(--gold-lt); transform: translateX(3px); }
+.choice-btn .choice-letter {
+  display: inline-flex;
+  width: 22px; height: 22px;
+  background: var(--ink);
+  color: var(--gold);
+  border-radius: 50%;
+  align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 8px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.dlg-result {
+  display: none;
+  border-radius: 9px;
+  padding: 1.1rem 1.2rem;
+  font-family: var(--body-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-top: 0.5rem;
+}
+.dlg-result.show { display: block; }
+.dlg-result.hist { background: var(--green-lt); border: 1.5px solid #A8D4B8; }
+.dlg-result.bad  { background: var(--red-lt);   border: 1.5px solid #E0AEAD; }
+.dlg-result h4 {
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.05em;
+}
+.dlg-result.hist h4 { color: var(--green); }
+.dlg-result.bad  h4 { color: var(--red); }
+.dlg-result-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+.badge-hist { background: #C2E8D2; color: var(--green); }
+.badge-bad  { background: #F5C2C2; color: var(--red); }
+
+.dlg-next-btn {
+  margin-top: 1rem;
+  background: var(--ink);
+  color: var(--gold);
+  border: none;
+  padding: 0.65rem 1.4rem;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.18s;
+}
+.dlg-next-btn:hover { background: var(--red); color: #fff; }
+
+.dlg-final {
+  display: none;
+  text-align: center;
+  padding: 1.5rem;
+}
+.dlg-final.show { display: block; }
+.dlg-final-quote {
+  font-family: var(--body-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--muted);
+  border-top: 1px solid var(--parch-bd);
+  padding-top: 1.2rem;
+  line-height: 1.7;
+}
+.dlg-restart {
+  margin-top: 1rem;
+  background: transparent;
+  border: 1.5px solid var(--parch-bd);
+  color: var(--muted);
+  padding: 0.5rem 1.1rem;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.dlg-restart:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ─── INTERACTIVE 2: MATCH ─── */
+.match-arena {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 600px) {
+  .match-arena { grid-template-columns: 1fr; }
+}
+.match-col h4 {
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+.match-item {
+  background: #fff;
+  border: 1.5px solid var(--parch-bd);
+  border-radius: 9px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.4;
+  user-select: none;
+  position: relative;
+}
+.match-item:hover:not(.matched):not(.locked) {
+  border-color: var(--gold);
+  background: var(--gold-lt);
+  transform: translateY(-2px);
+}
+.match-item.selected {
+  border-color: var(--gold);
+  background: var(--gold-lt);
+  box-shadow: 0 0 0 2px rgba(201,150,42,0.25);
+}
+.match-item.matched {
+  border-color: var(--green);
+  background: var(--green-lt);
+  color: var(--green);
+  cursor: default;
+}
+.match-item.wrong-flash {
+  border-color: var(--red);
+  background: var(--red-lt);
+}
+.match-item .match-check {
+  display: none;
+  position: absolute;
+  right: 10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--green);
+  font-weight: 700;
+  font-size: 14px;
+}
+.match-item.matched .match-check { display: inline; }
+
+.match-score {
+  text-align: center;
+  margin-top: 1rem;
+  font-family: var(--body-serif);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.match-score strong { color: var(--green); font-style: normal; font-weight: 600; }
+.match-reset {
+  display: block;
+  margin: 0.8rem auto 0;
+  background: transparent;
+  border: 1.5px solid var(--parch-bd);
+  color: var(--muted);
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.match-reset:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ─── INTERACTIVE 3: TRUE/FALSE ─── */
+.tf-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.tf-card {
+  background: #fff;
+  border: 1.5px solid var(--parch-bd);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  transition: border-color 0.2s;
+}
+.tf-card.answered-correct { border-color: var(--green); background: var(--green-lt); }
+.tf-card.answered-wrong   { border-color: var(--red);   background: var(--red-lt); }
+.tf-statement {
+  font-family: var(--body-serif);
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--parch-bd);
+}
+.tf-btns { display: flex; gap: 0.6rem; }
+.tf-btn {
+  flex: 1;
+  padding: 0.55rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--parch-bd);
+  background: var(--parchment);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  letter-spacing: 0.03em;
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-lt); }
+.tf-btn:disabled { cursor: default; opacity: 0.7; }
+.tf-btn.chosen-right { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-btn.chosen-wrong { background: var(--red-lt);   border-color: var(--red);   color: var(--red); }
+.tf-btn.reveal-right { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-explanation {
+  display: none;
+  margin-top: 0.7rem;
+  font-size: 0.84rem;
+  font-family: var(--body-serif);
+  font-style: italic;
+  color: var(--muted);
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  line-height: 1.6;
+}
+.tf-explanation.show { display: block; }
+.tf-tally {
+  text-align: center;
+  margin-top: 1.2rem;
+  font-family: var(--body-serif);
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.tf-tally strong { color: var(--green); font-style: normal; }
+.tf-reset {
+  display: block;
+  margin: 0.7rem auto 0;
+  background: transparent;
+  border: 1.5px solid var(--parch-bd);
+  color: var(--muted);
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.tf-reset:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ─── PROGRESS RIBBON ─── */
+.ribbon {
+  background: var(--ink);
+  color: rgba(255,255,255,0.55);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  padding: 0.7rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.ribbon-item strong { color: var(--gold); font-size: 14px; }
+
+/* ─── DIVIDER ─── */
+.ornament-divider {
+  text-align: center;
+  color: var(--parch-bd);
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  letter-spacing: 0.4em;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--ink);
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255,255,255,0.35);
+  font-size: 0.8rem;
+  margin-top: 3rem;
+}
+.footer span { color: var(--gold); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.dialogue-box, .match-arena, .tf-list {
+  animation: fadeUp 0.4s ease backwards;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.match-item.wrong-flash { animation: shake 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ornament"></div>
+  <div class="hero-circle c1"></div>
+  <div class="hero-circle c2"></div>
+  <div class="hero-year">XIII ВЕК · ИСТОРИЯ РУСИ</div>
+  <h1><span>Александр</span> Невский</h1>
+  <p class="hero-sub">Интерактивный урок: дипломатия, война и выбор пути</p>
+  <div class="hero-pills">
+    <div class="pill"><strong>1</strong> Выбор князя</div>
+    <div class="pill"><strong>2</strong> Сопоставь понятия</div>
+    <div class="pill"><strong>3</strong> Верно / Неверно</div>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon" id="ribbon">
+  <div class="ribbon-item">Диалог: <strong id="dlgStatus">не начат</strong></div>
+  <div class="ribbon-item">Понятий сопоставлено: <strong id="matchScore">0/5</strong></div>
+  <div class="ribbon-item">Верно/неверно: <strong id="tfScore">0/5</strong></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ INTERACTIVE 1 ═══ -->
+  <div class="section">
+    <div class="section-tag">Интерактив №1</div>
+    <div class="section-title">«Выбор князя»</div>
+    <div class="section-desc">Ты — Александр Невский. Прими решение и узнай последствия.</div>
+  </div>
+
+  <div class="dialogue-box" id="dlgBox">
+    <div class="dlg-header">
+      <div class="dlg-crown">👑</div>
+      <div class="dlg-header-text">
+        <h3>ДИАЛОГОВЫЙ ТРЕНАЖЁР</h3>
+        <p>Пошаговый выбор с историческими последствиями</p>
+      </div>
+    </div>
+    <div class="dlg-body" id="dlgBody"></div>
+    <div class="dlg-final" id="dlgFinal">
+      <div class="dlg-final-quote" id="dlgFinalText"></div>
+      <button class="dlg-restart" onclick="dlgRestart()">↩ Начать сначала</button>
+    </div>
+  </div>
+
+  <div class="ornament-divider">✦ ✦ ✦</div>
+
+  <!-- ═══ INTERACTIVE 2 ═══ -->
+  <div class="section">
+    <div class="section-tag">Интерактив №2</div>
+    <div class="section-title">«Сопоставь понятия»</div>
+    <div class="section-desc">Нажми на термин, затем на его определение. Найди все пять пар.</div>
+  </div>
+
+  <div class="match-arena">
+    <div class="match-col">
+      <h4>Термины</h4>
+      <div id="matchTerms"></div>
+    </div>
+    <div class="match-col">
+      <h4>Определения</h4>
+      <div id="matchDefs"></div>
+    </div>
+  </div>
+  <div class="match-score" id="matchScoreMsg" style="display:none"></div>
+  <button class="match-reset" onclick="matchReset()">↩ Сбросить</button>
+
+  <div class="ornament-divider">✦ ✦ ✦</div>
+
+  <!-- ═══ INTERACTIVE 3 ═══ -->
+  <div class="section">
+    <div class="section-tag">Интерактив №3</div>
+    <div class="section-title">«Верно / Неверно»</div>
+    <div class="section-desc">Прочитай утверждение историков. Согласен ли ты?</div>
+  </div>
+
+  <div class="tf-list" id="tfList"></div>
+  <div class="tf-tally" id="tfTally" style="display:none"></div>
+  <button class="tf-reset" onclick="tfReset()">↩ Попробовать снова</button>
+
+</div>
+
+<div class="footer">
+  Урок истории · Александр Невский · <span>XIII век</span>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   INTERACTIVE 1 – DIALOGUE
+═══════════════════════════════════════════ */
+
+const STEPS = {
+  intro: {
+    situation: `<em>Год 1252.</em> Орда требует от тебя приехать и получить ярлык. Твой брат Андрей поднял восстание против монголов и разбит. Новгород отказывается платить дань.`,
+    question: 'Орда присылает послов: «Князь, приезжай к хану, или мы придём с войском». Что делаешь?',
+    choices: [
+      { letter: 'А', text: 'Еду к хану — буду договариваться', next: 'pathA' },
+      { letter: 'Б', text: 'Отказываюсь, готовлю войско к обороне', next: 'pathB' },
+      { letter: 'В', text: 'Бегу в Швецию, прошу убежища', next: 'pathC' }
+    ]
+  },
+  pathA: {
+    type: 'result',
+    badge: 'hist',
+    label: '✅ Исторический путь Невского',
+    title: 'Ты приехал в Орду',
+    text: 'Ты прошёл унизительный обряд очищения огнём, поклонился хану. Получил ярлык на княжение и добился: дань теперь будут собирать <em>русские сборщики</em>, а не монгольские баскаки. Твои земли не тронуты, народ спасён. Но новгородцы ненавидят тебя за покорность.',
+    final: 'Ты выбрал дипломатию. Александр Невский выбрал именно этот путь — и Русь уцелела. А что выбрал бы ты на самом деле?'
+  },
+  pathB: {
+    type: 'result',
+    badge: 'bad',
+    label: '❌ Ты проиграл',
+    title: 'Ты отказался',
+    text: 'Ты собираешь войско, но силы неравны. Орда присылает карательный поход — <em>«Неврюеву рать»</em>. Города сожжены, люди убиты. Ты бежишь в Швецию, но там тебя не принимают всерьёз. Русь разорена ещё сильнее.',
+    final: 'Ты выбрал сопротивление — и это обернулось катастрофой. Александр Невский понимал: время для открытого боя ещё не пришло.'
+  },
+  pathC: {
+    type: 'result',
+    badge: 'bad',
+    label: '❌ Родина потеряна',
+    title: 'Ты уехал в Европу',
+    text: 'Там тебя встречают как полководца, победившего рыцарей. Но твои земли остались без защиты. На Руси началась смута, монголы назначили другого князя.',
+    final: 'Ты сохранил жизнь, но потерял родину и народ. История помнит тех, кто остался.'
+  }
+};
+
+let dlgChoice = null;
+
+function dlgRender(stepId) {
+  const step = STEPS[stepId];
+  const body = document.getElementById('dlgBody');
+  const final = document.getElementById('dlgFinal');
+  final.classList.remove('show');
+
+  if (stepId === 'intro') {
+    body.innerHTML = `
+      <div class="dlg-situation">${step.situation}</div>
+      <div class="dlg-question">${step.question}</div>
+      <div class="dlg-choices">
+        ${step.choices.map(c => `
+          <button class="choice-btn" onclick="dlgChoose('${c.next}')">
+            <span class="choice-letter">${c.letter}</span>${c.text}
+          </button>
+        `).join('')}
+      </div>`;
+    document.getElementById('dlgStatus').textContent = 'идёт';
+  } else {
+    dlgChoice = step;
+    const cls = step.badge === 'hist' ? 'hist' : 'bad';
+    body.innerHTML = `
+      <div class="dlg-result show ${cls}">
+        <span class="dlg-result-badge badge-${step.badge}">${step.label}</span>
+        <h4>${step.title}</h4>
+        <p>${step.text}</p>
+        <button class="dlg-next-btn" onclick="dlgShowFinal('${step.final}')">Продолжить →</button>
+      </div>`;
+  }
+}
+
+function dlgChoose(next) { dlgRender(next); }
+
+function dlgShowFinal(txt) {
+  document.getElementById('dlgBody').innerHTML = '';
+  const f = document.getElementById('dlgFinal');
+  document.getElementById('dlgFinalText').innerHTML = '«' + txt + '»';
+  f.classList.add('show');
+  document.getElementById('dlgStatus').textContent = dlgChoice.badge === 'hist' ? 'пройден ✓' : 'завершён';
+}
+
+function dlgRestart() {
+  dlgRender('intro');
+  document.getElementById('dlgStatus').textContent = 'идёт';
+}
+
+dlgRender('intro');
+
+/* ═══════════════════════════════════════════
+   INTERACTIVE 2 – MATCH
+═══════════════════════════════════════════ */
+
+const PAIRS = [
+  { id: 1, term: 'Ярлык',              def: 'Ханская грамота на право княжения' },
+  { id: 2, term: 'Ордынское иго',      def: 'Система зависимости Руси от Золотой Орды' },
+  { id: 3, term: 'Баскаки',            def: 'Сборщики монгольской дани' },
+  { id: 4, term: 'Благоверный князь',  def: 'Церковный титул Александра Невского' },
+  { id: 5, term: '«Неврюева рать»',    def: 'Карательный поход монголов против брата Александра' }
+];
+
+let matchState = { selectedTerm: null, selectedDef: null, matched: new Set() };
+
+function matchRender() {
+  const terms = [...PAIRS].sort(() => Math.random() - 0.5);
+  const defs  = [...PAIRS].sort(() => Math.random() - 0.5);
+  const tc = document.getElementById('matchTerms');
+  const dc = document.getElementById('matchDefs');
+  tc.innerHTML = '';
+  dc.innerHTML = '';
+  terms.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.id = p.id;
+    el.dataset.role = 'term';
+    el.innerHTML = p.term + '<span class="match-check">✓</span>';
+    el.addEventListener('click', () => matchClick(el, 'term'));
+    tc.appendChild(el);
+  });
+  defs.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.id = p.id;
+    el.dataset.role = 'def';
+    el.innerHTML = p.def + '<span class="match-check">✓</span>';
+    el.addEventListener('click', () => matchClick(el, 'def'));
+    dc.appendChild(el);
+  });
+  matchState = { selectedTerm: null, selectedDef: null, matched: new Set() };
+  document.getElementById('matchScoreMsg').style.display = 'none';
+  document.getElementById('matchScore').textContent = '0/5';
+}
+
+function matchClick(el, role) {
+  if (el.classList.contains('matched')) return;
+  if (role === 'term') {
+    document.querySelectorAll('.match-item[data-role="term"]').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    matchState.selectedTerm = el;
+  } else {
+    document.querySelectorAll('.match-item[data-role="def"]').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    matchState.selectedDef = el;
+  }
+  if (matchState.selectedTerm && matchState.selectedDef) {
+    const tId = matchState.selectedTerm.dataset.id;
+    const dId = matchState.selectedDef.dataset.id;
+    if (tId === dId) {
+      matchState.selectedTerm.classList.remove('selected');
+      matchState.selectedDef.classList.remove('selected');
+      matchState.selectedTerm.classList.add('matched');
+      matchState.selectedDef.classList.add('matched');
+      matchState.matched.add(tId);
+      matchState.selectedTerm = null;
+      matchState.selectedDef = null;
+      const n = matchState.matched.size;
+      document.getElementById('matchScore').textContent = n + '/5';
+      if (n === 5) {
+        const msg = document.getElementById('matchScoreMsg');
+        msg.innerHTML = '<strong>Отлично!</strong> Все пять пар найдены верно!';
+        msg.style.display = 'block';
+      }
+    } else {
+      const t = matchState.selectedTerm;
+      const d = matchState.selectedDef;
+      t.classList.add('wrong-flash');
+      d.classList.add('wrong-flash');
+      setTimeout(() => {
+        t.classList.remove('selected','wrong-flash');
+        d.classList.remove('selected','wrong-flash');
+      }, 400);
+      matchState.selectedTerm = null;
+      matchState.selectedDef = null;
+    }
+  }
+}
+
+function matchReset() { matchRender(); }
+matchRender();
+
+/* ═══════════════════════════════════════════
+   INTERACTIVE 3 – TRUE / FALSE
+═══════════════════════════════════════════ */
+
+const TF_DATA = [
+  {
+    statement: 'Александр Невский был канонизирован только за военные победы.',
+    answer: false,
+    explanation: 'Неверно. Главным основанием для канонизации стали защита православия и мудрая политика, а не только военные победы.'
+  },
+  {
+    statement: 'Он лично подавлял восстания против Орды в русских городах.',
+    answer: true,
+    explanation: 'Верно. Например, в Новгороде в 1259 году Александр Невский принудил жителей принять монгольскую перепись, подавив сопротивление.'
+  },
+  {
+    statement: 'Невский пытался договориться с Римским папой о помощи против монголов.',
+    answer: true,
+    explanation: 'Верно. Переговоры велись, но Александр отказался от союза, когда Рим потребовал сменить православную веру на католическую.'
+  },
+  {
+    statement: 'После смерти Невского Орда сразу же завоевала Новгород.',
+    answer: false,
+    explanation: 'Неверно. Новгород так и не был завоёван монголами — во многом благодаря политике Александра Невского.'
+  },
+  {
+    statement: 'Александр Невский — единственный русский князь, который ездил в Орду.',
+    answer: false,
+    explanation: 'Неверно. Многие русские князья ездили в Орду за ярлыками на княжение — это была обязательная практика эпохи.'
+  }
+];
+
+let tfAnswered = 0, tfCorrect = 0;
+
+function tfRender() {
+  tfAnswered = 0; tfCorrect = 0;
+  const list = document.getElementById('tfList');
+  list.innerHTML = '';
+  document.getElementById('tfTally').style.display = 'none';
+  document.getElementById('tfScore').textContent = '0/5';
+
+  TF_DATA.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'tf-card';
+    card.id = 'tf-card-' + i;
+    card.innerHTML = `
+      <div class="tf-statement">${i + 1}. ${item.statement}</div>
+      <div class="tf-btns">
+        <button class="tf-btn" id="tf-true-${i}"  onclick="tfAnswer(${i}, true)">✓ Верно</button>
+        <button class="tf-btn" id="tf-false-${i}" onclick="tfAnswer(${i}, false)">✗ Неверно</button>
+      </div>
+      <div class="tf-explanation" id="tf-exp-${i}">${item.explanation}</div>`;
+    list.appendChild(card);
+  });
+}
+
+function tfAnswer(i, userAnswer) {
+  const item = TF_DATA[i];
+  const correct = userAnswer === item.answer;
+  const card = document.getElementById('tf-card-' + i);
+  const tBtn = document.getElementById('tf-true-' + i);
+  const fBtn = document.getElementById('tf-false-' + i);
+  tBtn.disabled = true; fBtn.disabled = true;
+
+  if (correct) {
+    card.classList.add('answered-correct');
+    (userAnswer ? tBtn : fBtn).classList.add('chosen-right');
+  } else {
+    card.classList.add('answered-wrong');
+    (userAnswer ? tBtn : fBtn).classList.add('chosen-wrong');
+    (item.answer ? tBtn : fBtn).classList.add('reveal-right');
+  }
+  document.getElementById('tf-exp-' + i).classList.add('show');
+
+  tfAnswered++;
+  if (correct) tfCorrect++;
+  document.getElementById('tfScore').textContent = tfCorrect + '/5';
+
+  if (tfAnswered === 5) {
+    const tally = document.getElementById('tfTally');
+    const msgs = [
+      [5,5,'Блестяще — все пять верно!'],
+      [4,4,'Отлично! Почти без ошибок.'],
+      [3,3,'Хорошо, но стоит повторить материал.'],
+      [0,2,'Перечитайте параграф и попробуйте снова.']
+    ];
+    const m = msgs.find(([a,b]) => tfCorrect >= a && tfCorrect <= b);
+    tally.innerHTML = `Правильных ответов: <strong>${tfCorrect}/5</strong> — ${m[2]}`;
+    tally.style.display = 'block';
+  }
+}
+
+function tfReset() { tfRender(); }
+tfRender();
+</script>
+</body>
+</html>
