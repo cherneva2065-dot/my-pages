@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рельеф Земли — Интерактивный урок географии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Nunito:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --earth:      #3D2B1A;
+  --earth2:     #5C3D22;
+  --stone:      #8B7355;
+  --sand:       #F5EDD8;
+  --sand2:      #EDE0C4;
+  --sand3:      #E0D0B0;
+  --sky:        #2C6E9B;
+  --sky-lt:     #E6F2FA;
+  --lava:       #C0401A;
+  --lava-lt:    #FAEAE5;
+  --glacier:    #4A9B8E;
+  --glacier-lt: #E5F5F3;
+  --green:      #3A7D44;
+  --green-lt:   #EAF3EC;
+  --ink:        #1E1610;
+  --muted:      #7A6550;
+  --border:     rgba(61,43,26,0.13);
+  --radius:     14px;
+  --display:    'Unbounded', sans-serif;
+  --body:       'Nunito', sans-serif;
+}
+
+body {
+  font-family: var(--body);
+  background: var(--sand);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--earth);
+  position: relative;
+  overflow: hidden;
+  padding: 4.5rem 2rem 5rem;
+  text-align: center;
+}
+.hero-layers {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  overflow: hidden;
+}
+.hero-layers svg { width: 100%; height: 100%; }
+.hero-badge {
+  position: relative;
+  display: inline-block;
+  background: var(--lava);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 99px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--display);
+  font-size: clamp(2rem, 6vw, 4.2rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 680px;
+  margin: 0 auto 0.6rem;
+}
+.hero h1 span { color: #F5C27A; }
+.hero-sub {
+  position: relative;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+  max-width: 480px;
+  margin: 0 auto 2.5rem;
+}
+.hero-chips {
+  position: relative;
+  display: flex; justify-content: center;
+  gap: 0.6rem; flex-wrap: wrap;
+}
+.hero-chip {
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 99px;
+  padding: 5px 15px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+.hero-chip b { color: #F5C27A; margin-right: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 0.5rem; }
+.sec-tag {
+  font-family: var(--display);
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--lava); margin-bottom: 0.4rem;
+}
+.sec-title {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  font-weight: 700; line-height: 1.2;
+  color: var(--ink); margin-bottom: 0.35rem;
+}
+.sec-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 1.3rem;
+}
+
+/* ── PROGRESS RIBBON ── */
+.ribbon {
+  background: var(--earth2);
+  padding: 0.65rem 1.5rem;
+  display: flex; justify-content: center;
+  align-items: center; gap: 2rem; flex-wrap: wrap;
+}
+.rib-item { font-size: 11px; color: rgba(255,255,255,0.45); }
+.rib-item b { color: #F5C27A; margin-left: 4px; font-size: 13px; }
+
+.geo-divider {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 2rem 0 0.5rem;
+}
+.geo-divider::before, .geo-divider::after {
+  content: ''; flex: 1; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--sand3) 0px, var(--sand3) 6px, transparent 6px, transparent 10px);
+}
+.geo-divider span {
+  font-family: var(--display);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--stone); white-space: nowrap;
+}
+
+/* ══════════════════════════════
+   VARIANT A — QUIZ
+══════════════════════════════ */
+.quiz-shell {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.quiz-head {
+  background: var(--earth);
+  padding: 0.9rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.quiz-head-title {
+  font-family: var(--display);
+  font-size: 0.8rem; font-weight: 700;
+  color: #F5C27A; letter-spacing: 0.04em;
+}
+.quiz-step-dots { display: flex; gap: 5px; }
+.quiz-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.2s;
+}
+.quiz-dot.done    { background: #F5C27A; }
+.quiz-dot.current { background: rgba(245,194,122,0.5); }
+
+.quiz-body { padding: 1.5rem; }
+.quiz-q-tag {
+  font-family: var(--display);
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--sky); margin-bottom: 0.4rem;
+}
+.quiz-q-text {
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--ink); line-height: 1.5;
+  margin-bottom: 1.1rem;
+}
+.quiz-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+.quiz-opt {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--sand);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-family: var(--body);
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.4;
+}
+.quiz-opt:hover:not(.locked) {
+  border-color: var(--sky);
+  background: var(--sky-lt);
+  transform: translateX(3px);
+}
+.quiz-opt .ol {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--earth);
+  color: #F5C27A;
+  font-family: var(--display);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.quiz-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.quiz-opt.correct .ol { background: var(--green); color: #fff; }
+.quiz-opt.wrong   { background: var(--lava-lt); border-color: var(--lava); }
+.quiz-opt.wrong   .ol { background: var(--lava); color: #fff; }
+.quiz-opt.locked  { cursor: default; }
+
+.quiz-fb {
+  display: none;
+  font-size: 0.85rem; font-style: italic;
+  color: var(--muted);
+  background: var(--sand2);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  margin-top: 0.8rem;
+  border-left: 3px solid var(--stone);
+}
+.quiz-fb.show { display: block; }
+.quiz-fb b { font-style: normal; }
+.quiz-fb.ok b { color: var(--green); }
+.quiz-fb.ng b { color: var(--lava); }
+
+.quiz-nxt {
+  display: none;
+  margin-top: 1rem;
+  background: var(--earth);
+  color: #F5C27A;
+  border: none;
+  padding: 0.65rem 1.4rem;
+  border-radius: 9px;
+  font-family: var(--display);
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.quiz-nxt.show { display: inline-block; }
+.quiz-nxt:hover { background: var(--lava); color: #fff; }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+.quiz-result.show { display: block; }
+.quiz-result-num {
+  font-family: var(--display);
+  font-size: 5rem; font-weight: 900;
+  color: var(--earth); line-height: 1;
+}
+.quiz-result-num sup { font-size: 2rem; color: var(--muted); }
+.quiz-result-rank {
+  font-family: var(--display);
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--lava);
+  margin: 0.4rem 0 0.3rem;
+}
+.quiz-result-msg { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.2rem; }
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  padding: 0.5rem 1.2rem;
+  border-radius: 9px;
+  font-family: var(--body);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-ghost:hover { border-color: var(--earth); color: var(--earth); }
+
+/* ══════════════════════════════
+   VARIANT B — FILL BLANKS
+══════════════════════════════ */
+.blank-text {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem;
+  font-size: 1.05rem;
+  line-height: 2.5;
+  color: var(--ink);
+}
+.blank {
+  display: inline-block;
+  min-width: 110px;
+  border-bottom: 2.5px solid var(--stone);
+  padding: 0 6px;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: bottom;
+  transition: border-color 0.15s, background 0.15s;
+  border-radius: 4px 4px 0 0;
+  font-weight: 600;
+  color: transparent;
+  background: rgba(61,43,26,0.06);
+  user-select: none;
+  position: relative;
+}
+.blank::after {
+  content: attr(data-num);
+  position: absolute;
+  bottom: 0; right: 3px;
+  font-size: 9px; font-weight: 700;
+  color: var(--stone);
+  font-family: var(--display);
+}
+.blank.filled {
+  color: var(--sky);
+  background: var(--sky-lt);
+  border-color: var(--sky);
+}
+.blank.correct {
+  color: var(--green);
+  background: var(--green-lt);
+  border-color: var(--green);
+}
+.blank.wrong {
+  color: var(--lava);
+  background: var(--lava-lt);
+  border-color: var(--lava);
+}
+.blank.hint-show {
+  color: var(--earth);
+  background: var(--sand2);
+  border-color: var(--earth);
+}
+
+.word-bank {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+.word-chip {
+  background: var(--sand2);
+  border: 1.5px solid var(--sand3);
+  border-radius: 99px;
+  padding: 5px 15px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--earth);
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  user-select: none;
+}
+.word-chip:hover:not(.used) {
+  border-color: var(--sky);
+  background: var(--sky-lt);
+  color: var(--sky);
+  transform: translateY(-2px);
+}
+.word-chip.selected {
+  border-color: var(--lava);
+  background: var(--lava-lt);
+  color: var(--lava);
+}
+.word-chip.used { opacity: 0.35; cursor: default; pointer-events: none; text-decoration: line-through; }
+
+.blank-controls {
+  display: flex; gap: 0.7rem; flex-wrap: wrap;
+  margin-top: 1.1rem; align-items: center;
+}
+.btn-primary {
+  background: var(--earth);
+  color: #F5C27A;
+  border: none;
+  padding: 0.62rem 1.4rem;
+  border-radius: 9px;
+  font-family: var(--display);
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.btn-primary:hover { background: var(--lava); color: #fff; }
+
+.blank-score {
+  font-size: 0.85rem; color: var(--muted);
+  font-style: italic;
+}
+
+/* ══════════════════════════════
+   VARIANT C — POLL
+══════════════════════════════ */
+.poll-cards { display: flex; flex-direction: column; gap: 1rem; }
+.poll-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.3rem;
+}
+.poll-q {
+  font-size: 1rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 0.85rem;
+  line-height: 1.4;
+}
+.poll-q-num {
+  display: block; font-family: var(--display);
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--glacier); margin-bottom: 0.3rem;
+}
+.poll-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.poll-opt {
+  display: flex; align-items: center; gap: 0;
+  background: var(--sand);
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  position: relative;
+  font-family: var(--body);
+}
+.poll-opt:hover:not(.chosen):not(.locked) { border-color: var(--glacier); }
+.poll-opt-label {
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem; color: var(--ink);
+  flex: 1; z-index: 1; transition: color 0.2s;
+}
+.poll-opt-bar {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: var(--glacier-lt);
+  width: 0%;
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  z-index: 0;
+}
+.poll-opt-pct {
+  padding: 0 10px;
+  font-family: var(--display);
+  font-size: 10px; font-weight: 700;
+  color: var(--glacier);
+  z-index: 1;
+  min-width: 36px;
+  text-align: right;
+  display: none;
+}
+.poll-opt.chosen .poll-opt-bar { background: #C8EAE6; }
+.poll-opt.chosen { border-color: var(--glacier); }
+.poll-opt.chosen .poll-opt-label { font-weight: 600; color: var(--earth); }
+.poll-results-visible .poll-opt-pct { display: block; }
+.poll-card .poll-note {
+  font-size: 0.8rem; font-style: italic;
+  color: var(--muted); margin-top: 0.7rem;
+  display: none;
+}
+.poll-card .poll-note.show { display: block; }
+
+/* ══════════════════════════════
+   VARIANT D — CREATIVE
+══════════════════════════════ */
+.creative-box {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.creative-header {
+  background: linear-gradient(135deg, var(--earth) 0%, var(--lava) 100%);
+  padding: 1.2rem 1.5rem;
+}
+.creative-header h3 {
+  font-family: var(--display);
+  font-size: 1rem; font-weight: 900;
+  color: #fff; letter-spacing: 0.02em;
+  margin-bottom: 0.3rem;
+}
+.creative-header p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+}
+.creative-body { padding: 1.4rem 1.5rem; }
+
+.battle-visual {
+  background: var(--sand2);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+  display: flex; align-items: center; justify-content: space-around;
+  flex-wrap: wrap; gap: 1rem;
+}
+.force-block {
+  text-align: center; flex: 1; min-width: 120px;
+}
+.force-icon {
+  font-size: 2.5rem; display: block;
+  margin-bottom: 0.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+.force-block:last-child .force-icon { animation-delay: 1.5s; }
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.force-name {
+  font-family: var(--display);
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  display: block; margin-bottom: 0.2rem;
+}
+.force-name.build { color: var(--lava); }
+.force-name.break { color: var(--sky); }
+.force-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+.battle-vs {
+  font-family: var(--display);
+  font-size: 1.4rem; font-weight: 900;
+  color: var(--earth2); opacity: 0.35;
+}
+
+.canvas-wrap {
+  border: 2px dashed var(--sand3);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  cursor: crosshair;
+  background: #fff;
+  margin-bottom: 1rem;
+}
+canvas#drawCanvas {
+  display: block;
+  width: 100%;
+  height: 260px;
+  touch-action: none;
+}
+.canvas-tools {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  align-items: center; margin-bottom: 0.8rem;
+}
+.tool-color {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.tool-color:hover { transform: scale(1.15); }
+.tool-color.active { border-color: var(--earth); transform: scale(1.15); }
+.tool-size {
+  background: var(--sand2);
+  border: 1.5px solid var(--sand3);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer;
+  color: var(--earth);
+  transition: background 0.15s;
+}
+.tool-size:hover, .tool-size.active { background: var(--sand3); }
+.tool-sep { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
+.tool-eraser {
+  background: var(--sand2);
+  border: 1.5px solid var(--sand3);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer;
+  color: var(--earth);
+}
+.tool-eraser:hover, .tool-eraser.active { background: #faeae5; border-color: var(--lava); color: var(--lava); }
+.tool-clear {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--muted);
+}
+.tool-clear:hover { border-color: var(--lava); color: var(--lava); }
+.canvas-hint {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.85rem; font-style: italic;
+  color: var(--sand3);
+  pointer-events: none;
+  text-align: center;
+  line-height: 1.6;
+  transition: opacity 0.3s;
+}
+
+.legend-row {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  font-size: 0.83rem; color: var(--muted);
+  margin-top: 0.3rem;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--earth);
+  padding: 2.5rem;
+  text-align: center;
+  margin-top: 3rem;
+  color: rgba(255,255,255,0.3);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.footer span { color: #F5C27A; }
+
+/* ── ANIM ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.quiz-shell, .blank-text, .poll-card, .creative-box { animation: fadeUp 0.35s ease backwards; }
+.poll-card:nth-child(2) { animation-delay: 0.08s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">География · 6 класс</div>
+  <h1>Рельеф <span>Земли</span></h1>
+  <p class="hero-sub">Четыре интерактивных задания — от викторины до рисунка «битвы сил»</p>
+  <div class="hero-chips">
+    <div class="hero-chip"><b>А</b>Викторина</div>
+    <div class="hero-chip"><b>Б</b>Пропуски</div>
+    <div class="hero-chip"><b>В</b>Опрос</div>
+    <div class="hero-chip"><b>Г</b>Рисунок</div>
+  </div>
+  <div class="hero-layers">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 Q150,20 300,50 Q450,75 600,35 Q750,5 900,45 Q1050,70 1200,30 L1200,80 L0,80Z" fill="#5C3D22" opacity="0.5"/>
+      <path d="M0,70 Q200,40 400,60 Q600,75 800,45 Q1000,20 1200,55 L1200,80 L0,80Z" fill="#F5EDD8"/>
+    </svg>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon" id="ribbon">
+  <div class="rib-item">Викторина:<b id="ribA">0/6</b></div>
+  <div class="rib-item">Пропуски:<b id="ribB">0/9</b></div>
+  <div class="rib-item">Опросы:<b id="ribC">0/2</b></div>
+  <div class="rib-item">Рисунок:<b id="ribD">—</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ VARIANT A ═══ -->
+  <div class="sec">
+    <div class="sec-tag">Вариант А</div>
+    <div class="sec-title">Викторина «Знаешь ли ты рельеф?»</div>
+    <div class="sec-desc">6 вопросов — один неверный шаг, и гора рассыпается. Выбери ответ!</div>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-head">
+      <div class="quiz-head-title">ЗНАЕШЬ ЛИ ТЫ РЕЛЬЕФ?</div>
+      <div class="quiz-step-dots" id="qDots"></div>
+    </div>
+    <div id="qBody" class="quiz-body"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="quiz-result-num" id="qScoreNum">0<sup>/6</sup></div>
+      <div class="quiz-result-rank" id="qRank"></div>
+      <div class="quiz-result-msg" id="qMsg"></div>
+      <button class="btn-ghost" onclick="quizReset()" style="margin-top:0.5rem">↩ Заново</button>
+    </div>
+  </div>
+
+  <div class="geo-divider"><span>Вариант Б</span></div>
+
+  <!-- ═══ VARIANT B ═══ -->
+  <div class="sec" style="padding-top:0.5rem">
+    <div class="sec-title">Заполни пропуски</div>
+    <div class="sec-desc">Нажми на слово из банка, затем кликни на пропуск в тексте — или нажми на пропуск сначала.</div>
+  </div>
+
+  <div class="blank-text" id="blankText"></div>
+
+  <div class="word-bank" id="wordBank"></div>
+  <div class="blank-controls">
+    <button class="btn-primary" onclick="checkBlanks()">Проверить</button>
+    <button class="btn-ghost" onclick="resetBlanks()">↩ Сбросить</button>
+    <span class="blank-score" id="blankScore"></span>
+  </div>
+
+  <div class="geo-divider"><span>Вариант В</span></div>
+
+  <!-- ═══ VARIANT C ═══ -->
+  <div class="sec" style="padding-top:0.5rem">
+    <div class="sec-title">Опрос: твоё мнение</div>
+    <div class="sec-desc">Нет правильных и неправильных ответов — только твоя точка зрения.</div>
+  </div>
+
+  <div class="poll-cards" id="pollCards"></div>
+
+  <div class="geo-divider"><span>Вариант Г</span></div>
+
+  <!-- ═══ VARIANT D ═══ -->
+  <div class="sec" style="padding-top:0.5rem">
+    <div class="sec-title">«Нарисуй битву сил»</div>
+    <div class="sec-desc">Внутренние силы строят горы 🔴 — внешние их разрушают 🔵. Нарисуй их спор!</div>
+  </div>
+
+  <div class="creative-box">
+    <div class="creative-header">
+      <h3>БИТВА ВНУТРЕННИХ И ВНЕШНИХ СИЛ</h3>
+      <p>Используй кисть и цвета, чтобы показать, кто сильнее</p>
+    </div>
+    <div class="creative-body">
+
+      <div class="battle-visual">
+        <div class="force-block">
+          <span class="force-icon">🌋</span>
+          <span class="force-name build">Строители</span>
+          <span class="force-desc">Внутренние силы:<br>движение плит, вулканы</span>
+        </div>
+        <div class="battle-vs">VS</div>
+        <div class="force-block">
+          <span class="force-icon">🌊</span>
+          <span class="force-name break">Разрушители</span>
+          <span class="force-desc">Внешние силы:<br>вода, ветер, ледники</span>
+        </div>
+      </div>
+
+      <div class="canvas-tools" id="canvasTools">
+        <div class="tool-color active" style="background:#C0401A" data-color="#C0401A" onclick="setColor(this)" title="Лава / строители"></div>
+        <div class="tool-color" style="background:#2C6E9B" data-color="#2C6E9B" onclick="setColor(this)" title="Вода / разрушители"></div>
+        <div class="tool-color" style="background:#3A7D44" data-color="#3A7D44" onclick="setColor(this)" title="Зелень / равнины"></div>
+        <div class="tool-color" style="background:#8B7355" data-color="#8B7355" onclick="setColor(this)" title="Земля / скалы"></div>
+        <div class="tool-color" style="background:#E8B86D" data-color="#E8B86D" onclick="setColor(this)" title="Песок / дюны"></div>
+        <div class="tool-color" style="background:#B0D0E8" data-color="#B0D0E8" onclick="setColor(this)" title="Лёд / ледники"></div>
+        <div class="tool-sep"></div>
+        <button class="tool-size active" data-size="4"  onclick="setSize(this, 4)">S</button>
+        <button class="tool-size"        data-size="10" onclick="setSize(this, 10)">M</button>
+        <button class="tool-size"        data-size="20" onclick="setSize(this, 20)">L</button>
+        <div class="tool-sep"></div>
+        <button class="tool-eraser" id="eraserBtn" onclick="toggleEraser()">Ластик</button>
+        <button class="tool-clear" onclick="clearCanvas()">Очистить</button>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="drawCanvas"></canvas>
+        <div class="canvas-hint" id="canvasHint">Рисуй прямо здесь ✏️<br><span style="font-size:0.75rem">Красный = строители · Синий = разрушители</span></div>
+      </div>
+
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:#C0401A"></div>Внутренние силы (строят горы)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#2C6E9B"></div>Внешние силы (разрушают)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#3A7D44"></div>Равнины / растительность</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#B0D0E8"></div>Ледники / снег</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Интерактивный урок географии · <span>Рельеф Земли</span>
+</div>
+
+<script>
+/* ════════════════════════════
+   A: QUIZ
+════════════════════════════ */
+const QS = [
+  { tag:'Формы рельефа',    text:'Какие формы рельефа называют «морщинами» планеты?',         opts:['Равнины','Горы','Овраги'],            ans:1, fb:'Горы действительно похожи на морщины — они образуются при сдавливании земной коры.' },
+  { tag:'Силы рельефа',     text:'Какие силы создают крупные формы рельефа — горы и впадины?', opts:['Внешние (вода, ветер)','Внутренние (движение плит)','Космические'], ans:1, fb:'Именно внутренние силы Земли «лепят» горы и впадины на поверхности планеты.' },
+  { tag:'Работа воды',      text:'Что создаёт вода в рельефе?',                                opts:['Дюны и барханы','Каньоны и овраги','Фьорды и морены'], ans:1, fb:'Реки и дожди постепенно прорезают каньоны и промывают овраги.' },
+  { tag:'Молодые горы',     text:'Как называют «молодые» горы?',                               opts:['Низкие и сглаженные','Высокие и острые','Подводные'],   ans:1, fb:'Молодые горы — высокие и острые: они ещё не успели разрушиться.' },
+  { tag:'Внешние силы',     text:'Какой процесс НЕ относится к внешним силам?',                opts:['Выветривание','Движение литосферных плит','Работа ледника'], ans:1, fb:'Движение литосферных плит — это внутренняя сила, а не внешняя.' },
+  { tag:'Фьорды',           text:'Что такое фьорды?',                                          opts:['Глубокие заливы с крутыми берегами','Песчаные холмы в пустыне','Овраги на склонах'], ans:0, fb:'Фьорды — узкие глубокие заливы, вырезанные ледниками, с крутыми скальными берегами.' }
+];
+
+let qi = 0, qscore = 0;
+const quizFbs = [
+  (ok, q) => ok
+    ? `<b class="ok">Правильно!</b> ${q.fb}`
+    : `<b class="ng">Не совсем.</b> ${q.fb}`
+];
+
+function renderQuiz() {
+  const q = QS[qi];
+  document.getElementById('qResult').classList.remove('show');
+  const body = document.getElementById('qBody');
+  body.style.display = '';
+  // dots
+  document.getElementById('qDots').innerHTML = QS.map((_,i) =>
+    `<div class="quiz-dot ${i<qi?'done':i===qi?'current':''}"></div>`).join('');
+  body.innerHTML = `
+    <div class="quiz-q-tag">Вопрос ${qi+1} из 6 · ${q.tag}</div>
+    <div class="quiz-q-text">${q.text}</div>
+    <div class="quiz-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="quiz-opt" data-i="${i}" onclick="pickQ(${i})">
+        <span class="ol">${String.fromCharCode(65+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="quiz-fb" id="qFb"></div>
+    <button class="quiz-nxt" id="qNxt" onclick="nextQ()">${qi<5?'Следующий →':'Результат →'}</button>`;
+}
+
+function pickQ(chosen) {
+  const q = QS[qi];
+  document.querySelectorAll('.quiz-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const opts = document.querySelectorAll('.quiz-opt');
+  const ok = chosen === q.ans;
+  opts[chosen].classList.add(ok?'correct':'wrong');
+  if (!ok) opts[q.ans].classList.add('correct');
+  const fb = document.getElementById('qFb');
+  fb.innerHTML = (ok?`<b class="ok">Правильно!</b> `:`<b class="ng">Неверно.</b> `) + q.fb;
+  fb.className = 'quiz-fb show' + (ok?'':' ng');
+  if (ok) qscore++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('ribA').textContent = qscore + '/6';
+}
+
+function nextQ() {
+  qi++;
+  if (qi >= 6) { showQResult(); return; }
+  renderQuiz();
+}
+
+function showQResult() {
+  document.getElementById('qBody').style.display='none';
+  const r = document.getElementById('qResult');
+  r.classList.add('show');
+  document.getElementById('qScoreNum').innerHTML = qscore + '<sup>/6</sup>';
+  const ranks = [[6,6,'Геолог-эксперт','Отлично! Земная кора от тебя секретов не скрыла.'],[4,5,'Знаток рельефа','Хорошо! Пара деталей ускользнула, но суть ясна.'],[0,3,'Начинающий исследователь','Не беда — повтори тему и попробуй снова!']];
+  const r2 = ranks.find(([a,b])=>qscore>=a&&qscore<=b);
+  document.getElementById('qRank').textContent = r2[2];
+  document.getElementById('qMsg').textContent  = r2[3];
+  document.getElementById('qDots').innerHTML = QS.map(()=>`<div class="quiz-dot done"></div>`).join('');
+}
+
+function quizReset() {
+  qi=0; qscore=0;
+  document.getElementById('ribA').textContent='0/6';
+  renderQuiz();
+}
+
+renderQuiz();
+
+/* ════════════════════════════
+   B: FILL BLANKS
+════════════════════════════ */
+const WORDS = ['неровности','горы','равнины','внутренние','внешние','высокие','острые','низкие','сглаженные'];
+
+const BLANK_TMPL = [
+  {before:'Рельеф — это все ', idx:0, after:' земной поверхности. '},
+  {before:'Главные формы рельефа — ', idx:1, after:' и '},
+  {before:'', idx:2, after:'. '},
+  {before:'', idx:3, cap:true, after:' силы (движение плит, вулканы) создают крупные формы. '},
+  {before:'', idx:4, cap:true, after:' силы (вода, ветер, лёд) разрушают и сглаживают рельеф. '},
+  {before:'Молодые горы — ', idx:5, after:' и '},
+  {before:'', idx:6, after:'; старые — '},
+  {before:'', idx:7, after:' и '},
+  {before:'', idx:8, after:'.'}
+];
+
+let blankState = WORDS.map(()=>null);
+let selectedWord = null;
+let selectedBlank = null;
+
+function renderBlanks() {
+  blankState = WORDS.map(()=>null);
+  selectedWord = null; selectedBlank = null;
+  const t = document.getElementById('blankText');
+  let html = '';
+  BLANK_TMPL.forEach((seg,i) => {
+    const w = blankState[seg.idx];
+    const dispW = w ? (seg.cap ? w.charAt(0).toUpperCase()+w.slice(1) : w) : '';
+    html += seg.before;
+    html += `<span class="blank" id="bl-${i}" data-idx="${seg.idx}" onclick="clickBlank(${i})">${dispW}<span class="blank-after" style="display:none" data-num="${seg.idx+1}"></span></span>`;
+    html += seg.after;
+  });
+  t.innerHTML = html;
+  // add number badges
+  document.querySelectorAll('.blank').forEach((el,i)=>{
+    el.dataset.num = i+1;
+  });
+
+  const wb = document.getElementById('wordBank');
+  wb.innerHTML = WORDS.map((w,wi)=>
+    `<div class="word-chip" id="wc-${wi}" data-wi="${wi}" onclick="clickWord(${wi})">${w}</div>`).join('');
+  document.getElementById('blankScore').textContent = '';
+}
+
+function clickWord(wi) {
+  if (document.getElementById(`wc-${wi}`).classList.contains('used')) return;
+  // deselect previous
+  document.querySelectorAll('.word-chip').forEach(c=>c.classList.remove('selected'));
+  if (selectedWord === wi) { selectedWord = null; return; }
+  selectedWord = wi;
+  document.getElementById(`wc-${wi}`).classList.add('selected');
+  // if blank already selected, place it
+  if (selectedBlank !== null) placeWord();
+}
+
+function clickBlank(bi) {
+  const seg = BLANK_TMPL[bi];
+  const el = document.getElementById(`bl-${bi}`);
+  if (el.classList.contains('correct')) return;
+  // if has fill, remove it
+  if (blankState[seg.idx] !== null) {
+    const oldWord = blankState[seg.idx];
+    const wi = WORDS.indexOf(oldWord);
+    if (wi>=0) document.getElementById(`wc-${wi}`)?.classList.remove('used');
+    blankState[seg.idx] = null;
+    el.textContent = '';
+    el.className = 'blank';
+    el.dataset.num = bi+1;
+    selectedBlank = null; selectedWord = null;
+    document.querySelectorAll('.blank').forEach(b=>b.classList.remove('selected'));
+    document.querySelectorAll('.word-chip').forEach(c=>c.classList.remove('selected'));
+    return;
+  }
+  document.querySelectorAll('.blank').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('filled');
+  selectedBlank = bi;
+  if (selectedWord !== null) placeWord();
+}
+
+function placeWord() {
+  const bi = selectedBlank;
+  const wi = selectedWord;
+  if (bi===null||wi===null) return;
+  const seg = BLANK_TMPL[bi];
+  const word = WORDS[wi];
+  blankState[seg.idx] = word;
+  const el = document.getElementById(`bl-${bi}`);
+  el.textContent = seg.cap ? word.charAt(0).toUpperCase()+word.slice(1) : word;
+  el.className = 'blank filled';
+  document.getElementById(`wc-${wi}`).classList.add('used');
+  selectedBlank = null; selectedWord = null;
+  document.querySelectorAll('.blank').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('.word-chip').forEach(c=>c.classList.remove('selected'));
+  const filled = blankState.filter(x=>x!==null).length;
+  document.getElementById('ribB').textContent = filled+'/9';
+}
+
+function checkBlanks() {
+  let correct = 0;
+  BLANK_TMPL.forEach((seg,bi) => {
+    const el = document.getElementById(`bl-${bi}`);
+    if (!el) return;
+    const userVal = blankState[seg.idx];
+    if (!userVal) return;
+    const isOk = userVal === WORDS[seg.idx];
+    el.className = 'blank ' + (isOk ? 'correct' : 'wrong');
+    if (isOk) correct++;
+  });
+  document.getElementById('blankScore').textContent = `Верно: ${correct} из 9`;
+  document.getElementById('ribB').textContent = correct+'/9';
+}
+
+function resetBlanks() { renderBlanks(); document.getElementById('ribB').textContent='0/9'; }
+renderBlanks();
+
+/* ════════════════════════════
+   C: POLL
+════════════════════════════ */
+const POLLS = [
+  {
+    q: 'Где ты хотел(а) бы жить?',
+    opts: ['На равнине — удобно и спокойно','В горах — красиво и приключения','У моря — свой вариант','Всё равно, главное — люди'],
+    note: 'Каждый рельеф диктует свой образ жизни, культуру и даже характер народа!'
+  },
+  {
+    q: 'Какая внешняя сила кажется тебе самой мощной?',
+    opts: ['Вода — реки и дожди','Ветер — пустыни и дюны','Лёд — ледники и фьорды','Перепады температур'],
+    note: 'Все внешние силы работают вместе — но вода считается самым «производительным» разрушителем!'
+  }
+];
+
+let pollAnswered = 0;
+
+function renderPolls() {
+  pollAnswered = 0;
+  const pc = document.getElementById('pollCards');
+  pc.innerHTML = '';
+  POLLS.forEach((p,pi) => {
+    const votes = p.opts.map(()=>0);
+    const card = document.createElement('div');
+    card.className = 'poll-card';
+    card.id = 'pc-'+pi;
+    card.innerHTML = `
+      <span class="poll-q-num">Вопрос ${pi+1}</span>
+      <div class="poll-q">${p.q}</div>
+      <div class="poll-opts" id="po-${pi}">
+        ${p.opts.map((o,oi)=>`
+          <div class="poll-opt" id="popt-${pi}-${oi}" onclick="vote(${pi},${oi})">
+            <div class="poll-opt-bar" id="pbar-${pi}-${oi}"></div>
+            <span class="poll-opt-label">${o}</span>
+            <span class="poll-opt-pct" id="ppct-${pi}-${oi}">0%</span>
+          </div>`).join('')}
+      </div>
+      <div class="poll-note" id="pnote-${pi}">${p.note}</div>`;
+    card.dataset.votes = JSON.stringify(votes);
+    card.dataset.answered = '0';
+    pc.appendChild(card);
+  });
+}
+
+function vote(pi, chosen) {
+  const card = document.getElementById('pc-'+pi);
+  if (card.dataset.answered === '1') return;
+  card.dataset.answered = '1';
+  const votes = JSON.parse(card.dataset.votes);
+  votes[chosen]++;
+  const total = votes.reduce((a,b)=>a+b,0);
+  card.dataset.votes = JSON.stringify(votes);
+  // show bars
+  const po = document.getElementById('po-'+pi);
+  po.classList.add('poll-results-visible');
+  POLLS[pi].opts.forEach((_,oi) => {
+    const pct = Math.round(votes[oi]/total*100);
+    document.getElementById(`pbar-${pi}-${oi}`).style.width = pct+'%';
+    document.getElementById(`ppct-${pi}-${oi}`).textContent = pct+'%';
+    const optEl = document.getElementById(`popt-${pi}-${oi}`);
+    optEl.classList.add('locked');
+    if (oi===chosen) optEl.classList.add('chosen');
+  });
+  document.getElementById(`pnote-${pi}`).classList.add('show');
+  pollAnswered++;
+  document.getElementById('ribC').textContent = pollAnswered+'/2';
+}
+
+renderPolls();
+
+/* ════════════════════════════
+   D: CANVAS
+════════════════════════════ */
+const canvas = document.getElementById('drawCanvas');
+const ctx = canvas.getContext('2d');
+let drawing = false, erasing = false;
+let brushColor = '#C0401A', brushSize = 4;
+let hasDrawn = false;
+
+function resizeCanvas() {
+  const w = canvas.offsetWidth;
+  const h = 260;
+  if (canvas.width !== w || canvas.height !== h) {
+    const img = ctx.getImageData(0,0,canvas.width,canvas.height);
+    canvas.width = w; canvas.height = h;
+    ctx.putImageData(img,0,0);
+  }
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function getPos(e) {
+  const r = canvas.getBoundingClientRect();
+  const scaleX = canvas.width  / r.width;
+  const scaleY = canvas.height / r.height;
+  if (e.touches) {
+    return {
+      x: (e.touches[0].clientX - r.left) * scaleX,
+      y: (e.touches[0].clientY - r.top)  * scaleY
+    };
+  }
+  return { x:(e.clientX-r.left)*scaleX, y:(e.clientY-r.top)*scaleY };
+}
+
+canvas.addEventListener('mousedown',  e=>{drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); markDrawn();});
+canvas.addEventListener('mousemove',  e=>{ if(!drawing)return; draw(getPos(e)); });
+canvas.addEventListener('mouseup',    ()=>{ drawing=false; ctx.beginPath(); });
+canvas.addEventListener('mouseleave', ()=>{ drawing=false; ctx.beginPath(); });
+canvas.addEventListener('touchstart', e=>{ e.preventDefault(); drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); markDrawn(); }, {passive:false});
+canvas.addEventListener('touchmove',  e=>{ e.preventDefault(); if(!drawing)return; draw(getPos(e)); }, {passive:false});
+canvas.addEventListener('touchend',   ()=>{ drawing=false; ctx.beginPath(); });
+
+function draw(p) {
+  if (erasing) {
+    ctx.save(); ctx.globalCompositeOperation='destination-out';
+    ctx.arc(p.x,p.y,brushSize*2,0,Math.PI*2); ctx.fill(); ctx.restore();
+  } else {
+    ctx.lineTo(p.x,p.y);
+    ctx.strokeStyle = brushColor;
+    ctx.lineWidth   = brushSize;
+    ctx.lineCap     = 'round'; ctx.lineJoin = 'round';
+    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(p.x,p.y);
+  }
+}
+
+function markDrawn() {
+  if (!hasDrawn) {
+    hasDrawn = true;
+    document.getElementById('canvasHint').style.opacity = '0';
+    document.getElementById('ribD').textContent = 'в процессе';
+  }
+}
+
+function setColor(el) {
+  erasing = false;
+  document.getElementById('eraserBtn').classList.remove('active');
+  document.querySelectorAll('.tool-color').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  brushColor = el.dataset.color;
+}
+
+function setSize(el, sz) {
+  document.querySelectorAll('.tool-size').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  brushSize = sz;
+}
+
+function toggleEraser() {
+  erasing = !erasing;
+  document.getElementById('eraserBtn').classList.toggle('active', erasing);
+  if (erasing) document.querySelectorAll('.tool-color').forEach(e=>e.classList.remove('active'));
+  else document.querySelector('.tool-color[data-color="'+brushColor+'"]')?.classList.add('active');
+}
+
+function clearCanvas() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  hasDrawn = false;
+  document.getElementById('canvasHint').style.opacity = '1';
+  document.getElementById('ribD').textContent = '—';
+}
+
+canvas.addEventListener('mouseup', ()=>{
+  if (hasDrawn) document.getElementById('ribD').textContent = 'готово ✓';
+});
+canvas.addEventListener('touchend', ()=>{
+  if (hasDrawn) document.getElementById('ribD').textContent = 'готово ✓';
+});
+</script>
+</body>
+</html>

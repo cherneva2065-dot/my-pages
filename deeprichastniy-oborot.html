@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Деепричастный оборот — Краш-тест</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0C0C10;
+  --bg2:       #13131A;
+  --bg3:       #1C1C26;
+  --surface:   #22222E;
+  --border:    rgba(255,255,255,0.08);
+  --border2:   rgba(255,255,255,0.14);
+  --acid:      #C8FF00;
+  --acid-dim:  rgba(200,255,0,0.12);
+  --acid-glow: rgba(200,255,0,0.06);
+  --red:       #FF4545;
+  --red-dim:   rgba(255,69,69,0.12);
+  --blue:      #4B9EFF;
+  --blue-dim:  rgba(75,158,255,0.12);
+  --green:     #2ECC71;
+  --green-dim: rgba(46,204,113,0.12);
+  --text:      #F0F0F8;
+  --muted:     rgba(240,240,248,0.45);
+  --muted2:    rgba(240,240,248,0.22);
+  --mono:      'JetBrains Mono', monospace;
+  --display:   'Syne', sans-serif;
+  --body:      'Space Grotesk', sans-serif;
+  --radius:    12px;
+}
+
+body {
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 5rem 2rem 4.5rem;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.hero-glow {
+  position: absolute; top: -120px; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 400px;
+  background: radial-gradient(ellipse, rgba(200,255,0,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.hero-tag {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--acid-dim);
+  border: 1px solid rgba(200,255,0,0.25);
+  border-radius: 99px;
+  padding: 5px 16px;
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--acid);
+  margin-bottom: 1.5rem;
+}
+.hero-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--acid);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.hero h1 {
+  position: relative;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  max-width: 700px;
+  margin: 0 auto 0.5rem;
+}
+.hero h1 .accent { color: var(--acid); }
+.hero h1 .stroke {
+  -webkit-text-stroke: 1.5px rgba(240,240,248,0.3);
+  color: transparent;
+}
+.hero-sub {
+  position: relative;
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 460px;
+  margin: 0 auto 2.5rem;
+}
+.hero-counters {
+  position: relative;
+  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+}
+.hero-counter {
+  text-align: center;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 0.7rem 1.4rem;
+  background: var(--acid-glow);
+}
+.hero-counter strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.8rem; font-weight: 800;
+  color: var(--acid);
+  line-height: 1;
+}
+.hero-counter span {
+  font-size: 11px; color: var(--muted2);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono);
+}
+
+/* ── SCORE BAR ── */
+.scorebar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1.5rem;
+  display: flex; justify-content: center;
+  align-items: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.sb-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted2);
+  letter-spacing: 0.06em;
+}
+.sb-item b { color: var(--acid); font-size: 13px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec-head { padding: 3rem 0 1.2rem; }
+.sec-label {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--acid); margin-bottom: 0.4rem;
+}
+.sec-title {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 800; line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.sec-desc { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
+
+.separator {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ═══════════════════════════════
+   QUIZ
+═══════════════════════════════ */
+.quiz-shell {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.quiz-topbar {
+  background: var(--surface);
+  padding: 0.9rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.quiz-topbar-label {
+  font-family: var(--mono);
+  font-size: 11px; color: var(--acid);
+  letter-spacing: 0.1em;
+}
+.progress-track {
+  display: flex; gap: 4px;
+}
+.prog-seg {
+  width: 22px; height: 4px;
+  border-radius: 2px;
+  background: var(--border2);
+  transition: background 0.3s;
+}
+.prog-seg.done    { background: var(--acid); }
+.prog-seg.current { background: rgba(200,255,0,0.4); }
+
+.quiz-inner { padding: 1.6rem; }
+.quiz-num {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted2); margin-bottom: 0.5rem;
+}
+.quiz-question {
+  font-size: 1.05rem; font-weight: 600;
+  line-height: 1.55; color: var(--text);
+  margin-bottom: 1.1rem;
+}
+.quiz-question code {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  padding: 1px 7px;
+  color: var(--acid);
+}
+
+.quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
+.quiz-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 9px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem; color: var(--text);
+  font-family: var(--body);
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.45;
+}
+.quiz-opt:hover:not(.locked) {
+  border-color: rgba(200,255,0,0.4);
+  background: var(--acid-glow);
+  transform: translateX(3px);
+}
+.quiz-opt .letter {
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.quiz-opt.correct { background: var(--green-dim); border-color: var(--green); }
+.quiz-opt.correct .letter { background: var(--green); color: #000; border-color: var(--green); }
+.quiz-opt.wrong   { background: var(--red-dim); border-color: var(--red); }
+.quiz-opt.wrong   .letter { background: var(--red); color: #fff; border-color: var(--red); }
+.quiz-opt.locked  { cursor: default; }
+
+.quiz-feedback {
+  display: none;
+  margin-top: 0.9rem;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--acid);
+  border-radius: 0 8px 8px 0;
+  padding: 0.7rem 1rem;
+  font-size: 0.84rem; color: var(--muted);
+  line-height: 1.6;
+  font-family: var(--mono);
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.err { border-left-color: var(--red); }
+.quiz-feedback b { color: var(--text); font-weight: 600; }
+
+.quiz-btn {
+  display: none;
+  margin-top: 1rem;
+  background: var(--acid);
+  color: #000;
+  border: none;
+  padding: 0.65rem 1.4rem;
+  border-radius: 9px;
+  font-family: var(--display);
+  font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.quiz-btn.show { display: inline-block; }
+.quiz-btn:hover { background: #DAFF00; }
+.quiz-btn:active { transform: scale(0.97); }
+
+.quiz-result {
+  display: none;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+.quiz-result.show { display: block; }
+.qr-score {
+  font-family: var(--display);
+  font-size: 5.5rem; font-weight: 800;
+  color: var(--acid);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.qr-score sup { font-size: 2.5rem; color: var(--muted2); }
+.qr-verdict {
+  font-size: 1.3rem; font-weight: 700;
+  margin: 0.4rem 0 0.3rem;
+  line-height: 1.3;
+}
+.qr-note { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.5rem; }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  padding: 0.55rem 1.2rem;
+  border-radius: 9px;
+  font-family: var(--body);
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-ghost:hover { border-color: var(--text); color: var(--text); }
+
+/* ═══════════════════════════════
+   PRACTICUM
+═══════════════════════════════ */
+.prac-card {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 0.7rem;
+  transition: border-color 0.2s;
+}
+.prac-card.state-correct { border-color: var(--green); background: rgba(46,204,113,0.05); }
+.prac-card.state-wrong   { border-color: var(--red);   background: rgba(255,69,69,0.05); }
+
+.prac-header {
+  display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.65rem;
+}
+.prac-num {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 600;
+  color: var(--muted2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.prac-card.state-correct .prac-num { background: var(--green); color: #000; border-color: var(--green); }
+.prac-card.state-wrong   .prac-num { background: var(--red);   color: #fff; border-color: var(--red); }
+
+.prac-sentence {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 2.2;
+  color: var(--text);
+  flex: 1;
+  cursor: default;
+}
+
+/* comma slots */
+.slot {
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: baseline;
+  user-select: none;
+  position: relative;
+}
+.slot::before {
+  content: '·';
+  font-size: 1.1rem;
+  color: var(--border2);
+  transition: color 0.15s;
+}
+.slot:hover::before { color: var(--muted); }
+.slot.on::before { content: ','; color: var(--acid); font-weight: 700; font-size: 1.1rem; }
+.slot.on:hover::before { color: #DAFF00; }
+.slot.locked { cursor: default; pointer-events: none; }
+.slot.locked.on::before    { color: var(--green); }
+.slot.locked.missed::before { content: ','; color: var(--red); opacity: 0.7; }
+.slot.locked.extra::before  { color: var(--red); }
+
+.prac-hint {
+  display: none;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  line-height: 1.55;
+}
+.prac-hint.show { display: block; }
+.prac-hint .ok  { color: var(--green); }
+.prac-hint .ng  { color: var(--red); }
+
+.prac-controls {
+  display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.prac-progress { font-family: var(--mono); font-size: 12px; color: var(--muted2); }
+.prac-progress b { color: var(--acid); }
+.btn-check {
+  background: var(--acid);
+  color: #000;
+  border: none;
+  padding: 0.62rem 1.4rem;
+  border-radius: 9px;
+  font-family: var(--display);
+  font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-check:hover { background: #DAFF00; }
+.btn-reset-all {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  padding: 0.6rem 1.1rem;
+  border-radius: 9px;
+  font-family: var(--body);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-reset-all:hover { border-color: var(--text); color: var(--text); }
+
+.score-track {
+  height: 3px;
+  background: var(--border2);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+.score-fill {
+  height: 100%;
+  background: var(--acid);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+.result-summary {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid rgba(200,255,0,0.25);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+.result-summary.show { display: block; }
+.rs-big {
+  font-family: var(--display);
+  font-size: 3.5rem; font-weight: 800;
+  color: var(--acid); line-height: 1;
+  letter-spacing: -0.03em;
+}
+.rs-label { font-family: var(--mono); font-size: 11px; color: var(--muted2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.rs-msg { font-size: 0.9rem; color: var(--muted); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 3.5rem;
+  font-family: var(--mono);
+  font-size: 11px; color: var(--muted2);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.footer span { color: var(--acid); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.quiz-shell, .prac-card { animation: fadeUp 0.3s ease backwards; }
+.prac-card:nth-child(1)  { animation-delay:.03s }
+.prac-card:nth-child(2)  { animation-delay:.06s }
+.prac-card:nth-child(3)  { animation-delay:.09s }
+.prac-card:nth-child(4)  { animation-delay:.12s }
+.prac-card:nth-child(5)  { animation-delay:.15s }
+.prac-card:nth-child(6)  { animation-delay:.18s }
+.prac-card:nth-child(7)  { animation-delay:.21s }
+.prac-card:nth-child(8)  { animation-delay:.24s }
+.prac-card:nth-child(9)  { animation-delay:.27s }
+.prac-card:nth-child(10) { animation-delay:.30s }
+
+@keyframes popIn { 0%{transform:scale(0.8);opacity:0} 70%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-score { animation: popIn 0.4s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Русский язык · 7 класс</div>
+  <h1>Деепричастный<br><span class="accent">оборот:</span> <span class="stroke">краш&#8209;тест</span></h1>
+  <p class="hero-sub">Викторина + практикум. Расставь запятые и докажи, что готов к ОГЭ.</p>
+  <div class="hero-counters">
+    <div class="hero-counter"><strong>6</strong><span>вопросов</span></div>
+    <div class="hero-counter"><strong>10</strong><span>предложений</span></div>
+    <div class="hero-counter"><strong>∞</strong><span>попыток</span></div>
+  </div>
+</div>
+
+<!-- SCOREBAR -->
+<div class="scorebar">
+  <div class="sb-item">Викторина: <b id="sbQ">0/6</b></div>
+  <div class="sb-item">Практикум: <b id="sbP">0/10</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ QUIZ ═══ -->
+  <div class="sec-head">
+    <div class="sec-label">Часть 1</div>
+    <div class="sec-title">🧪 Краш&#8209;тест: теория</div>
+    <div class="sec-desc">6 вопросов с одним верным ответом. Каждый засчитывается одним баллом.</div>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-topbar">
+      <span class="quiz-topbar-label">ДЕЕПРИЧАСТНЫЙ ОБОРОТ</span>
+      <div class="progress-track" id="progTrack"></div>
+    </div>
+    <div id="qInner" class="quiz-inner"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="qr-score" id="qrScore">0<sup>/6</sup></div>
+      <div class="qr-verdict" id="qrVerdict"></div>
+      <div class="qr-note" id="qrNote"></div>
+      <button class="btn-ghost" onclick="quizReset()">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <hr class="separator">
+
+  <!-- ═══ PRACTICUM ═══ -->
+  <div class="sec-head" style="padding-top:0.5rem">
+    <div class="sec-label">Часть 2</div>
+    <div class="sec-title">✏️ Практикум: расставь запятые</div>
+    <div class="sec-desc">Нажимай на <b style="color:var(--acid)">точку (·)</b> между словами, чтобы поставить или убрать запятую. Затем «Проверить всё».</div>
+  </div>
+
+  <div class="prac-controls">
+    <div class="prac-progress">Верно: <b id="pracScore">0</b> / 10</div>
+    <button class="btn-check" onclick="checkAll()">Проверить всё</button>
+    <button class="btn-reset-all" onclick="resetAll()">↩ Сбросить</button>
+  </div>
+
+  <div class="score-track"><div class="score-fill" id="scoreFill"></div></div>
+
+  <div id="pracContainer"></div>
+
+  <div class="result-summary" id="resultSummary">
+    <div class="rs-label">Результат практикума</div>
+    <div class="rs-big" id="rsBig">0</div>
+    <div class="rs-msg" id="rsMsg"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Урок русского языка · <span>Деепричастный оборот</span>
+</div>
+
+<script>
+/* ═══════════════════════════════════
+   QUIZ DATA
+═══════════════════════════════════ */
+const QQS = [
+  {
+    tag: 'Значение', q: 'Что обозначает деепричастие?',
+    opts: ['Признак предмета','Добавочное действие','Основное действие','Время действия'],
+    ans: 1,
+    fb: '✓ Деепричастие = ДОБАВОЧНОЕ действие при глаголе-сказуемом. «Смеясь» при «вошёл».'
+  },
+  {
+    tag: 'Вид', q: 'На какой вопрос отвечает деепричастие несовершенного вида?',
+    opts: ['Что сделать?','Что делая?','Какой?','Что сделав?'],
+    ans: 1,
+    fb: '✓ НСВ → «что делая?» (читая, смеясь). СВ → «что сделав?» (прочитав, открыв).'
+  },
+  {
+    tag: 'Пунктуация', q: 'Где нужны запятые: «Сделав уроки я пошел гулять»?',
+    opts: ['«Сделав уроки, я пошел гулять»','«Сделав, уроки я пошел гулять»','Запятые не нужны','«Сделав уроки я, пошел гулять»'],
+    ans: 0,
+    fb: '✓ Деепричастный оборот в начале предложения → запятая после него.'
+  },
+  {
+    tag: 'Исключение', q: 'В каком случае запятые НЕ ставятся?',
+    opts: ['Оборот в начале предложения','Оборот в середине','Оборот в конце','Деепричастие входит во фразеологизм'],
+    ans: 3,
+    fb: '✓ Фразеологизмы не выделяются: «работал спустя рукава», «бежал сломя голову».'
+  },
+  {
+    tag: 'Найди оборот', q: 'Найдите предложение с деепричастным оборотом:',
+    opts: ['Бегущая по волнам девочка смеялась','Открыв окно, он вдохнул свежий воздух','Замерзшее озеро блестело','Он говорил радостно'],
+    ans: 1,
+    fb: '✓ «Открыв окно» — деепричастный оборот (вопрос «что сделав?»). Остальные — причастные обороты или наречия.'
+  },
+  {
+    tag: 'Ошибка', q: 'В каком предложении допущена грамматическая ошибка (разные действующие лица)?',
+    opts: ['Подъезжая к дому, я увидел маму','Подъезжая к дому, у меня зазвонил телефон','Читая книгу, я забыл про время','Проснувшись утром, он выключил будильник'],
+    ans: 1,
+    fb: '✓ Ошибка: «подъезжал» кто-то, а «зазвонил» — телефон. Действующие лица разные — это нарушение нормы.'
+  }
+];
+
+let qi = 0, qscore = 0;
+
+function renderQuiz() {
+  const q = QQS[qi];
+  document.getElementById('qResult').classList.remove('show');
+  const inner = document.getElementById('qInner');
+  inner.style.display = '';
+
+  document.getElementById('progTrack').innerHTML = QQS.map((_,i) =>
+    `<div class="prog-seg ${i<qi?'done':i===qi?'current':''}"></div>`).join('');
+
+  inner.innerHTML = `
+    <div class="quiz-num">Вопрос ${qi+1} / 6 · ${q.tag}</div>
+    <div class="quiz-question">${q.q}</div>
+    <div class="quiz-options" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="quiz-opt" data-i="${i}" onclick="pickQ(${i})">
+        <span class="letter">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qFb"></div>
+    <button class="quiz-btn" id="qBtn" onclick="nextQ()">${qi<5?'Далее →':'Результат →'}</button>`;
+}
+
+function pickQ(chosen) {
+  const q = QQS[qi];
+  document.querySelectorAll('.quiz-opt').forEach(b=>{ b.classList.add('locked'); b.disabled=true; });
+  const ok = chosen === q.ans;
+  document.querySelectorAll('.quiz-opt')[chosen].classList.add(ok?'correct':'wrong');
+  if (!ok) document.querySelectorAll('.quiz-opt')[q.ans].classList.add('correct');
+  const fb = document.getElementById('qFb');
+  fb.textContent = q.fb;
+  fb.className = 'quiz-feedback show' + (ok?'':' err');
+  if (ok) qscore++;
+  document.getElementById('qBtn').classList.add('show');
+  document.getElementById('sbQ').textContent = qscore + '/6';
+}
+
+function nextQ() {
+  qi++;
+  if (qi >= 6) { showQResult(); return; }
+  renderQuiz();
+}
+
+function showQResult() {
+  document.getElementById('qInner').style.display = 'none';
+  const r = document.getElementById('qResult');
+  r.classList.add('show');
+  document.getElementById('qrScore').innerHTML = qscore + '<sup>/6</sup>';
+  const err = 6 - qscore;
+  const ranks = [
+    [0,  '💎 Гуру пунктуации', 'Ты готов к ОГЭ. Ни одной ошибки!'],
+    [2,  '🔥 Хорошо!', 'Пересмотри исключение — фразеологизмы без запятых.'],
+    [4,  '📚 Смотри урок ещё раз', 'Алгоритм спасёт: найди оборот → выдели запятыми.'],
+    [6,  '🚨 Срочно — шпаргалка!', 'Похоже, путаешь деепричастие с причастием. Это решаемо!']
+  ];
+  const rank = ranks.find(([e]) => err <= e);
+  document.getElementById('qrVerdict').textContent = rank[1];
+  document.getElementById('qrNote').textContent = rank[2];
+  document.getElementById('progTrack').innerHTML = QQS.map(()=>`<div class="prog-seg done"></div>`).join('');
+}
+
+function quizReset() {
+  qi = 0; qscore = 0;
+  document.getElementById('sbQ').textContent = '0/6';
+  renderQuiz();
+}
+
+renderQuiz();
+
+/* ═══════════════════════════════════
+   PRACTICUM DATA
+═══════════════════════════════════ */
+const SENTENCES = [
+  {
+    words: ['Смеясь','он','вошел','в','комнату.'],
+    commas: [true, false, false, false],
+    hint: 'Деепричастный оборот в начале → запятая после него.'
+  },
+  {
+    words: ['Читая','книгу','я','не','заметил','вечер.'],
+    commas: [false, true, false, false, false],
+    hint: 'Оборот «Читая книгу» в начале → запятая после него.'
+  },
+  {
+    words: ['Он','работал','спустя','рукава.'],
+    commas: [false, false, false],
+    hint: 'Фразеологизм «спустя рукава» — запятых нет.'
+  },
+  {
+    words: ['Собака','лаяла','прыгая','на','месте.'],
+    commas: [false, true, false, false],
+    hint: 'Оборот «прыгая на месте» в конце → запятая перед ним.'
+  },
+  {
+    words: ['Открыв','дверь','я','увидел','неожиданную','картину.'],
+    commas: [false, true, false, false, false],
+    hint: 'Оборот «Открыв дверь» в начале → запятая после него.'
+  },
+  {
+    words: ['Он','бежал','сломя','голову.'],
+    commas: [false, false, false],
+    hint: 'Фразеологизм «сломя голову» — запятых нет.'
+  },
+  {
+    words: ['Он','сидел','на','берегу','глядя','на','закат.'],
+    commas: [false, false, false, true, false, false],
+    hint: 'Оборот «глядя на закат» в конце → запятая перед ним.'
+  },
+  {
+    words: ['Готовясь','к','экзамену','повтори','все','правила.'],
+    commas: [false, false, true, false, false],
+    hint: 'Оборот «Готовясь к экзамену» в начале → запятая после него.'
+  },
+  {
+    words: ['Услышав','шум','кот','навострил','уши.'],
+    commas: [false, true, false, false],
+    hint: 'Оборот «Услышав шум» в начале → запятая после него.'
+  },
+  {
+    words: ['Он','говорил','улыбаясь.'],
+    commas: [false, true],
+    hint: 'Буквальное значение (не фразеологизм) → запятая перед «улыбаясь».'
+  }
+];
+
+let pracState = [];
+
+function buildPrac() {
+  pracState = SENTENCES.map(s => ({
+    user: s.commas.map(() => false),
+    checked: false,
+    correct: null
+  }));
+  renderPrac();
+}
+
+function renderPrac() {
+  const con = document.getElementById('pracContainer');
+  con.innerHTML = '';
+  SENTENCES.forEach((s, si) => {
+    const card = document.createElement('div');
+    card.className = 'prac-card';
+    card.id = 'pc-' + si;
+    const st = pracState[si];
+    if (st.checked) card.classList.add(st.correct ? 'state-correct' : 'state-wrong');
+
+    const header = document.createElement('div');
+    header.className = 'prac-header';
+    const num = document.createElement('div');
+    num.className = 'prac-num';
+    num.textContent = si + 1;
+    header.appendChild(num);
+
+    const sent = document.createElement('div');
+    sent.className = 'prac-sentence';
+
+    s.words.forEach((w, wi) => {
+      if (wi > 0) {
+        const slot = document.createElement('span');
+        slot.className = 'slot' + (st.user[wi-1] ? ' on' : '') + (st.checked ? ' locked' : '');
+        if (st.checked) {
+          const correct = s.commas[wi-1];
+          const user    = st.user[wi-1];
+          if (correct && user)  { slot.classList.add('on'); }
+          if (!correct && user) { slot.classList.add('extra'); }
+          if (correct && !user) { slot.classList.add('missed'); }
+        }
+        const idx = wi - 1;
+        if (!st.checked) slot.addEventListener('click', () => toggleSlot(si, idx));
+        sent.appendChild(slot);
+      }
+      const wspan = document.createElement('span');
+      wspan.textContent = w;
+      sent.appendChild(wspan);
+    });
+
+    header.appendChild(sent);
+    card.appendChild(header);
+
+    const hint = document.createElement('div');
+    hint.className = 'prac-hint' + (st.checked ? ' show' : '');
+    if (st.checked) {
+      hint.innerHTML = `<span class="${st.correct?'ok':'ng'}">${st.correct?'✓ Верно!':'✗ Ошибка.'}</span> ${s.hint}`;
+    }
+    card.appendChild(hint);
+    con.appendChild(card);
+  });
+  updatePracScore();
+}
+
+function toggleSlot(si, idx) {
+  if (pracState[si].checked) return;
+  pracState[si].user[idx] = !pracState[si].user[idx];
+  // re-render just this card
+  const oldCard = document.getElementById('pc-' + si);
+  const newCard = document.createElement('div');
+  newCard.id = 'pc-' + si;
+  oldCard.parentNode.replaceChild(newCard, oldCard);
+  rebuildCard(SENTENCES[si], si, newCard);
+}
+
+function rebuildCard(s, si, card) {
+  const st = pracState[si];
+  card.className = 'prac-card';
+  if (st.checked) card.classList.add(st.correct ? 'state-correct' : 'state-wrong');
+
+  const header = document.createElement('div');
+  header.className = 'prac-header';
+  const num = document.createElement('div');
+  num.className = 'prac-num';
+  num.textContent = si + 1;
+  header.appendChild(num);
+
+  const sent = document.createElement('div');
+  sent.className = 'prac-sentence';
+
+  s.words.forEach((w, wi) => {
+    if (wi > 0) {
+      const slot = document.createElement('span');
+      slot.className = 'slot' + (st.user[wi-1] ? ' on' : '') + (st.checked ? ' locked' : '');
+      if (st.checked) {
+        const correct = s.commas[wi-1];
+        const user    = st.user[wi-1];
+        if (correct && user)  { slot.classList.remove('on'); slot.classList.add('on'); }
+        if (!correct && user) { slot.classList.add('extra'); }
+        if (correct && !user) { slot.classList.add('missed'); }
+      }
+      const idx = wi - 1;
+      if (!st.checked) slot.addEventListener('click', () => toggleSlot(si, idx));
+      sent.appendChild(slot);
+    }
+    const wspan = document.createElement('span');
+    wspan.textContent = w;
+    sent.appendChild(wspan);
+  });
+
+  header.appendChild(sent);
+  card.appendChild(header);
+
+  const hint = document.createElement('div');
+  hint.className = 'prac-hint' + (st.checked ? ' show' : '');
+  if (st.checked) {
+    hint.innerHTML = `<span class="${st.correct?'ok':'ng'}">${st.correct?'✓ Верно!':'✗ Ошибка.'}</span> ${s.hint}`;
+  }
+  card.appendChild(hint);
+}
+
+function checkAll() {
+  SENTENCES.forEach((s, si) => {
+    const st = pracState[si];
+    st.checked = true;
+    st.correct = s.commas.every((c, i) => c === st.user[i]);
+  });
+  renderPrac();
+  updatePracScore();
+  showSummary();
+}
+
+function updatePracScore() {
+  const correct = pracState.filter(s => s.checked && s.correct).length;
+  const checked = pracState.filter(s => s.checked).length;
+  document.getElementById('pracScore').textContent = checked > 0 ? correct : 0;
+  document.getElementById('sbP').textContent = (checked > 0 ? correct : 0) + '/10';
+  const pct = checked > 0 ? (correct / 10 * 100) : 0;
+  document.getElementById('scoreFill').style.width = pct + '%';
+}
+
+function showSummary() {
+  const correct = pracState.filter(s => s.correct).length;
+  const sum = document.getElementById('resultSummary');
+  document.getElementById('rsBig').textContent = correct + '/10';
+  const msgs = [
+    [10,10,'Идеально — ни одного лишнего знака!'],
+    [8, 9, 'Отлично! Два предложения с нюансами — пересмотри фразеологизмы.'],
+    [6, 7, 'Неплохо. Алгоритм: найди оборот → поставь запятые с обеих сторон.'],
+    [0, 5, 'Нужно повторить правило. Главное — не путай деепричастие с причастием!']
+  ];
+  const m = msgs.find(([a,b]) => correct >= a && correct <= b);
+  document.getElementById('rsMsg').textContent = m[2];
+  sum.classList.add('show');
+  sum.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetAll() {
+  document.getElementById('resultSummary').classList.remove('show');
+  buildPrac();
+}
+
+buildPrac();
+</script>
+</body>
+</html>
