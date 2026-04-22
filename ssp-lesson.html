@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ССП: Сложносочинённое предложение — Интерактивный урок</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Hanken+Grotesk:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --paper:    #F8F4ED;
+  --paper2:   #EFE9DC;
+  --paper3:   #E4DDD0;
+  --ink:      #1C1510;
+  --ink2:     #2E2418;
+  --muted:    #7A6E5C;
+  --border:   rgba(28,21,16,0.13);
+  --border2:  rgba(28,21,16,0.22);
+  --red:      #B5251A;
+  --red-lt:   #FAECEB;
+  --blue:     #1A3E7A;
+  --blue-lt:  #E8EEF8;
+  --green:    #1C5C30;
+  --green-lt: #E6F2EB;
+  --amber:    #9A5C08;
+  --amber-lt: #FDF3E0;
+  --rule:     rgba(28,21,16,0.18);
+  --serif:    'Libre Baskerville', Georgia, serif;
+  --sans:     'Hanken Grotesk', system-ui, sans-serif;
+  --mono:     'Courier Prime', monospace;
+  --radius:   10px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink2);
+  position: relative; overflow: hidden;
+  padding: 0; text-align: center;
+}
+.hero-top {
+  border-bottom: 3px double rgba(255,255,255,0.12);
+  padding: 0.55rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.3rem;
+}
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  letter-spacing: 0.06em;
+}
+.hero-main {
+  padding: 3.5rem 2rem 4rem;
+  position: relative;
+}
+.hero-rule { width: 100%; height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 1.8rem; }
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(255,255,255,0.38);
+  margin-bottom: 1rem;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700; line-height: 1;
+  color: #fff; letter-spacing: -0.02em;
+  margin-bottom: 0.2rem;
+}
+.hero h1 .abbr {
+  font-style: italic; font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.6em; vertical-align: baseline;
+  letter-spacing: 0;
+}
+.hero-full {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: rgba(255,255,255,0.4); margin-bottom: 2rem;
+}
+.hero-rule2 { width: 100%; height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 1.5rem; }
+.hero-cols {
+  display: flex; justify-content: center; gap: 3rem;
+  flex-wrap: wrap;
+}
+.hero-col {
+  text-align: center;
+}
+.hero-col strong {
+  display: block;
+  font-family: var(--serif); font-size: 2.4rem; font-weight: 700;
+  color: rgba(255,255,255,0.85); line-height: 1;
+}
+.hero-col span {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+}
+.hero-bottom {
+  border-top: 3px double rgba(255,255,255,0.12);
+  padding: 0.55rem 2rem;
+  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+}
+.hero-tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.1em; color: rgba(255,255,255,0.28);
+}
+
+/* ── SCORE BAR ── */
+.scorebar {
+  background: var(--paper3);
+  border-bottom: 2px solid var(--rule);
+  padding: 0.55rem 1.5rem;
+  display: flex; justify-content: center; align-items: center;
+  gap: 2.5rem; flex-wrap: wrap;
+}
+.sb { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+.sb b { color: var(--blue); margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 1rem; }
+.sec-num {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--red); margin-bottom: 0.3rem;
+}
+.sec-title {
+  font-family: var(--serif); font-size: clamp(1.35rem,3vw,1.9rem);
+  font-weight: 700; line-height: 1.2; color: var(--ink);
+}
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.3rem; }
+
+.hr-ornament {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.8rem 0 0.2rem;
+}
+.hr-ornament::before, .hr-ornament::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+.hr-ornament span {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+
+/* ══════════════════════════
+   TASK 1 — QUIZ
+══════════════════════════ */
+.quiz-shell {
+  background: #fff; border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.quiz-head {
+  background: var(--ink2); padding: 0.85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.quiz-head-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.35);
+}
+.quiz-segs { display: flex; gap: 3px; }
+.qseg {
+  height: 3px; width: 20px; border-radius: 2px;
+  background: rgba(255,255,255,0.15); transition: background 0.25s;
+}
+.qseg.done { background: rgba(255,255,255,0.6); }
+.qseg.cur  { background: rgba(255,255,255,0.35); }
+
+.quiz-body { padding: 1.5rem; }
+.q-number {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem;
+}
+.q-text {
+  font-family: var(--serif); font-size: 1.05rem; font-weight: 700;
+  line-height: 1.5; color: var(--ink); margin-bottom: 1.1rem;
+}
+.q-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.68rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--ink);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s, transform 0.1s;
+  line-height: 1.4;
+}
+.q-opt:hover:not(.locked) { border-color: var(--blue); background: var(--blue-lt); transform: translateX(3px); }
+.q-opt .ol {
+  width: 23px; height: 23px; border-radius: 5px;
+  background: var(--paper2); border: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted);
+}
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.q-opt.correct .ol { background: var(--green); color: #fff; border-color: var(--green); }
+.q-opt.wrong   { background: var(--red-lt); border-color: var(--red); }
+.q-opt.wrong   .ol { background: var(--red); color: #fff; border-color: var(--red); }
+.q-opt.locked  { cursor: default; }
+
+.q-fb {
+  display: none; margin-top: 0.85rem;
+  background: var(--paper2); border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 7px 7px 0; padding: 0.62rem 1rem;
+  font-size: 0.83rem; color: var(--muted); line-height: 1.6;
+  font-family: var(--mono);
+}
+.q-fb.show { display: block; }
+.q-fb.err  { border-left-color: var(--red); }
+.q-fb b    { color: var(--ink); }
+
+.q-nxt {
+  display: none; margin-top: 1rem;
+  background: var(--ink2); color: rgba(255,255,255,0.8);
+  border: none; padding: 0.6rem 1.4rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; letter-spacing: 0.02em; transition: background 0.14s;
+}
+.q-nxt.show { display: inline-block; }
+.q-nxt:hover { background: var(--blue); color: #fff; }
+
+.quiz-result {
+  display: none; text-align: center; padding: 2.5rem 1.5rem;
+}
+.quiz-result.show { display: block; }
+.qr-score {
+  font-family: var(--serif); font-size: 5.5rem; font-weight: 700;
+  color: var(--ink2); line-height: 1; letter-spacing: -0.03em;
+}
+.qr-score sup { font-family: var(--mono); font-size: 2.2rem; font-weight: 400; color: var(--muted); }
+.qr-rank { font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--blue); margin: 0.3rem 0 0.2rem; }
+.qr-note { font-size: 0.87rem; color: var(--muted); margin-bottom: 1.3rem; }
+.btn-soft {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--muted); padding: 0.52rem 1.2rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.84rem; cursor: pointer;
+  transition: border-color 0.14s, color 0.14s;
+}
+.btn-soft:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ══════════════════════════
+   TASK 2 — IDENTIFY SSP
+══════════════════════════ */
+.identify-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.id-card {
+  background: #fff; border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.id-card:hover:not(.locked) { border-color: var(--blue); background: var(--blue-lt); }
+.id-card.chosen    { border-color: var(--blue); background: var(--blue-lt); }
+.id-card.correct   { border-color: var(--green); background: var(--green-lt); cursor: default; }
+.id-card.wrong     { border-color: var(--red);   background: var(--red-lt);   cursor: default; }
+.id-card.missed    { border-color: var(--amber);  background: var(--amber-lt); cursor: default; }
+
+.id-checkbox {
+  width: 22px; height: 22px; border-radius: 5px;
+  border: 2px solid var(--border2); background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: border-color 0.14s, background 0.14s;
+  font-size: 13px; color: transparent;
+}
+.id-card.chosen .id-checkbox { border-color: var(--blue); background: var(--blue); color: #fff; }
+.id-card.correct .id-checkbox { border-color: var(--green); background: var(--green); color: #fff; }
+.id-card.wrong   .id-checkbox { border-color: var(--red);   background: var(--red);   color: #fff; }
+.id-card.missed  .id-checkbox { border-color: var(--amber);  background: var(--amber);  color: #fff; }
+
+.id-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  color: var(--muted); width: 18px; flex-shrink: 0;
+}
+.id-text {
+  font-family: var(--serif); font-size: 1rem; font-style: italic;
+  color: var(--ink); line-height: 1.45; flex: 1;
+}
+.id-badge {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 99px; flex-shrink: 0;
+  display: none;
+}
+.id-card.correct .id-badge { display: inline; background: #C2E8D2; color: var(--green); }
+.id-card.wrong   .id-badge { display: inline; background: #F5C0BD; color: var(--red); }
+.id-card.missed  .id-badge { display: inline; background: #F5DFA0; color: var(--amber); }
+
+.id-hint {
+  display: none; font-size: 0.8rem; color: var(--muted);
+  font-style: italic; margin-top: 0.4rem; padding-top: 0.4rem;
+  border-top: 1px solid rgba(28,21,16,0.08); line-height: 1.5;
+  width: 100%;
+}
+.id-card.correct .id-hint,
+.id-card.wrong   .id-hint,
+.id-card.missed  .id-hint { display: block; }
+
+.id-controls {
+  display: flex; gap: 0.6rem; align-items: center;
+  flex-wrap: wrap; margin-top: 1rem;
+}
+.btn-primary {
+  background: var(--ink2); color: rgba(255,255,255,0.85);
+  border: none; padding: 0.6rem 1.4rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.14s;
+}
+.btn-primary:hover { background: var(--blue); color: #fff; }
+.id-score { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+/* ══════════════════════════
+   TASK 3 — COMMAS
+══════════════════════════ */
+.comma-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.comma-card {
+  background: #fff; border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  transition: border-color 0.2s;
+}
+.comma-card.c-correct { border-color: var(--green); background: var(--green-lt); }
+.comma-card.c-wrong   { border-color: var(--red);   background: var(--red-lt); }
+
+.comma-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 0.5rem; }
+.c-num {
+  width: 24px; height: 24px; border-radius: 5px;
+  background: var(--paper2); border: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted); margin-top: 1px;
+}
+.comma-card.c-correct .c-num { background: var(--green); color: #fff; border-color: var(--green); }
+.comma-card.c-wrong   .c-num { background: var(--red);   color: #fff; border-color: var(--red); }
+
+.c-text {
+  font-family: var(--serif); font-size: 1.05rem; font-style: italic;
+  line-height: 2.1; color: var(--ink); flex: 1; cursor: default;
+}
+.slot {
+  display: inline-block; width: 15px; text-align: center;
+  cursor: pointer; vertical-align: baseline; user-select: none;
+}
+.slot::before { content: '·'; color: var(--paper3); font-size: 1.1rem; transition: color 0.12s; }
+.slot:hover::before { color: var(--muted); }
+.slot.on::before { content: ','; color: var(--red); font-weight: 700; font-size: 1.05rem; }
+.slot.locked { cursor: default; pointer-events: none; }
+.slot.locked.on::before    { color: var(--green); }
+.slot.locked.missed::before { content: ','; color: var(--amber); opacity: 0.8; }
+.slot.locked.extra::before  { color: var(--red); }
+
+.c-hint {
+  display: none; font-size: 0.8rem; color: var(--muted); font-style: italic;
+  margin-top: 0.4rem; padding-top: 0.45rem;
+  border-top: 1px solid rgba(28,21,16,0.08); line-height: 1.55;
+}
+.c-hint.show { display: block; }
+.c-hint .ok { color: var(--green); font-style: normal; font-weight: 600; }
+.c-hint .ng { color: var(--red);   font-style: normal; font-weight: 600; }
+
+.comma-controls {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.c-score { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.progress-line {
+  height: 3px; background: var(--paper2); border-radius: 2px;
+  margin-bottom: 1rem; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--blue); border-radius: 2px;
+  width: 0%; transition: width 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── CHEATSHEET ── */
+.cheatsheet {
+  background: #fff; border: 2px solid var(--rule);
+  border-radius: var(--radius); overflow: hidden;
+  margin-top: 0.5rem;
+}
+.cs-head {
+  background: var(--paper2); border-bottom: 1px solid var(--rule);
+  padding: 0.7rem 1.2rem;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.cs-table { width: 100%; border-collapse: collapse; }
+.cs-table th, .cs-table td {
+  padding: 0.55rem 1rem; text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.cs-table th {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); background: var(--paper);
+}
+.cs-table td:first-child { font-family: var(--serif); font-style: italic; color: var(--ink); }
+.cs-table td:last-child { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 0.82rem; }
+.cs-yes { color: var(--green) !important; font-style: normal !important; font-weight: 700; font-family: var(--mono) !important; font-size: 12px !important; }
+.cs-no  { color: var(--red)   !important; font-style: normal !important; font-weight: 700; font-family: var(--mono) !important; font-size: 12px !important; }
+.cs-table tr:last-child td { border-bottom: none; }
+
+/* ── RESULT SUMMARY ── */
+.result-box {
+  display: none; background: var(--ink2); border-radius: var(--radius);
+  padding: 1.5rem; text-align: center; margin-top: 1rem;
+}
+.result-box.show { display: block; }
+.rb-score {
+  font-family: var(--serif); font-size: 3.5rem; font-weight: 700;
+  color: rgba(255,255,255,0.85); line-height: 1;
+}
+.rb-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  margin-bottom: 0.4rem;
+}
+.rb-msg { font-size: 0.88rem; color: rgba(255,255,255,0.5); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--ink2); margin-top: 3.5rem;
+  padding: 2rem; text-align: center;
+  border-top: 3px double rgba(255,255,255,0.1);
+}
+.footer-inner {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+.footer-inner span { color: rgba(255,255,255,0.45); }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.quiz-shell, .id-card, .comma-card { animation: fadeUp 0.3s ease backwards; }
+.id-card:nth-child(1){animation-delay:.02s} .id-card:nth-child(2){animation-delay:.05s}
+.id-card:nth-child(3){animation-delay:.08s} .id-card:nth-child(4){animation-delay:.11s}
+.id-card:nth-child(5){animation-delay:.14s} .id-card:nth-child(6){animation-delay:.17s}
+.comma-card:nth-child(1){animation-delay:.02s} .comma-card:nth-child(2){animation-delay:.05s}
+.comma-card:nth-child(3){animation-delay:.08s} .comma-card:nth-child(4){animation-delay:.11s}
+.comma-card:nth-child(5){animation-delay:.14s} .comma-card:nth-child(6){animation-delay:.17s}
+.comma-card:nth-child(7){animation-delay:.20s} .comma-card:nth-child(8){animation-delay:.23s}
+.comma-card:nth-child(9){animation-delay:.26s}
+@keyframes pop { 0%{transform:scale(0.8);opacity:0}70%{transform:scale(1.07)}100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-score { animation: pop 0.4s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <span class="hero-meta">РУССКИЙ ЯЗЫК · 9 КЛАСС</span>
+    <span class="hero-meta">СИНТАКСИС И ПУНКТУАЦИЯ</span>
+  </div>
+  <div class="hero-main">
+    <div class="hero-rule"></div>
+    <div class="hero-kicker">Интерактивный урок</div>
+    <h1>ССП <span class="abbr">— сложносочинённое предложение</span></h1>
+    <div class="hero-full">Три задания: теория, распознавание, пунктуация</div>
+    <div class="hero-rule2"></div>
+    <div class="hero-cols">
+      <div class="hero-col"><strong>8</strong><span>вопросов в тесте</span></div>
+      <div class="hero-col"><strong>6</strong><span>предложений для анализа</span></div>
+      <div class="hero-col"><strong>9</strong><span>упражнений с запятыми</span></div>
+    </div>
+  </div>
+  <div class="hero-bottom">
+    <span class="hero-tag">§ Задание 1 — Тест на сообразительность</span>
+    <span class="hero-tag">§ Задание 2 — Определи ССП</span>
+    <span class="hero-tag">§ Задание 3 — Расставь запятые</span>
+  </div>
+</div>
+
+<!-- SCORE BAR -->
+<div class="scorebar">
+  <div class="sb">Тест: <b id="sb1">0/8</b></div>
+  <div class="sb">Задание 2: <b id="sb2">0/6</b></div>
+  <div class="sb">Задание 3: <b id="sb3">0/9</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ TASK 1 ═══ -->
+  <div class="sec">
+    <div class="sec-num">Задание 1</div>
+    <div class="sec-title">ССП: тест на сообразительность</div>
+    <div class="sec-desc">8 вопросов с одним верным ответом. После выбора — объяснение.</div>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-head">
+      <span class="quiz-head-label">СЛОЖНОСОЧИНЁННОЕ ПРЕДЛОЖЕНИЕ</span>
+      <div class="quiz-segs" id="qSegs"></div>
+    </div>
+    <div id="qBody" class="quiz-body"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="qr-score" id="qrScore">0<sup>/8</sup></div>
+      <div class="qr-rank"  id="qrRank"></div>
+      <div class="qr-note"  id="qrNote"></div>
+      <button class="btn-soft" onclick="quizReset()" style="margin-top:.3rem">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <div class="hr-ornament"><span>Задание 2</span></div>
+
+  <!-- ═══ TASK 2 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Определи, какое предложение является ССП</div>
+    <div class="sec-desc">Нажми на предложения, которые считаешь сложносочинёнными. Затем — «Проверить».</div>
+  </div>
+
+  <div class="identify-list" id="idList"></div>
+  <div class="id-controls">
+    <button class="btn-primary" onclick="checkID()">Проверить</button>
+    <button class="btn-soft" onclick="resetID()">↩ Сбросить</button>
+    <span class="id-score" id="idScore"></span>
+  </div>
+
+  <div class="hr-ornament"><span>Задание 3</span></div>
+
+  <!-- ═══ TASK 3 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Расставь запятые в ССП</div>
+    <div class="sec-desc">Нажимай на <b>точку (·)</b> между словами, чтобы поставить или убрать запятую.</div>
+  </div>
+
+  <div class="comma-controls" style="margin-bottom:.7rem">
+    <span class="c-score">Верно: <b id="c-correct-count" style="color:var(--blue)">0</b> / 9</span>
+    <button class="btn-primary" onclick="checkCommas()" style="margin-left:auto">Проверить всё</button>
+    <button class="btn-soft" onclick="resetCommas()">↩ Сбросить</button>
+  </div>
+  <div class="progress-line"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="comma-list" id="commaList"></div>
+
+  <div class="result-box" id="commaResult">
+    <div class="rb-label">Итог практикума</div>
+    <div class="rb-score" id="rbScore">0/9</div>
+    <div class="rb-msg" id="rbMsg"></div>
+  </div>
+
+  <div class="hr-ornament"><span>Шпаргалка</span></div>
+
+  <!-- CHEATSHEET -->
+  <div class="cheatsheet">
+    <div class="cs-head">Таблица-шпаргалка: запятая в ССП</div>
+    <table class="cs-table">
+      <thead>
+        <tr><th>Условие</th><th>Запятая</th><th>Пример</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Обычное ССП</td>
+          <td class="cs-yes">ДА</td>
+          <td>Дождь прошёл, и выглянуло солнце</td>
+        </tr>
+        <tr>
+          <td>Общий второстепенный член</td>
+          <td class="cs-no">НЕТ</td>
+          <td>Утром стемнело и зажглись фонари</td>
+        </tr>
+        <tr>
+          <td>Общее вводное слово</td>
+          <td class="cs-no">НЕТ</td>
+          <td>К счастью, дождь кончился и мы пошли</td>
+        </tr>
+        <tr>
+          <td>Вопросительные / восклицательные части</td>
+          <td class="cs-no">НЕТ</td>
+          <td>Который час и где мы?</td>
+        </tr>
+        <tr>
+          <td>Назывные предложения</td>
+          <td class="cs-no">НЕТ</td>
+          <td>Тишина и звёздное небо</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-inner">Урок русского языка · <span>Сложносочинённое предложение</span> · Синтаксис и пунктуация</div>
+</div>
+
+<script>
+/* ════════════════════════════
+   TASK 1 — QUIZ
+════════════════════════════ */
+const QS = [
+  { tag:'Определение', q:'Какое предложение является сложносочинённым (ССП)?',
+    opts:['Солнце светило и грело.','Солнце светило, но было холодно.','Я знаю, что ты придёшь.','Наступила осень — птицы улетели.'],
+    ans:1, fb:'<b>ССП</b> — это предложение с двумя+ грамматическими основами, соединёнными сочинительным союзом. «Но» — сочинительный противительный союз, здесь две основы.' },
+  { tag:'Грамматические основы', q:'Сколько грамматических основ в ССП?',
+    opts:['Одна','Две и более','Зависит от контекста','Ни одной'],
+    ans:1, fb:'В ССП всегда <b>не менее двух</b> грамматических основ — именно это отличает его от простого предложения с однородными членами.' },
+  { tag:'Виды союзов', q:'Какой союз относится к противительным?',
+    opts:['И','ИЛИ','НО','ТОЖЕ'],
+    ans:2, fb:'<b>НО</b> — противительный союз (ещё: а, да=но, однако, зато). Соединительные: и, да=и, тоже, также. Разделительные: или, либо, то…то.' },
+  { tag:'Исключения', q:'В каком случае между частями ССП запятая НЕ нужна?',
+    opts:['Части короткие','Есть общий второстепенный член','Союз одиночный','Союз повторяющийся'],
+    ans:1, fb:'Если у обеих частей есть <b>общий второстепенный член</b> (например, обстоятельство времени «утром»), запятая между частями не нужна.' },
+  { tag:'Найди ССП', q:'Найдите ССП (знаки не расставлены):',
+    opts:['Дождь прошёл и выглянуло солнце','Открыв окно я вдохнул свежий воздух','Он говорил улыбаясь','Книга которая лежит на столе интересная'],
+    ans:0, fb:'«Дождь прошёл и выглянуло солнце» — <b>две основы</b> (дождь прошёл / солнце выглянуло), сочинительный союз «и». Остальные — простые или СПП.' },
+  { tag:'Разделительные союзы', q:'Какой союз входит в группу разделительных?',
+    opts:['НО','ТО… ТО','ДА (=и)','ТАКЖЕ'],
+    ans:1, fb:'<b>ТО… ТО</b> — повторяющийся разделительный союз. Также разделительные: или, либо, то ли…то ли, не то…не то.' },
+  { tag:'Пунктуация', q:'В каком предложении запятая НЕ нужна?',
+    opts:['На улице стемнело, и зажглись фонари.','Вечером стемнело и зажглись фонари.','Стемнело, и зажглись фонари.','Стемнело, но фонари не зажглись.'],
+    ans:1, fb:'«Вечером» — <b>общий второстепенный член</b> обеих частей → запятая не нужна. Без него — запятая обязательна.' },
+  { tag:'ССП vs простое', q:'Чем ССП отличается от простого предложения с однородными членами?',
+    opts:['В ССП две и более грамматических основ','В ССП нет союзов','В ССП одна грамматическая основа','В ССП нет запятых'],
+    ans:0, fb:'Главный критерий: <b>количество грамматических основ</b>. «Солнце светило и грело» — одна основа, однородные сказуемые. «Солнце светило, но было холодно» — две основы, ССП.' },
+];
+
+let qi=0, qsc=0;
+
+function renderQ() {
+  const q = QS[qi];
+  document.getElementById('qResult').classList.remove('show');
+  const body = document.getElementById('qBody');
+  body.style.display = '';
+  document.getElementById('qSegs').innerHTML = QS.map((_,i) =>
+    `<div class="qseg ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  body.innerHTML = `
+    <div class="q-number">Вопрос ${qi+1} из 8 · ${q.tag}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="q-opt" onclick="pickQ(${i})">
+        <span class="ol">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qFb"></div>
+    <button class="q-nxt" id="qNxt" onclick="nextQ()">${qi<7?'Далее →':'Результат →'}</button>`;
+}
+
+function pickQ(c) {
+  const q = QS[qi];
+  document.querySelectorAll('.q-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok = c===q.ans;
+  document.querySelectorAll('.q-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+  const fb = document.getElementById('qFb');
+  fb.innerHTML = q.fb; fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) qsc++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('sb1').textContent = qsc+'/8';
+}
+
+function nextQ(){qi++; if(qi>=8){showQR();return;} renderQ();}
+
+function showQR(){
+  document.getElementById('qBody').style.display='none';
+  document.getElementById('qResult').classList.add('show');
+  document.getElementById('qrScore').innerHTML=qsc+'<sup>/8</sup>';
+  const err=8-qsc;
+  const ranks=[
+    [0,'🏆 Мастер ССП','Все восемь верно — ты готов к ОГЭ!'],
+    [2,'👍 Хорошо!','Повтори исключения: общий член, вводное слово, вопросительные части.'],
+    [4,'📚 Смотри урок ещё раз','Таблица союзов и шпаргалка ниже помогут закрепить.'],
+    [8,'🚨 Срочно — шпаргалка!','Кажется, ССП путается с простым предложением. Это решаемо — смотри таблицу ниже!']
+  ].find(([e])=>err<=e);
+  document.getElementById('qrRank').textContent=ranks[1];
+  document.getElementById('qrNote').textContent=ranks[2];
+  document.getElementById('qSegs').innerHTML=QS.map(()=>`<div class="qseg done"></div>`).join('');
+}
+
+function quizReset(){qi=0;qsc=0;document.getElementById('sb1').textContent='0/8';renderQ();}
+renderQ();
+
+/* ════════════════════════════
+   TASK 2 — IDENTIFY
+════════════════════════════ */
+const ID_DATA = [
+  {num:1, text:'Солнце светило и грело землю.', isSsp:false, hint:'Одна грамматическая основа (солнце светило и грело) — простое предложение с однородными сказуемыми.'},
+  {num:2, text:'Солнце светило, но было прохладно.', isSsp:true, hint:'Две основы: «солнце светило» и «было прохладно». Противительный союз «но». Это ССП.'},
+  {num:3, text:'Я знаю, что ты придёшь завтра.', isSsp:false, hint:'Это СПП (сложноподчинённое): союз «что» подчинительный, одна часть зависит от другой.'},
+  {num:4, text:'Наступила осень, и птицы улетели на юг.', isSsp:true, hint:'Две основы: «осень наступила» и «птицы улетели». Сочинительный союз «и». Это ССП.'},
+  {num:5, text:'Он открыл окно и вдохнул свежий воздух.', isSsp:false, hint:'Одна основа — «он открыл и вдохнул». Однородные сказуемые при одном подлежащем.'},
+  {num:6, text:'То дождь, то снег — непонятно, что надеть.', isSsp:true, hint:'«То дождь, то снег» — две назывные части. Повторяющийся разделительный союз «то…то». ССП.'},
+];
+
+let idChosen = new Set();
+
+function renderID(){
+  idChosen.clear();
+  document.getElementById('idScore').textContent='';
+  document.getElementById('sb2').textContent='0/6';
+  const list = document.getElementById('idList');
+  list.innerHTML='';
+  ID_DATA.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='id-card'; card.id='idc-'+i;
+    card.innerHTML=`
+      <div class="id-checkbox">✓</div>
+      <div class="id-num">${item.num}.</div>
+      <div style="flex:1">
+        <div class="id-text">${item.text}</div>
+        <div class="id-hint">${item.hint}</div>
+      </div>
+      <span class="id-badge" id="idb-${i}"></span>`;
+    card.addEventListener('click',()=>toggleID(i));
+    list.appendChild(card);
+  });
+}
+
+function toggleID(i){
+  const card=document.getElementById('idc-'+i);
+  if(card.classList.contains('locked'))return;
+  if(idChosen.has(i)){idChosen.delete(i);card.classList.remove('chosen');}
+  else{idChosen.add(i);card.classList.add('chosen');}
+}
+
+function checkID(){
+  let correct=0;
+  ID_DATA.forEach((item,i)=>{
+    const card=document.getElementById('idc-'+i);
+    const badge=document.getElementById('idb-'+i);
+    card.classList.remove('chosen');
+    card.classList.add('locked');
+    const chosen=idChosen.has(i);
+    if(item.isSsp && chosen){card.classList.add('correct');badge.textContent='ССП ✓';correct++;}
+    else if(!item.isSsp && !chosen){card.classList.add('correct');badge.textContent='Не ССП ✓';correct++;}
+    else if(item.isSsp && !chosen){card.classList.add('missed');badge.textContent='Пропустил ССП';}
+    else{card.classList.add('wrong');badge.textContent='Не ССП ✗';}
+  });
+  document.getElementById('idScore').textContent=`Верно: ${correct} из 6`;
+  document.getElementById('sb2').textContent=correct+'/6';
+}
+
+function resetID(){renderID();}
+renderID();
+
+/* ════════════════════════════
+   TASK 3 — COMMAS
+════════════════════════════ */
+const COMMA_DATA = [
+  {num:7, words:['На','улице','стемнело','и','зажглись','фонари.'],
+   commas:[false,false,false,false,false],
+   hint:'«На улице» — общий второстепенный член → запятая НЕ нужна.'},
+  {num:8, words:['Утром','выглянуло','солнце','и','птицы','запели.'],
+   commas:[false,false,false,false,false],
+   hint:'«Утром» — общий второстепенный член (обстоятельство) → запятая НЕ нужна.'},
+  {num:9, words:['Дождь','прошёл','но','ветер','не','утихал.'],
+   commas:[false,true,false,false,false],
+   hint:'Противительный союз «но», нет общего члена → запятая нужна.'},
+  {num:10, words:['К','счастью','дождь','кончился','и','мы','пошли','гулять.'],
+   commas:[false,false,false,false,false,false,false],
+   hint:'«К счастью» — общее вводное слово для обеих частей → запятая НЕ нужна.'},
+  {num:11, words:['Который','час','и','где','мы','находимся?'],
+   commas:[false,false,false,false,false],
+   hint:'Вопросительные предложения соединены союзом «и» → запятая НЕ нужна.'},
+  {num:12, words:['Он','любил','музыку','а','она','любила','танцы.'],
+   commas:[false,false,true,false,false,false],
+   hint:'Противительный союз «а», нет общего члена → запятая нужна.'},
+  {num:13, words:['Тишина','и','звёздное','небо.'],
+   commas:[false,false,false],
+   hint:'Назывные (номинативные) предложения → запятая НЕ нужна.'},
+  {num:14, words:['То','солнце','светило','то','начинался','дождь.'],
+   commas:[false,false,true,false,false],
+   hint:'Повторяющийся союз «то…то» — запятая перед второй частью.'},
+  {num:15, words:['Вечером','стемнело','и','зажглись','фонари.'],
+   commas:[false,false,false,false],
+   hint:'«Вечером» — общий второстепенный член → запятая НЕ нужна.'},
+];
+
+let commaState=[];
+
+function buildCommas(){
+  commaState=COMMA_DATA.map(s=>({user:s.commas.map(()=>false),checked:false,correct:null}));
+  document.getElementById('commaResult').classList.remove('show');
+  document.getElementById('c-correct-count').textContent='0';
+  document.getElementById('progressFill').style.width='0%';
+  renderCommas();
+}
+
+function renderCommas(){
+  const con=document.getElementById('commaList');
+  con.innerHTML='';
+  COMMA_DATA.forEach((s,si)=>{
+    const st=commaState[si];
+    const card=document.createElement('div');
+    card.className='comma-card'+(st.checked?(st.correct?' c-correct':' c-wrong'):'');
+    card.id='cc-'+si;
+
+    const hdr=document.createElement('div');
+    hdr.className='comma-header';
+    const num=document.createElement('div');
+    num.className='c-num';
+    num.textContent=s.num;
+    hdr.appendChild(num);
+
+    const txt=document.createElement('div');
+    txt.className='c-text';
+
+    s.words.forEach((w,wi)=>{
+      if(wi>0){
+        const sl=document.createElement('span');
+        sl.className='slot'+(st.user[wi-1]?' on':'')+(st.checked?' locked':'');
+        if(st.checked){
+          const ok=s.commas[wi-1];
+          const usr=st.user[wi-1];
+          if(ok&&usr) {sl.classList.add('on');}
+          if(!ok&&usr){sl.classList.add('extra');}
+          if(ok&&!usr){sl.classList.add('missed');}
+        }
+        if(!st.checked) sl.addEventListener('click',()=>toggleSlot(si,wi-1));
+        txt.appendChild(sl);
+      }
+      const ws=document.createElement('span');
+      ws.textContent=w;
+      txt.appendChild(ws);
+    });
+
+    hdr.appendChild(txt);
+    card.appendChild(hdr);
+
+    const hint=document.createElement('div');
+    hint.className='c-hint'+(st.checked?' show':'');
+    if(st.checked){
+      hint.innerHTML=`<span class="${st.correct?'ok':'ng'}">${st.correct?'✓ Верно!':'✗ Ошибка.'}</span> ${s.hint}`;
+    }
+    card.appendChild(hint);
+    con.appendChild(card);
+  });
+}
+
+function toggleSlot(si,idx){
+  if(commaState[si].checked)return;
+  commaState[si].user[idx]=!commaState[si].user[idx];
+  const old=document.getElementById('cc-'+si);
+  const neo=document.createElement('div');
+  neo.id='cc-'+si;
+  old.parentNode.replaceChild(neo,old);
+  rebuildCard(si,neo);
+}
+
+function rebuildCard(si,card){
+  const s=COMMA_DATA[si];
+  const st=commaState[si];
+  card.className='comma-card'+(st.checked?(st.correct?' c-correct':' c-wrong'):'');
+  const hdr=document.createElement('div');
+  hdr.className='comma-header';
+  const num=document.createElement('div');
+  num.className='c-num'; num.textContent=s.num;
+  hdr.appendChild(num);
+  const txt=document.createElement('div');
+  txt.className='c-text';
+  s.words.forEach((w,wi)=>{
+    if(wi>0){
+      const sl=document.createElement('span');
+      sl.className='slot'+(st.user[wi-1]?' on':'')+(st.checked?' locked':'');
+      if(st.checked){
+        const ok=s.commas[wi-1];
+        const usr=st.user[wi-1];
+        if(ok&&usr){sl.classList.add('on');}
+        if(!ok&&usr){sl.classList.add('extra');}
+        if(ok&&!usr){sl.classList.add('missed');}
+      }
+      if(!st.checked) sl.addEventListener('click',()=>toggleSlot(si,wi-1));
+      txt.appendChild(sl);
+    }
+    const ws=document.createElement('span'); ws.textContent=w;
+    txt.appendChild(ws);
+  });
+  hdr.appendChild(txt);
+  card.appendChild(hdr);
+  const hint=document.createElement('div');
+  hint.className='c-hint'+(st.checked?' show':'');
+  if(st.checked) hint.innerHTML=`<span class="${st.correct?'ok':'ng'}">${st.correct?'✓ Верно!':'✗ Ошибка.'}</span> ${s.hint}`;
+  card.appendChild(hint);
+}
+
+function checkCommas(){
+  COMMA_DATA.forEach((s,si)=>{
+    const st=commaState[si];
+    st.checked=true;
+    st.correct=s.commas.every((c,i)=>c===st.user[i]);
+  });
+  const con=document.getElementById('commaList');
+  con.innerHTML='';
+  COMMA_DATA.forEach((s,si)=>{
+    const card=document.createElement('div');
+    card.id='cc-'+si;
+    con.appendChild(card);
+    rebuildCard(si,card);
+  });
+  const correct=commaState.filter(s=>s.correct).length;
+  document.getElementById('c-correct-count').textContent=correct;
+  document.getElementById('progressFill').style.width=(correct/9*100)+'%';
+  document.getElementById('sb3').textContent=correct+'/9';
+  const res=document.getElementById('commaResult');
+  document.getElementById('rbScore').textContent=correct+'/9';
+  const msgs=[
+    [9,9,'Безупречно — все исключения учтены!'],
+    [7,8,'Отлично! Повтори правило об общем члене.'],
+    [5,6,'Хорошо. Изучи шпаргалку — она поможет.'],
+    [0,4,'Не беда — посмотри таблицу ниже и попробуй снова.']
+  ].find(([a,b])=>correct>=a&&correct<=b);
+  document.getElementById('rbMsg').textContent=msgs[2];
+  res.classList.add('show');
+  res.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function resetCommas(){buildCommas();}
+buildCommas();
+</script>
+</body>
+</html>
