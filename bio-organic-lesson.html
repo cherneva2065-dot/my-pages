@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Органические вещества клетки — Интерактивный урок биологии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #F7F5F0;
+  --bg2:       #EFECE4;
+  --bg3:       #E6E1D6;
+  --white:     #FDFCF9;
+  --ink:       #1A1612;
+  --ink2:      #3D3529;
+  --muted:     #7A7060;
+  --border:    rgba(26,22,18,0.1);
+  --border2:   rgba(26,22,18,0.18);
+
+  --teal:      #1A7A6E;
+  --teal-lt:   #DFF4F1;
+  --teal-med:  #C0EBE6;
+  --amber:     #C07A10;
+  --amber-lt:  #FDF1DC;
+  --amber-med: #F8DFA0;
+  --rose:      #B5334A;
+  --rose-lt:   #FAEAED;
+  --rose-med:  #F2C0CA;
+  --indigo:    #2D4E9A;
+  --indigo-lt: #E5EBFA;
+
+  --green:     #1C6B3A;
+  --green-lt:  #E4F4EB;
+  --red:       #C0281A;
+  --red-lt:    #FAEBE9;
+
+  --serif:     'DM Serif Display', Georgia, serif;
+  --sans:      'Instrument Sans', system-ui, sans-serif;
+  --mono:      'DM Mono', monospace;
+  --radius:    14px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink2);
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 2rem 6rem;
+  text-align: center;
+}
+.hero-cells {
+  position: absolute; inset: 0;
+  opacity: 0.07;
+  background-image:
+    radial-gradient(circle at 15% 25%, var(--teal) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, var(--amber) 0%, transparent 35%),
+    radial-gradient(circle at 55% 10%, var(--rose) 0%, transparent 30%);
+}
+/* Decorative molecule dots */
+.hero-dots {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden;
+}
+.hero-dots span {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.hero-wave {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  line-height: 0;
+}
+.hero-wave svg { display: block; width: 100%; }
+
+.hero-kicker {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 99px;
+  padding: 5px 16px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  position: relative;
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.08;
+  max-width: 680px;
+  margin: 0 auto 0.6rem;
+}
+.hero h1 em {
+  font-style: italic;
+  color: #A8E6DF;
+}
+.hero-sub {
+  position: relative;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.48);
+  max-width: 440px;
+  margin: 0 auto 2.5rem;
+}
+.hero-pills {
+  position: relative;
+  display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap;
+}
+.hero-pill {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 12px; color: rgba(255,255,255,0.6);
+}
+.hero-pill b { color: #A8E6DF; margin-right: 5px; font-weight: 600; }
+
+/* ── RIBBON ── */
+.ribbon {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0.65rem 1.5rem;
+  display: flex; justify-content: center;
+  align-items: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.rib { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.rib b { color: var(--teal); margin-left: 4px; font-size: 12px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec-head { padding: 3rem 0 1.3rem; }
+.sec-kicker {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.4rem;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  font-weight: 400; line-height: 1.15;
+  color: var(--ink);
+}
+.sec-desc { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
+
+.divider {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.5rem 0;
+  color: var(--border2);
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ══════════════════════════
+   2.1 ОПРОС — 4 варианта
+══════════════════════════ */
+.poll-stack { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.poll-card {
+  background: var(--white);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.poll-card-head {
+  padding: 1rem 1.3rem 0.5rem;
+}
+.poll-q-tag {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.35rem;
+}
+.poll-q-text {
+  font-size: 1rem; font-weight: 600;
+  color: var(--ink); line-height: 1.45;
+}
+.poll-opts {
+  padding: 0.5rem 1.3rem 1.1rem;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+@media(max-width: 500px){ .poll-opts { grid-template-columns: 1fr; } }
+
+.poll-opt {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  font-size: 0.88rem; color: var(--ink2);
+  font-family: var(--sans);
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.35;
+}
+.poll-opt:hover:not(.locked) {
+  border-color: var(--teal);
+  background: var(--teal-lt);
+  transform: translateX(2px);
+}
+.poll-opt .opt-l {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--bg3);
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted);
+  transition: background 0.15s, color 0.15s;
+}
+.poll-opt.correct { background: var(--teal-lt); border-color: var(--teal); }
+.poll-opt.correct .opt-l { background: var(--teal); color: #fff; }
+.poll-opt.wrong   { background: var(--red-lt); border-color: #E0A8A0; }
+.poll-opt.wrong   .opt-l { background: var(--red); color: #fff; }
+.poll-opt.locked  { cursor: default; }
+
+.poll-explanation {
+  display: none;
+  font-size: 0.82rem; font-style: italic;
+  color: var(--muted);
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 0.65rem 1.3rem;
+  line-height: 1.55;
+}
+.poll-explanation.show { display: block; }
+.poll-explanation b { font-style: normal; color: var(--teal); font-weight: 600; }
+
+/* ══════════════════════════
+   2.2 ВЕРНО / НЕВЕРНО
+══════════════════════════ */
+.tf-list { display: flex; flex-direction: column; gap: 0.7rem; }
+
+.tf-card {
+  background: var(--white);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tf-card.answered-v { border-color: var(--teal); background: var(--teal-lt); }
+.tf-card.answered-n { border-color: var(--amber); background: var(--amber-lt); }
+
+.tf-body {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem;
+  flex-wrap: wrap;
+}
+.tf-num {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+  color: var(--muted); margin-bottom: 0.25rem;
+}
+.tf-statement {
+  font-size: 0.97rem; font-weight: 500;
+  color: var(--ink); line-height: 1.5; flex: 1;
+}
+.tf-btns {
+  display: flex; gap: 0.4rem; flex-shrink: 0;
+  margin-top: 2px;
+}
+.tf-btn {
+  padding: 5px 14px;
+  border-radius: 7px;
+  border: 1.5px solid var(--border2);
+  background: var(--bg);
+  font-family: var(--sans);
+  font-size: 0.82rem; font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  color: var(--ink2);
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-lt); }
+.tf-btn:disabled { cursor: default; opacity: 0.55; }
+.tf-btn.chosen-right  { background: var(--teal-lt);  border-color: var(--teal);  color: var(--teal); }
+.tf-btn.chosen-wrong  { background: var(--red-lt);   border-color: var(--red);   color: var(--red);  }
+.tf-btn.reveal-answer { background: var(--teal-lt);  border-color: var(--teal);  color: var(--teal); }
+
+.tf-explanation {
+  display: none;
+  font-size: 0.82rem; color: var(--muted); font-style: italic;
+  margin-top: 0.6rem; padding-top: 0.55rem;
+  border-top: 1px solid rgba(26,22,18,0.08);
+  line-height: 1.55;
+}
+.tf-explanation.show { display: block; }
+.tf-explanation b { font-style: normal; }
+.tf-explanation .v { color: var(--teal); }
+.tf-explanation .n { color: var(--amber); }
+
+.tf-footer {
+  display: none; text-align: center; margin-top: 1rem;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+}
+.tf-footer.show { display: block; }
+.tf-footer b { color: var(--teal); font-size: 14px; }
+
+/* ══════════════════════════
+   2.3 ТЕСТ НА ЗАКРЕПЛЕНИЕ
+══════════════════════════ */
+.test-shell {
+  background: var(--white);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.test-topbar {
+  background: var(--ink2);
+  padding: 0.85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem; flex-wrap: wrap;
+}
+.test-topbar-label {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.45);
+}
+.test-segs { display: flex; gap: 5px; }
+.test-seg {
+  width: 36px; height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s;
+}
+.test-seg.done    { background: #A8E6DF; }
+.test-seg.current { background: rgba(168,230,223,0.45); }
+
+.test-body { padding: 1.5rem; }
+.test-q-tag {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.45rem;
+}
+.test-q-text {
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--ink); line-height: 1.5; margin-bottom: 1.1rem;
+}
+.test-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+.test-opt {
+  display: flex; align-items: flex-start; gap: 9px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.9rem; color: var(--ink2);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.4;
+}
+.test-opt:hover:not(.locked) {
+  border-color: var(--amber);
+  background: var(--amber-lt);
+  transform: translateX(2px);
+}
+.test-opt .tl {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: var(--bg3);
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted);
+}
+.test-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.test-opt.correct .tl { background: var(--green); color: #fff; }
+.test-opt.wrong   { background: var(--red-lt); border-color: var(--red); }
+.test-opt.wrong   .tl { background: var(--red); color: #fff; }
+.test-opt.locked  { cursor: default; }
+
+.test-fb {
+  display: none;
+  margin-top: 0.85rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  padding: 0.65rem 1rem;
+  font-size: 0.83rem; color: var(--muted);
+  line-height: 1.6;
+}
+.test-fb.show { display: block; }
+.test-fb.err { border-left-color: var(--red); }
+.test-fb b { color: var(--ink2); font-weight: 600; }
+
+.test-nxt {
+  display: none;
+  margin-top: 1rem;
+  background: var(--ink2);
+  color: #A8E6DF;
+  border: none;
+  padding: 0.62rem 1.4rem;
+  border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.test-nxt.show { display: inline-block; }
+.test-nxt:hover { background: var(--teal); color: #fff; }
+
+.test-result {
+  display: none; text-align: center; padding: 2.5rem 1.5rem;
+}
+.test-result.show { display: block; }
+.tr-score {
+  font-family: var(--serif);
+  font-size: 5rem; font-weight: 400;
+  color: var(--teal); line-height: 1;
+  letter-spacing: -0.02em;
+}
+.tr-score sup { font-family: var(--mono); font-size: 2rem; color: var(--muted); font-weight: 400; }
+.tr-rank { font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--ink); margin: 0.3rem 0; }
+.tr-note { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.4rem; }
+
+.btn-soft {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  padding: 0.55rem 1.2rem;
+  border-radius: 9px;
+  font-family: var(--sans); font-size: 0.84rem;
+  cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.btn-soft:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--ink2);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  margin-top: 3.5rem;
+  color: rgba(255,255,255,0.28);
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.footer span { color: #A8E6DF; }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.poll-card, .tf-card, .test-shell { animation: fadeUp 0.3s ease backwards; }
+.poll-card:nth-child(1){animation-delay:.03s}
+.poll-card:nth-child(2){animation-delay:.07s}
+.poll-card:nth-child(3){animation-delay:.11s}
+.poll-card:nth-child(4){animation-delay:.15s}
+.tf-card:nth-child(1){animation-delay:.02s}
+.tf-card:nth-child(2){animation-delay:.06s}
+.tf-card:nth-child(3){animation-delay:.10s}
+.tf-card:nth-child(4){animation-delay:.14s}
+.tf-card:nth-child(5){animation-delay:.18s}
+@keyframes popScore {0%{transform:scale(0.75);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.test-result.show .tr-score { animation: popScore 0.4s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-cells"></div>
+  <div class="hero-dots">
+    <span style="width:80px;height:80px;top:10%;left:8%"></span>
+    <span style="width:40px;height:40px;top:60%;left:20%"></span>
+    <span style="width:120px;height:120px;top:5%;right:10%"></span>
+    <span style="width:55px;height:55px;bottom:20%;right:25%"></span>
+    <span style="width:30px;height:30px;top:40%;left:50%"></span>
+  </div>
+  <div class="hero-kicker">Биология · 9–10 класс</div>
+  <h1>Органические<br>вещества <em>клетки</em></h1>
+  <p class="hero-sub">Три интерактивных блока: опрос, «Верно / Неверно» и тест на закрепление</p>
+  <div class="hero-pills">
+    <div class="hero-pill"><b>2.1</b>Опрос — 4 варианта</div>
+    <div class="hero-pill"><b>2.2</b>Верно / Неверно</div>
+    <div class="hero-pill"><b>2.3</b>Тест на закрепление</div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1200 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,30 Q300,0 600,30 Q900,60 1200,20 L1200,60 L0,60Z" fill="#F7F5F0"/>
+    </svg>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <div class="rib">Опрос: <b id="ribA">0/4</b></div>
+  <div class="rib">Верно/Неверно: <b id="ribB">0/5</b></div>
+  <div class="rib">Тест: <b id="ribC">0/4</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ 2.1 ОПРОС ══ -->
+  <div class="sec-head">
+    <div class="sec-kicker">Блок 2.1</div>
+    <div class="sec-title">Опрос — четыре варианта ответа</div>
+    <div class="sec-desc">Выбери единственный верный ответ. После выбора появится объяснение.</div>
+  </div>
+
+  <div class="poll-stack" id="pollStack"></div>
+
+  <div class="divider"><span>Блок 2.2</span></div>
+
+  <!-- ══ 2.2 ВЕРНО/НЕВЕРНО ══ -->
+  <div class="sec-head" style="padding-top:0.3rem">
+    <div class="sec-title">Верно / Неверно</div>
+    <div class="sec-desc">Прочитай утверждение — нажми «Верно» или «Неверно». Объяснение появится сразу.</div>
+  </div>
+
+  <div class="tf-list" id="tfList"></div>
+  <div class="tf-footer" id="tfFooter"></div>
+
+  <div class="divider"><span>Блок 2.3</span></div>
+
+  <!-- ══ 2.3 ТЕСТ ══ -->
+  <div class="sec-head" style="padding-top:0.3rem">
+    <div class="sec-title">Тест на закрепление</div>
+    <div class="sec-desc">4 вопроса с одним верным ответом. Каждый — 1 балл.</div>
+  </div>
+
+  <div class="test-shell">
+    <div class="test-topbar">
+      <span class="test-topbar-label">ТЕСТ НА ЗАКРЕПЛЕНИЕ</span>
+      <div class="test-segs" id="testSegs"></div>
+    </div>
+    <div id="testBody" class="test-body"></div>
+    <div class="test-result" id="testResult">
+      <div class="tr-score" id="trScore">0<sup>/4</sup></div>
+      <div class="tr-rank"  id="trRank"></div>
+      <div class="tr-note"  id="trNote"></div>
+      <button class="btn-soft" onclick="testReset()" style="margin-top:0.3rem">↩ Попробовать снова</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Урок биологии · <span>Органические вещества клетки</span>
+</div>
+
+<script>
+/* ════════════════════════════
+   2.1 — POLL
+════════════════════════════ */
+const POLLS = [
+  {
+    tag: 'Вопрос 1 · Классификация',
+    q: 'Что из перечисленного НЕ является органическим веществом?',
+    opts: ['Белок','Глюкоза','Вода','Жир'],
+    ans: 2,
+    exp: '<b>Вода — неорганическое вещество.</b> Органические молекулы обязательно содержат углерод в основе, а вода (H₂O) — нет.'
+  },
+  {
+    tag: 'Вопрос 2 · Углеводы',
+    q: 'Какой углевод является основным источником быстрой энергии для мозга?',
+    opts: ['Крахмал','Глюкоза','Гликоген','Клетчатка'],
+    ans: 1,
+    exp: '<b>Глюкоза</b> — единственный моносахарид, который мозг использует как топливо. Именно поэтому после еды мы лучше соображаем.'
+  },
+  {
+    tag: 'Вопрос 3 · Белки',
+    q: 'Какой элемент входит в состав всех белков, но отсутствует в углеводах и жирах?',
+    opts: ['Кислород','Углерод','Азот','Водород'],
+    ans: 2,
+    exp: '<b>Азот (N)</b> входит в аминогруппу (–NH₂) каждой аминокислоты. Поэтому белки — «азотсодержащие соединения», а углеводы и жиры содержат лишь C, H, O.'
+  },
+  {
+    tag: 'Вопрос 4 · Применение',
+    q: 'Почему перед марафоном спортсмены едят пасту, а не стейк?',
+    opts: ['Паста дешевле','Сложные углеводы дают постепенную энергию; белки долго перевариваются','Мясо запрещено перед соревнованиями'],
+    ans: 1,
+    exp: '<b>Сложные углеводы (полисахариды)</b> расщепляются постепенно, поддерживая уровень глюкозы. Белки перевариваются дольше и не дают быстрого топлива для мышц.'
+  }
+];
+
+let pollCorrect = 0;
+
+function renderPolls() {
+  const stack = document.getElementById('pollStack');
+  stack.innerHTML = '';
+  POLLS.forEach((p, pi) => {
+    const card = document.createElement('div');
+    card.className = 'poll-card';
+    card.innerHTML = `
+      <div class="poll-card-head">
+        <div class="poll-q-tag">${p.tag}</div>
+        <div class="poll-q-text">${p.q}</div>
+      </div>
+      <div class="poll-opts" id="po-${pi}">
+        ${p.opts.map((o,oi)=>`
+          <button class="poll-opt" data-pi="${pi}" data-oi="${oi}" onclick="pickPoll(${pi},${oi})">
+            <span class="opt-l">${String.fromCharCode(1040+oi)}</span>${o}
+          </button>`).join('')}
+      </div>
+      <div class="poll-explanation" id="pexp-${pi}">${p.exp}</div>`;
+    stack.appendChild(card);
+  });
+}
+
+function pickPoll(pi, chosen) {
+  const p = POLLS[pi];
+  const btns = document.querySelectorAll(`[data-pi="${pi}"]`);
+  btns.forEach(b => { b.classList.add('locked'); b.disabled = true; });
+  const ok = chosen === p.ans;
+  btns[chosen].classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) btns[p.ans].classList.add('correct');
+  document.getElementById(`pexp-${pi}`).classList.add('show');
+  if (ok) pollCorrect++;
+  document.getElementById('ribA').textContent = pollCorrect + '/4';
+}
+
+renderPolls();
+
+/* ════════════════════════════
+   2.2 — TRUE / FALSE
+════════════════════════════ */
+const TF = [
+  {
+    num: 1, stmt: 'Все белки состоят из 20 видов аминокислот.',
+    ans: true,
+    exp: '<span class="v">✓ Верно.</span> У всех живых существ используется именно этот стандартный набор из 20 протеиногенных аминокислот.'
+  },
+  {
+    num: 2, stmt: 'Жиры дают меньше энергии, чем углеводы.',
+    ans: false,
+    exp: '<span class="n">✗ Неверно.</span> Жиры дают ~9 ккал/г — в 2+ раза больше, чем углеводы (~4 ккал/г). Поэтому жировые запасы — самый ёмкий источник энергии.'
+  },
+  {
+    num: 3, stmt: 'Гликоген — это запасной углевод у животных.',
+    ans: true,
+    exp: '<span class="v">✓ Верно.</span> Гликоген — «животный крахмал». Откладывается в печени и мышцах, расщепляется до глюкозы при нехватке энергии.'
+  },
+  {
+    num: 4, stmt: 'ДНК находится в цитоплазме.',
+    ans: false,
+    exp: '<span class="n">✗ Неверно.</span> У эукариот ДНК находится в ядре (плюс небольшое количество в митохондриях и хлоропластах). В цитоплазме — РНК.'
+  },
+  {
+    num: 5, stmt: 'Ферменты — это углеводы.',
+    ans: false,
+    exp: '<span class="n">✗ Неверно.</span> Ферменты — это <b>белки-катализаторы</b>. Их пространственная форма определяет специфичность — «ключ к замку».'
+  }
+];
+
+let tfCorrect = 0, tfAnswered = 0;
+
+function renderTF() {
+  const list = document.getElementById('tfList');
+  list.innerHTML = '';
+  document.getElementById('tfFooter').classList.remove('show');
+  tfCorrect = 0; tfAnswered = 0;
+
+  TF.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'tf-card';
+    card.id = `tfc-${i}`;
+    card.innerHTML = `
+      <div class="tf-body">
+        <div style="flex:1">
+          <div class="tf-num">Утверждение ${item.num}</div>
+          <div class="tf-statement">${item.stmt}</div>
+        </div>
+        <div class="tf-btns">
+          <button class="tf-btn" id="tfv-${i}" onclick="pickTF(${i},true)">✓ Верно</button>
+          <button class="tf-btn" id="tfn-${i}" onclick="pickTF(${i},false)">✗ Неверно</button>
+        </div>
+      </div>
+      <div class="tf-explanation" id="tfe-${i}">${item.exp}</div>`;
+    list.appendChild(card);
+  });
+}
+
+function pickTF(i, userAns) {
+  const item = TF[i];
+  const vBtn = document.getElementById(`tfv-${i}`);
+  const nBtn = document.getElementById(`tfn-${i}`);
+  vBtn.disabled = true; nBtn.disabled = true;
+  const ok = userAns === item.ans;
+  const chosen = userAns ? vBtn : nBtn;
+  const correct = item.ans ? vBtn : nBtn;
+  chosen.classList.add(ok ? 'chosen-right' : 'chosen-wrong');
+  if (!ok) correct.classList.add('reveal-answer');
+  document.getElementById(`tfe-${i}`).classList.add('show');
+  document.getElementById(`tfc-${i}`).classList.add(item.ans ? 'answered-v' : 'answered-n');
+  if (ok) tfCorrect++;
+  tfAnswered++;
+  document.getElementById('ribB').textContent = tfCorrect + '/5';
+  if (tfAnswered === 5) {
+    const f = document.getElementById('tfFooter');
+    f.innerHTML = `Результат: <b>${tfCorrect}/5</b> — ${['Ещё раз посмотри материал!','Неплохо, но есть пробелы.','Хорошо!','Отлично!','Идеально!'][Math.min(tfCorrect,4)]}`;
+    f.classList.add('show');
+  }
+}
+
+renderTF();
+
+/* ════════════════════════════
+   2.3 — TEST
+════════════════════════════ */
+const TESTS = [
+  {
+    tag: 'Вопрос 1 · Функции белков',
+    q: 'Какая функция НЕ является основной для белков?',
+    opts: ['Транспортная','Энергетическая (основная)','Защитная','Ферментативная'],
+    ans: 1,
+    fb: '<b>Ответ: Б.</b> Основную энергетическую функцию выполняют углеводы и жиры. Белки используются как энергия лишь в крайних случаях — при голодании.'
+  },
+  {
+    tag: 'Вопрос 2 · Сложные углеводы',
+    q: 'Какое вещество относится к сложным углеводам (полисахаридам)?',
+    opts: ['Глюкоза','Фруктоза','Гликоген','Рибоза'],
+    ans: 2,
+    fb: '<b>Ответ: В.</b> Гликоген — полисахарид, цепочка из сотен молекул глюкозы. Остальные варианты — моносахариды (простые углеводы).'
+  },
+  {
+    tag: 'Вопрос 3 · Денатурация',
+    q: 'Что произойдёт, если белок изменит свою пространственную форму?',
+    opts: ['Он станет работать лучше','Он потеряет свою функцию','Он превратится в углевод','Ничего не произойдёт'],
+    ans: 1,
+    fb: '<b>Ответ: Б.</b> Денатурация = разрушение пространственной структуры → потеря функции. Форма белка — это и есть его функция. Пример: варёный белок яйца уже не растворяется.'
+  },
+  {
+    tag: 'Вопрос 4 · Мембрана клетки',
+    q: 'Какое вещество выполняет строительную функцию в клеточных мембранах?',
+    opts: ['Гликоген','Крахмал','Фосфолипиды (жиры)','Глюкоза'],
+    ans: 2,
+    fb: '<b>Ответ: В.</b> Клеточные мембраны образованы двойным слоем фосфолипидов. Именно жиры создают барьер между клеткой и внешней средой.'
+  }
+];
+
+let ti = 0, tscore = 0;
+
+function renderTest() {
+  const body = document.getElementById('testBody');
+  document.getElementById('testResult').classList.remove('show');
+  body.style.display = '';
+  const q = TESTS[ti];
+
+  document.getElementById('testSegs').innerHTML = TESTS.map((_,i) =>
+    `<div class="test-seg ${i<ti?'done':i===ti?'current':''}"></div>`).join('');
+
+  body.innerHTML = `
+    <div class="test-q-tag">Вопрос ${ti+1} / 4 · ${q.tag}</div>
+    <div class="test-q-text">${q.q}</div>
+    <div class="test-opts" id="tOpts">
+      ${q.opts.map((o,i)=>`<button class="test-opt" data-i="${i}" onclick="pickTest(${i})">
+        <span class="tl">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="test-fb" id="tFb"></div>
+    <button class="test-nxt" id="tNxt" onclick="nextTest()">${ti<3?'Следующий →':'Результат →'}</button>`;
+}
+
+function pickTest(chosen) {
+  const q = TESTS[ti];
+  document.querySelectorAll('.test-opt').forEach(b=>{ b.classList.add('locked'); b.disabled=true; });
+  const ok = chosen === q.ans;
+  document.querySelectorAll('.test-opt')[chosen].classList.add(ok?'correct':'wrong');
+  if (!ok) document.querySelectorAll('.test-opt')[q.ans].classList.add('correct');
+  const fb = document.getElementById('tFb');
+  fb.innerHTML = q.fb;
+  fb.className = 'test-fb show' + (ok?'':' err');
+  if (ok) tscore++;
+  document.getElementById('tNxt').classList.add('show');
+  document.getElementById('ribC').textContent = tscore + '/4';
+}
+
+function nextTest() {
+  ti++;
+  if (ti >= 4) { showTestResult(); return; }
+  renderTest();
+}
+
+function showTestResult() {
+  document.getElementById('testBody').style.display = 'none';
+  const r = document.getElementById('testResult');
+  r.classList.add('show');
+  document.getElementById('trScore').innerHTML = tscore + '<sup>/4</sup>';
+  const ranks = [
+    [4, 'Превосходно!', 'Все четыре верно — материал усвоен на отлично.'],
+    [3, 'Очень хорошо', 'Один вопрос с ошибкой — пересмотри функции молекул.'],
+    [2, 'Неплохо', 'Половина верно. Повтори различия белков, жиров и углеводов.'],
+    [0, 'Нужно повторить', 'Изучи таблицу функций органических веществ ещё раз.']
+  ].find(([n]) => tscore >= n);
+  document.getElementById('trRank').textContent = ranks[1];
+  document.getElementById('trNote').textContent = ranks[2];
+  document.getElementById('testSegs').innerHTML = TESTS.map(()=>`<div class="test-seg done"></div>`).join('');
+}
+
+function testReset() {
+  ti = 0; tscore = 0;
+  document.getElementById('ribC').textContent = '0/4';
+  renderTest();
+}
+
+renderTest();
+</script>
+</body>
+</html>

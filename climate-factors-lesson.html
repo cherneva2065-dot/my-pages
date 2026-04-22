@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Факторы климата — Интерактивный урок географии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&family=Figtree:wght@400;500;600;700&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ocean:     #0B4F6C;
+  --ocean2:    #1A6E8E;
+  --ocean-lt:  #E4F3F8;
+  --ocean-md:  #B8DDE9;
+  --sand:      #F2EBD9;
+  --sand2:     #E8DEC8;
+  --sand3:     #D9CEB5;
+  --earth:     #5C4A2A;
+  --earth2:    #3D3020;
+  --moss:      #2E6B4E;
+  --moss-lt:   #DFF0E8;
+  --sunset:    #C05A1A;
+  --sunset-lt: #FAEADF;
+  --sky:       #4A90C4;
+  --sky-lt:    #E3F2FA;
+  --snow:      #FAFAF8;
+  --border:    rgba(61,48,32,0.12);
+  --border2:   rgba(61,48,32,0.2);
+  --muted:     #7A6A50;
+  --green:     #1F6B40;
+  --green-lt:  #E4F2EB;
+  --red:       #B52A1A;
+  --red-lt:    #FAEAE8;
+  --serif:     'Fraunces', Georgia, serif;
+  --sans:      'Figtree', system-ui, sans-serif;
+  --mono:      'Azeret Mono', monospace;
+  --radius:    13px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--sand);
+  color: var(--earth2);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ocean);
+  position: relative; overflow: hidden;
+  padding: 5rem 2rem 5.5rem; text-align: center;
+}
+.hero-contours {
+  position: absolute; inset: 0; opacity: 0.08;
+  background-image:
+    repeating-radial-gradient(ellipse at 30% 40%, transparent 0, transparent 38px, rgba(255,255,255,0.6) 39px, transparent 40px),
+    repeating-radial-gradient(ellipse at 70% 60%, transparent 0, transparent 55px, rgba(255,255,255,0.4) 56px, transparent 57px);
+}
+.hero-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, rgba(11,79,108,0.6));
+}
+.hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; }
+.hero-wave svg { display: block; width: 100%; }
+
+.hero-eyebrow {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 1.4rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; width: 28px; height: 1px;
+  background: rgba(255,255,255,0.25);
+}
+
+.hero h1 {
+  position: relative;
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  max-width: 640px;
+  margin: 0 auto 0.5rem;
+}
+.hero h1 strong { font-weight: 700; }
+.hero h1 em { font-style: italic; color: #9ED8EE; }
+
+.hero-sub {
+  position: relative;
+  font-size: 1rem; color: rgba(255,255,255,0.48);
+  max-width: 420px; margin: 0 auto 2.5rem;
+}
+
+.hero-badges {
+  position: relative;
+  display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.hero-badge {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 8px; padding: 6px 14px;
+  font-size: 12px; color: rgba(255,255,255,0.55);
+}
+.hero-badge b { color: #9ED8EE; margin-right: 5px; }
+
+/* ── RIBBON ── */
+.ribbon {
+  background: var(--ocean2);
+  padding: 0.6rem 1.5rem;
+  display: flex; justify-content: center; align-items: center;
+  gap: 2rem; flex-wrap: wrap;
+}
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; }
+.rib b { color: #9ED8EE; margin-left: 4px; font-size: 12px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 1.2rem; }
+.sec-num {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ocean2); margin-bottom: 0.35rem;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 3.5vw, 2rem);
+  font-weight: 700; line-height: 1.15; color: var(--earth2);
+}
+.sec-desc { font-size: 0.88rem; color: var(--muted); margin-top: 0.3rem; }
+
+.wave-div {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.8rem 0 0.3rem;
+}
+.wave-div::before, .wave-div::after {
+  content: ''; flex: 1; height: 1px;
+  background: var(--border);
+}
+.wave-div span {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+}
+
+/* ══════════════════════
+   TASK 1 — QUIZ
+══════════════════════ */
+.quiz-wrap {
+  background: var(--snow);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.quiz-bar {
+  background: var(--earth2);
+  padding: 0.85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.quiz-bar-title {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; color: rgba(255,255,255,0.45);
+}
+.quiz-dots { display: flex; gap: 5px; }
+.qdot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.18); transition: background 0.25s;
+}
+.qdot.done { background: var(--ocean-md); }
+.qdot.cur  { background: rgba(158,216,238,0.5); }
+
+.quiz-inner { padding: 1.5rem; }
+.q-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.q-text { font-family: var(--serif); font-size: 1.1rem; font-weight: 700;
+  line-height: 1.45; color: var(--earth2); margin-bottom: 1.1rem; }
+.q-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--sand); border: 1px solid var(--border);
+  border-radius: 9px; padding: 0.7rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--earth2);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.4;
+}
+.q-opt:hover:not(.locked) { border-color: var(--ocean2); background: var(--ocean-lt); transform: translateX(3px); }
+.q-opt .ql {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--sand2); font-family: var(--mono); font-size: 10px;
+  font-weight: 500; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted); transition: background 0.15s, color 0.15s;
+}
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.q-opt.correct .ql { background: var(--green); color: #fff; }
+.q-opt.wrong   { background: var(--red-lt); border-color: var(--red); }
+.q-opt.wrong   .ql { background: var(--red); color: #fff; }
+.q-opt.locked  { cursor: default; }
+
+.q-fb {
+  display: none; margin-top: 0.9rem;
+  background: var(--sand); border: 1px solid var(--border);
+  border-left: 3px solid var(--ocean2);
+  border-radius: 0 8px 8px 0;
+  padding: 0.65rem 1rem;
+  font-size: 0.83rem; color: var(--muted); line-height: 1.6;
+}
+.q-fb.show { display: block; }
+.q-fb b { color: var(--earth2); font-weight: 600; }
+
+.q-nxt {
+  display: none; margin-top: 1rem;
+  background: var(--earth2); color: var(--ocean-md);
+  border: none; padding: 0.62rem 1.4rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.q-nxt.show { display: inline-block; }
+.q-nxt:hover { background: var(--ocean); color: #fff; }
+
+.quiz-result {
+  display: none; text-align: center; padding: 2.5rem 1.5rem;
+}
+.quiz-result.show { display: block; }
+.qr-num {
+  font-family: var(--serif); font-size: 5rem; font-weight: 700;
+  color: var(--ocean); line-height: 1; letter-spacing: -0.02em;
+}
+.qr-num sup { font-family: var(--mono); font-size: 2rem; color: var(--muted); font-weight: 400; }
+.qr-title { font-family: var(--serif); font-style: italic; font-size: 1.4rem; color: var(--earth2); margin: 0.35rem 0 0.25rem; }
+.qr-note { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.3rem; }
+.btn-soft {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--muted); padding: 0.55rem 1.2rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.84rem; cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-soft:hover { border-color: var(--earth2); color: var(--earth2); }
+
+/* ══════════════════════
+   TASK 2 — FILL BLANKS
+══════════════════════ */
+.fill-box {
+  background: var(--snow);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem;
+}
+.fill-text {
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  font-style: italic;
+  line-height: 2.8;
+  color: var(--earth2);
+  margin-bottom: 1.3rem;
+}
+
+.blank {
+  display: inline-block;
+  min-width: 100px; max-width: 180px;
+  border-bottom: 2px solid var(--sand3);
+  padding: 1px 6px;
+  vertical-align: bottom;
+  cursor: pointer;
+  text-align: center;
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: transparent;
+  background: rgba(11,79,108,0.06);
+  border-radius: 4px 4px 0 0;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+  position: relative;
+}
+.blank::after {
+  content: attr(data-n);
+  position: absolute; right: 3px; bottom: 1px;
+  font-size: 8px; color: var(--sand3);
+  font-family: var(--mono); font-weight: 500;
+}
+.blank.filled { color: var(--ocean); background: var(--ocean-lt); border-color: var(--ocean2); }
+.blank.correct { color: var(--green); background: var(--green-lt); border-color: var(--green); }
+.blank.wrong   { color: var(--red);   background: var(--red-lt);   border-color: var(--red); }
+
+.word-bank {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+.wchip {
+  background: var(--sand2);
+  border: 1.5px solid var(--sand3);
+  border-radius: 99px; padding: 5px 15px;
+  font-size: 0.87rem; font-weight: 500;
+  cursor: pointer; color: var(--earth2);
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  user-select: none;
+}
+.wchip:hover:not(.used) { border-color: var(--ocean2); background: var(--ocean-lt); color: var(--ocean); transform: translateY(-2px); }
+.wchip.sel  { border-color: var(--sunset); background: var(--sunset-lt); color: var(--sunset); }
+.wchip.used { opacity: 0.3; cursor: default; pointer-events: none; text-decoration: line-through; }
+
+.fill-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+.btn-pri {
+  background: var(--earth2); color: var(--ocean-md);
+  border: none; padding: 0.6rem 1.4rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-pri:hover { background: var(--ocean); color: #fff; }
+.fill-score { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+/* ══════════════════════
+   TASK 3 — GUESS PLACE
+══════════════════════ */
+.guess-cards { display: flex; flex-direction: column; gap: 1rem; }
+.guess-card {
+  background: var(--snow);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.guess-head {
+  background: var(--sand2); padding: 0.7rem 1.2rem;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.guess-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--earth2); color: var(--ocean-md);
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.guess-head-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.guess-body { padding: 1.1rem 1.3rem; }
+.guess-desc {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.98rem; line-height: 1.75;
+  color: var(--earth2); margin-bottom: 1rem;
+  border-left: 2px solid var(--ocean-md); padding-left: 1rem;
+}
+.guess-input-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.guess-input {
+  flex: 1; min-width: 160px;
+  background: var(--sand); border: 1.5px solid var(--border2);
+  border-radius: 9px; padding: 0.62rem 1rem;
+  font-family: var(--sans); font-size: 0.9rem; color: var(--earth2);
+  transition: border-color 0.15s;
+  outline: none;
+}
+.guess-input:focus { border-color: var(--ocean2); background: var(--ocean-lt); }
+.guess-input.correct { border-color: var(--green); background: var(--green-lt); color: var(--green); }
+.guess-input.wrong   { border-color: var(--red);   background: var(--red-lt);   }
+.guess-submit {
+  background: var(--ocean); color: #fff;
+  border: none; padding: 0.62rem 1.2rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+  white-space: nowrap;
+}
+.guess-submit:hover { background: var(--ocean2); }
+.guess-submit:disabled { opacity: 0.5; cursor: default; }
+.guess-hint {
+  display: none; margin-top: 0.7rem;
+  font-size: 0.83rem; font-style: italic; color: var(--muted);
+  line-height: 1.55;
+}
+.guess-hint.show { display: block; }
+.guess-hint .correct-ans { color: var(--green); font-weight: 600; font-style: normal; }
+.guess-hint .wrong-msg   { color: var(--red); font-style: normal; }
+
+/* ══════════════════════
+   TASK 4 — TRUE/FALSE
+══════════════════════ */
+.tf-stack { display: flex; flex-direction: column; gap: 0.65rem; }
+.tf-row {
+  background: var(--snow);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 0.9rem 1.2rem;
+  display: flex; align-items: flex-start;
+  gap: 1rem; flex-wrap: wrap;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tf-row.ok-ans   { border-color: var(--green); background: var(--green-lt); }
+.tf-row.wrong-ans{ border-color: var(--red);   background: var(--red-lt); }
+.tf-row-left { flex: 1; }
+.tf-rnum { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 0.2rem; }
+.tf-stmt { font-size: 0.95rem; font-weight: 500; color: var(--earth2); line-height: 1.45; }
+.tf-row-btns { display: flex; gap: 0.4rem; margin-top: 2px; }
+.tf-btn {
+  padding: 5px 14px; border-radius: 7px;
+  border: 1.5px solid var(--border2); background: var(--sand);
+  font-family: var(--sans); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; color: var(--earth2);
+  transition: border-color 0.15s, background 0.15s;
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--ocean2); background: var(--ocean-lt); }
+.tf-btn:disabled { cursor: default; opacity: 0.5; }
+.tf-btn.right { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-btn.wrong { background: var(--red-lt);   border-color: var(--red);   color: var(--red); }
+.tf-btn.reveal{ background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-exp {
+  display: none; width: 100%; font-size: 0.8rem;
+  font-style: italic; color: var(--muted); line-height: 1.5;
+  border-top: 1px solid rgba(61,48,32,0.07); padding-top: 0.5rem; margin-top: 0.4rem;
+}
+.tf-exp.show { display: block; }
+.tf-tally {
+  text-align: center; margin-top: 1rem;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  display: none;
+}
+.tf-tally.show { display: block; }
+.tf-tally b { color: var(--ocean); font-size: 14px; }
+
+/* ══════════════════════
+   TASK 5 — BUILD CLIMATE
+══════════════════════ */
+.build-card {
+  background: var(--snow);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.build-head {
+  background: var(--ocean);
+  padding: 1rem 1.4rem;
+}
+.build-head h3 {
+  font-family: var(--serif); font-size: 1.05rem; font-weight: 700;
+  color: #fff; margin-bottom: 0.2rem;
+}
+.build-head p { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+.build-body { padding: 1.4rem 1.5rem; }
+
+.param-group { margin-bottom: 1.1rem; }
+.param-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem;
+}
+.param-opts { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.param-opt {
+  background: var(--sand); border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 0.55rem 1rem;
+  font-size: 0.86rem; font-weight: 500;
+  cursor: pointer; color: var(--earth2);
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  user-select: none;
+}
+.param-opt:hover:not(.chosen) { border-color: var(--ocean2); background: var(--ocean-lt); transform: translateY(-2px); }
+.param-opt.chosen { border-color: var(--ocean2); background: var(--ocean-lt); color: var(--ocean); font-weight: 600; }
+.param-opt b { font-family: var(--mono); font-size: 9px; color: var(--muted); margin-right: 4px; }
+.param-opt.chosen b { color: var(--ocean2); }
+
+.build-btn {
+  background: var(--earth2); color: var(--ocean-md);
+  border: none; padding: 0.65rem 1.5rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s; margin-top: 0.5rem;
+}
+.build-btn:hover { background: var(--ocean); color: #fff; }
+.build-btn:disabled { opacity: 0.45; cursor: default; }
+
+.climate-result {
+  display: none; margin-top: 1.2rem;
+  border-radius: 10px; overflow: hidden;
+}
+.climate-result.show { display: block; }
+.cr-header {
+  padding: 0.85rem 1.2rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.cr-icon { font-size: 1.8rem; }
+.cr-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; }
+.cr-body { padding: 0 1.2rem 1rem; }
+.cr-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.cr-tag {
+  border-radius: 99px; padding: 3px 12px;
+  font-size: 11px; font-weight: 600;
+  font-family: var(--mono);
+}
+.cr-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+/* Climate color themes */
+.clim-tropical { background: #FFF8E4; border: 1px solid #F0D080; }
+.clim-tropical .cr-header { background: #F5A623; }
+.clim-tropical .cr-name { color: #5A3200; }
+.clim-tropical .cr-tag { background: #FDEBBF; color: #7A5000; }
+
+.clim-temperate { background: #F0F8EE; border: 1px solid #A8D890; }
+.clim-temperate .cr-header { background: #3A8C44; }
+.clim-temperate .cr-name { color: #fff; }
+.clim-temperate .cr-tag { background: #C5E8BC; color: #1E5A28; }
+
+.clim-continental { background: #F8F0E8; border: 1px solid #D4A870; }
+.clim-continental .cr-header { background: #8B5A2B; }
+.clim-continental .cr-name { color: #fff; }
+.clim-continental .cr-tag { background: #EDD5B0; color: #5A3800; }
+
+.clim-polar { background: #EEF4FF; border: 1px solid #A0C4E8; }
+.clim-polar .cr-header { background: #3A6EA8; }
+.clim-polar .cr-name { color: #fff; }
+.clim-polar .cr-tag { background: #C0DCEE; color: #1A3E60; }
+
+.clim-desert { background: #FEF5E7; border: 1px solid #E8B860; }
+.clim-desert .cr-header { background: #C07A10; }
+.clim-desert .cr-name { color: #fff; }
+.clim-desert .cr-tag { background: #F8DFA0; color: #6A4000; }
+
+.build-reset { display: block; margin-top: 0.7rem; cursor: pointer; background: transparent; border: none; font-size: 0.82rem; color: var(--muted); text-decoration: underline; font-family: var(--sans); }
+.build-reset:hover { color: var(--earth2); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--earth2); padding: 2.5rem; text-align: center;
+  margin-top: 3.5rem;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+.footer span { color: var(--ocean-md); }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.quiz-wrap, .fill-box, .guess-card, .tf-row, .build-card { animation: fadeUp 0.3s ease backwards; }
+.guess-card:nth-child(2){animation-delay:.07s}
+.guess-card:nth-child(3){animation-delay:.14s}
+.tf-row:nth-child(1){animation-delay:.02s}
+.tf-row:nth-child(2){animation-delay:.05s}
+.tf-row:nth-child(3){animation-delay:.08s}
+.tf-row:nth-child(4){animation-delay:.11s}
+.tf-row:nth-child(5){animation-delay:.14s}
+@keyframes pop { 0%{transform:scale(0.8);opacity:0} 70%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-num { animation: pop 0.4s ease forwards; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-contours"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-eyebrow">География · 7 класс</div>
+  <h1><em>Факторы</em><br><strong>климата</strong></h1>
+  <p class="hero-sub">Пять интерактивных заданий: от теста до создания собственного климата</p>
+  <div class="hero-badges">
+    <div class="hero-badge"><b>1</b>Тест</div>
+    <div class="hero-badge"><b>2</b>Пропуски</div>
+    <div class="hero-badge"><b>3</b>Угадай место</div>
+    <div class="hero-badge"><b>4</b>П / Н</div>
+    <div class="hero-badge"><b>5</b>Собери климат</div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 Q360,0 720,40 Q1080,75 1440,25 L1440,70 L0,70Z" fill="#F2EBD9"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ribbon">
+  <div class="rib">Тест: <b id="r1">0/5</b></div>
+  <div class="rib">Пропуски: <b id="r2">0/8</b></div>
+  <div class="rib">Угадай: <b id="r3">0/3</b></div>
+  <div class="rib">П/Н: <b id="r4">0/5</b></div>
+  <div class="rib">Климат: <b id="r5">—</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ TASK 1 ═══ -->
+  <div class="sec">
+    <div class="sec-num">Задание 1</div>
+    <div class="sec-title">Тест «Выбери правильный ответ»</div>
+    <div class="sec-desc">5 вопросов — один верный ответ в каждом.</div>
+  </div>
+  <div class="quiz-wrap">
+    <div class="quiz-bar">
+      <span class="quiz-bar-title">ФАКТОРЫ КЛИМАТА</span>
+      <div class="quiz-dots" id="qDots"></div>
+    </div>
+    <div id="qInner" class="quiz-inner"></div>
+    <div class="quiz-result" id="qRes">
+      <div class="qr-num" id="qrNum">0<sup>/5</sup></div>
+      <div class="qr-title" id="qrTitle"></div>
+      <div class="qr-note"  id="qrNote"></div>
+      <button class="btn-soft" onclick="quizReset()" style="margin-top:.3rem">↩ Заново</button>
+    </div>
+  </div>
+
+  <div class="wave-div"><span>Задание 2</span></div>
+
+  <!-- ═══ TASK 2 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Заполни пропуски</div>
+    <div class="sec-desc">Нажми слово из банка → затем пропуск в тексте. Нажми на заполненный пропуск — убрать слово обратно.</div>
+  </div>
+  <div class="fill-box">
+    <div class="fill-text" id="fillText"></div>
+    <div class="word-bank" id="wordBank"></div>
+    <div class="fill-controls">
+      <button class="btn-pri" onclick="checkFill()">Проверить</button>
+      <button class="btn-soft" onclick="resetFill()">↩ Сбросить</button>
+      <span class="fill-score" id="fillScore"></span>
+    </div>
+  </div>
+
+  <div class="wave-div"><span>Задание 3</span></div>
+
+  <!-- ═══ TASK 3 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Угадай место по описанию»</div>
+    <div class="sec-desc">Прочитай подсказку и введи ответ — название горы, течения или пустыни.</div>
+  </div>
+  <div class="guess-cards" id="guessCards"></div>
+
+  <div class="wave-div"><span>Задание 4</span></div>
+
+  <!-- ═══ TASK 4 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Правильно / Неправильно»</div>
+    <div class="sec-desc">Нажми П (Правильно) или Н (Неправильно) для каждого утверждения.</div>
+  </div>
+  <div class="tf-stack" id="tfStack"></div>
+  <div class="tf-tally" id="tfTally"></div>
+
+  <div class="wave-div"><span>Задание 5</span></div>
+
+  <!-- ═══ TASK 5 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Собери климат»</div>
+    <div class="sec-desc">Выбери параметры своей планеты и узнай, какой климат получится.</div>
+  </div>
+  <div class="build-card">
+    <div class="build-head">
+      <h3>Конструктор климата</h3>
+      <p>Выбери широту, близость к океану и рельеф — и нажми «Узнать климат»</p>
+    </div>
+    <div class="build-body">
+      <div class="param-group">
+        <div class="param-label">Широта</div>
+        <div class="param-opts" id="pA">
+          <div class="param-opt" data-g="A" data-v="eq" onclick="pick('A',this)"><b>А</b>Экватор</div>
+          <div class="param-opt" data-g="A" data-v="temp" onclick="pick('A',this)"><b>Б</b>Умеренные широты</div>
+          <div class="param-opt" data-g="A" data-v="pole" onclick="pick('A',this)"><b>В</b>Полюс</div>
+        </div>
+      </div>
+      <div class="param-group">
+        <div class="param-label">Близость к океану</div>
+        <div class="param-opts" id="pB">
+          <div class="param-opt" data-g="B" data-v="coast" onclick="pick('B',this)"><b>А</b>На берегу</div>
+          <div class="param-opt" data-g="B" data-v="inland" onclick="pick('B',this)"><b>Б</b>В глубине материка</div>
+        </div>
+      </div>
+      <div class="param-group">
+        <div class="param-label">Рельеф</div>
+        <div class="param-opts" id="pC">
+          <div class="param-opt" data-g="C" data-v="plain" onclick="pick('C',this)"><b>А</b>Равнина</div>
+          <div class="param-opt" data-g="C" data-v="mtn" onclick="pick('C',this)"><b>Б</b>Горы с одной стороны</div>
+        </div>
+      </div>
+      <button class="build-btn" id="buildBtn" onclick="buildClimate()" disabled>🌍 Узнать климат</button>
+      <div class="climate-result" id="climResult"></div>
+      <button class="build-reset" id="buildReset" onclick="resetBuild()" style="display:none">↩ Попробовать другой вариант</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Интерактивный урок географии · <span>Факторы климата</span>
+</div>
+
+<script>
+/* ════════════════
+   TASK 1 — QUIZ
+════════════════ */
+const QS = [
+  { tag:'Главный фактор', q:'Какой фактор климата является самым главным?',
+    opts:['Океан','Географическая широта','Горы'], ans:1,
+    fb:'<b>Географическая широта</b> — главный фактор, ведь именно она определяет угол падения солнечных лучей и количество получаемого тепла.' },
+  { tag:'Экватор vs полюс', q:'Почему на экваторе жарче, чем на полюсах?',
+    opts:['Там ближе к Солнцу','Солнечные лучи падают отвесно','Там нет ветров'], ans:1,
+    fb:'<b>Отвесные лучи</b> концентрируют энергию на меньшей площади. На полюсах те же лучи падают наклонно и «размазываются» по большой поверхности.' },
+  { tag:'Рельеф', q:'Что такое «дождевая тень»?',
+    opts:['Область за горами, где мало осадков','Тень от дерева в пустыне','Холодное течение'], ans:0,
+    fb:'<b>Дождевая тень</b> — засушливая зона за горным хребтом. Влажный воздух поднимается, охлаждается, отдаёт дожди на наветренном склоне — и за горами уже сухо.' },
+  { tag:'Течения', q:'Как тёплые течения влияют на климат?',
+    opts:['Делают его холоднее и суше','Делают его теплее и влажнее','Не влияют'], ans:1,
+    fb:'<b>Тёплые течения</b> прогревают воздух и насыщают его влагой. Пример: Гольфстрим делает климат Западной Европы мягким даже на высоких широтах.' },
+  { tag:'Высота', q:'Как изменяется температура воздуха с высотой в горах?',
+    opts:['Повышается','Понижается','Не меняется'], ans:1,
+    fb:'<b>Понижается</b> — примерно на 0,6 °C каждые 100 метров. Поэтому на вершинах гор, даже в тропиках, лежит снег — привет, Килиманджаро!' },
+];
+
+let qi=0, qsc=0;
+
+function renderQ() {
+  const q = QS[qi];
+  document.getElementById('qRes').classList.remove('show');
+  document.getElementById('qInner').style.display='';
+  document.getElementById('qDots').innerHTML = QS.map((_,i)=>
+    `<div class="qdot ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  document.getElementById('qInner').innerHTML = `
+    <div class="q-tag">Вопрос ${qi+1}/5 · ${q.tag}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="q-opt" data-i="${i}" onclick="pickQ(${i})">
+        <span class="ql">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qFb"></div>
+    <button class="q-nxt" id="qNxt" onclick="nextQ()">${qi<4?'Далее →':'Результат →'}</button>`;
+}
+
+function pickQ(c) {
+  const q = QS[qi];
+  document.querySelectorAll('.q-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok = c===q.ans;
+  document.querySelectorAll('.q-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.innerHTML = q.fb; fb.classList.add('show');
+  if(ok) qsc++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('r1').textContent = qsc+'/5';
+}
+
+function nextQ(){
+  qi++;
+  if(qi>=5){showQRes();return;}
+  renderQ();
+}
+
+function showQRes(){
+  document.getElementById('qInner').style.display='none';
+  document.getElementById('qRes').classList.add('show');
+  document.getElementById('qrNum').innerHTML=qsc+'<sup>/5</sup>';
+  const ranks=[[5,'Климатолог!','Все пять верно — ты разбираешься в факторах климата!'],[4,'Отлично','Почти идеально! Один вопрос с погрешностью.'],[3,'Хорошо','Повтори тему течений или рельефа.'],[0,'Нужно повторить','Посмотри материал ещё раз — климат сложнее, чем кажется.']].find(([n])=>qsc>=n);
+  document.getElementById('qrTitle').textContent=ranks[1];
+  document.getElementById('qrNote').textContent=ranks[2];
+  document.getElementById('qDots').innerHTML=QS.map(()=>`<div class="qdot done"></div>`).join('');
+}
+
+function quizReset(){qi=0;qsc=0;document.getElementById('r1').textContent='0/5';renderQ();}
+renderQ();
+
+/* ════════════════
+   TASK 2 — FILL
+════════════════ */
+const WORDS=['фактора','географическая широта','экватору','океан','течения','рельеф','дождевую тень','осадков'];
+
+const SEGS=[
+  {pre:'«Климат формируют три главных ',idx:0,post:'. '},
+  {pre:'Первый фактор — ',idx:1,post:'. Чем ближе к '},
+  {pre:'',idx:2,post:', тем теплее. '},
+  {pre:'Второй фактор — ',idx:3,post:'. Тёплые '},
+  {pre:'',idx:4,post:' делают климат теплее и влажнее. '},
+  {pre:'Третий фактор — ',idx:5,post:'. Горы создают '},
+  {pre:'',idx:6,post:' — область за горами, где мало '},
+  {pre:'',idx:7,post:'.»'},
+];
+
+let fillState=WORDS.map(()=>null), selWord=null, selBlank=null;
+
+function renderFill(){
+  fillState=WORDS.map(()=>null); selWord=null; selBlank=null;
+  let html='';
+  SEGS.forEach((s,si)=>{
+    html+=s.pre;
+    html+=`<span class="blank" id="bl-${si}" data-n="${si+1}" onclick="clickBlank(${si})"></span>`;
+    html+=s.post;
+  });
+  document.getElementById('fillText').innerHTML=html;
+  document.getElementById('wordBank').innerHTML=WORDS.map((w,wi)=>
+    `<div class="wchip" id="wc-${wi}" onclick="clickWord(${wi})">${w}</div>`).join('');
+  document.getElementById('fillScore').textContent='';
+  document.getElementById('r2').textContent='0/8';
+}
+
+function clickWord(wi){
+  if(document.getElementById(`wc-${wi}`).classList.contains('used'))return;
+  document.querySelectorAll('.wchip').forEach(c=>c.classList.remove('sel'));
+  if(selWord===wi){selWord=null;return;}
+  selWord=wi;
+  document.getElementById(`wc-${wi}`).classList.add('sel');
+  if(selBlank!==null) placeW();
+}
+
+function clickBlank(bi){
+  const el=document.getElementById(`bl-${bi}`);
+  if(el.classList.contains('correct'))return;
+  const s=SEGS[bi];
+  if(fillState[s.idx]!==null){
+    const wi=WORDS.indexOf(fillState[s.idx]);
+    if(wi>=0){document.getElementById(`wc-${wi}`)?.classList.remove('used');}
+    fillState[s.idx]=null; el.textContent='';
+    el.className='blank'; el.dataset.n=bi+1;
+    selBlank=null; selWord=null;
+    document.querySelectorAll('.wchip').forEach(c=>c.classList.remove('sel'));
+    document.querySelectorAll('.blank').forEach(b=>b.classList.remove('filled'));
+    return;
+  }
+  document.querySelectorAll('.blank').forEach(b=>b.classList.remove('filled'));
+  el.classList.add('filled'); selBlank=bi;
+  if(selWord!==null) placeW();
+}
+
+function placeW(){
+  const bi=selBlank, wi=selWord;
+  if(bi===null||wi===null)return;
+  const s=SEGS[bi];
+  const word=WORDS[wi];
+  fillState[s.idx]=word;
+  const el=document.getElementById(`bl-${bi}`);
+  el.textContent=word; el.className='blank filled';
+  document.getElementById(`wc-${wi}`).classList.add('used');
+  selBlank=null; selWord=null;
+  document.querySelectorAll('.wchip').forEach(c=>c.classList.remove('sel'));
+  document.querySelectorAll('.blank').forEach(b=>b.classList.remove('filled'));
+  const filled=fillState.filter(x=>x!==null).length;
+  document.getElementById('r2').textContent=filled+'/8';
+}
+
+function checkFill(){
+  let ok=0;
+  SEGS.forEach((s,bi)=>{
+    const el=document.getElementById(`bl-${bi}`);
+    const val=fillState[s.idx];
+    if(!val)return;
+    const correct=val===WORDS[s.idx];
+    el.className='blank '+(correct?'correct':'wrong');
+    if(correct)ok++;
+  });
+  document.getElementById('fillScore').textContent=`Верно: ${ok} из 8`;
+  document.getElementById('r2').textContent=ok+'/8';
+}
+
+function resetFill(){renderFill();}
+renderFill();
+
+/* ════════════════
+   TASK 3 — GUESS
+════════════════ */
+const GUESSES=[
+  {num:1,label:'Описание 1 · Высотная поясность',
+   desc:'Это место находится почти на экваторе, но на его вершине лежат ледники и снег. Здесь работает закон высотной поясности. Назовите гору.',
+   answers:['килиманджаро','гора килиманджаро','mount kilimanjaro','kilimanjaro'],
+   exp:'Гора <b>Килиманджаро</b> (Танзания, ~5895 м). Несмотря на экватор, на вершине постоянный снег — потому что с высотой температура падает.',
+  },
+  {num:2,label:'Описание 2 · Тёплое течение',
+   desc:'Этот город в Европе (52° ш.) почти никогда не видит морозов, хотя на той же широте в Северной Америке зима с морозами до −20 °C. Благодаря какому тёплому течению здесь мягкий климат?',
+   answers:['гольфстрим','gulf stream','гольфстрем'],
+   exp:'<b>Гольфстрим</b> — мощное тёплое течение Атлантики. Оно обогревает Западную Европу и делает климат Лондона и Берлина необычно мягким для их широты.',
+  },
+  {num:3,label:'Описание 3 · Дождевая тень',
+   desc:'Это место в Южной Америке — самое сухое на Земле. С одной стороны — холодное течение Гумбольдта, с другой — Анды, которые задерживают влагу. Назовите пустыню.',
+   answers:['атакама','atacama','пустыня атакама'],
+   exp:'Пустыня <b>Атакама</b>. Холодное течение охлаждает воздух (осадки выпадают над морем), а Анды с востока блокируют влажный воздух. Идеальная «климатическая ловушка» для засухи.',
+  }
+];
+
+let guessScore=0;
+
+function renderGuess(){
+  const con=document.getElementById('guessCards');
+  con.innerHTML='';
+  GUESSES.forEach((g,gi)=>{
+    const card=document.createElement('div');
+    card.className='guess-card';
+    card.innerHTML=`
+      <div class="guess-head">
+        <div class="guess-num">${g.num}</div>
+        <div class="guess-head-label">${g.label}</div>
+      </div>
+      <div class="guess-body">
+        <div class="guess-desc">${g.desc}</div>
+        <div class="guess-input-row">
+          <input type="text" class="guess-input" id="gi-${gi}" placeholder="Введи ответ…" onkeydown="if(event.key==='Enter')submitGuess(${gi})">
+          <button class="guess-submit" id="gs-${gi}" onclick="submitGuess(${gi})">Проверить</button>
+        </div>
+        <div class="guess-hint" id="gh-${gi}">${g.exp}</div>
+      </div>`;
+    con.appendChild(card);
+  });
+}
+
+function submitGuess(gi){
+  const g=GUESSES[gi];
+  const inp=document.getElementById(`gi-${gi}`);
+  const btn=document.getElementById(`gs-${gi}`);
+  const hint=document.getElementById(`gh-${gi}`);
+  const val=inp.value.trim().toLowerCase();
+  const ok=g.answers.some(a=>val.includes(a)||a.includes(val.replace(/ё/g,'е')));
+  inp.disabled=true; btn.disabled=true;
+  inp.classList.add(ok?'correct':'wrong');
+  hint.classList.add('show');
+  if(!ok && !hint.querySelector('.wrong-msg')){
+    const span=document.createElement('div');
+    span.className='wrong-msg';
+    span.style.cssText='font-size:.8rem;color:var(--red);margin-top:.3rem';
+    span.textContent='Ответ не совпал — см. объяснение выше.';
+    hint.appendChild(span);
+  }
+  if(ok) guessScore++;
+  document.getElementById('r3').textContent=guessScore+'/3';
+}
+
+renderGuess();
+
+/* ═══════════════
+   TASK 4 — T/F
+═══════════════ */
+const TFS=[
+  {stmt:'Чем ближе к экватору, тем холоднее.',ans:false,exp:'Всё наоборот: ближе к экватору — теплее. Солнечные лучи падают отвесно и сильнее нагревают поверхность.'},
+  {stmt:'Холодные течения делают климат суше.',ans:true,exp:'Верно. Холодные течения охлаждают воздух, снижают испарение — и осадков на берегах рядом с ними выпадает мало. Пример: пустыня Атакама у течения Гумбольдта.'},
+  {stmt:'В горах с высотой температура повышается.',ans:false,exp:'Температура понижается — примерно на 0,6 °C на каждые 100 м. Поэтому горы — это «лестница» от тепла к холоду.'},
+  {stmt:'Горы могут задерживать дожди, создавая пустыни за ними.',ans:true,exp:'Верно. Это называется «дождевая тень»: влажный воздух «разгружается» на наветренном склоне, а за горами — засушливый климат.'},
+  {stmt:'Океан смягчает климат: зимой теплее, летом прохладнее.',ans:true,exp:'Верно. Вода медленно нагревается и медленно остывает — поэтому вблизи морей зимы мягче, а лета прохладнее, чем вдали от океана.'},
+];
+
+let tfCorrect=0, tfDone=0;
+
+function renderTF(){
+  tfCorrect=0; tfDone=0;
+  document.getElementById('tfTally').classList.remove('show');
+  const stack=document.getElementById('tfStack');
+  stack.innerHTML='';
+  TFS.forEach((item,i)=>{
+    const row=document.createElement('div');
+    row.className='tf-row'; row.id=`tr-${i}`;
+    row.innerHTML=`
+      <div class="tf-row-left">
+        <div class="tf-rnum">Утверждение ${i+1}</div>
+        <div class="tf-stmt">${item.stmt}</div>
+        <div class="tf-exp" id="te-${i}">${item.exp}</div>
+      </div>
+      <div class="tf-row-btns">
+        <button class="tf-btn" id="tfp-${i}" onclick="pickTF(${i},true)">П</button>
+        <button class="tf-btn" id="tfn-${i}" onclick="pickTF(${i},false)">Н</button>
+      </div>`;
+    stack.appendChild(row);
+  });
+}
+
+function pickTF(i, userAns){
+  const item=TFS[i];
+  const pb=document.getElementById(`tfp-${i}`);
+  const nb=document.getElementById(`tfn-${i}`);
+  pb.disabled=true; nb.disabled=true;
+  const ok=userAns===item.ans;
+  const chosen=userAns?pb:nb;
+  const correct=item.ans?pb:nb;
+  chosen.classList.add(ok?'right':'wrong');
+  if(!ok) correct.classList.add('reveal');
+  document.getElementById(`te-${i}`).classList.add('show');
+  document.getElementById(`tr-${i}`).classList.add(ok?'ok-ans':'wrong-ans');
+  if(ok) tfCorrect++;
+  tfDone++;
+  document.getElementById('r4').textContent=tfCorrect+'/5';
+  if(tfDone===5){
+    const t=document.getElementById('tfTally');
+    t.innerHTML=`Итог: <b>${tfCorrect}/5</b> — ${['Ещё раз изучи тему!','Почти! Один нюанс.','Неплохо!','Хорошо!','Идеально!'][Math.min(tfCorrect,4)]}`;
+    t.classList.add('show');
+  }
+}
+
+renderTF();
+
+/* ════════════════════
+   TASK 5 — BUILD
+════════════════════ */
+const chosen={A:null,B:null,C:null};
+
+function pick(g, el){
+  document.querySelectorAll(`[data-g="${g}"]`).forEach(e=>e.classList.remove('chosen'));
+  el.classList.add('chosen');
+  chosen[g]=el.dataset.v;
+  document.getElementById('buildBtn').disabled=!(chosen.A&&chosen.B&&chosen.C);
+}
+
+const CLIMATES={
+  eq_coast_plain:  {cls:'clim-tropical',icon:'🌴',name:'Тропический морской',tags:['☀️ Жарко круглый год','💧 Очень влажно','🌧 Много осадков'],desc:'Экватор + океан + равнина = классический тропический климат. Постоянная жара и высокая влажность. Именно здесь растут влажные тропические леса.'},
+  eq_coast_mtn:    {cls:'clim-tropical',icon:'🏔️',name:'Тропический горный',tags:['☀️ Жарко внизу','❄️ Снег на вершинах','🌧 Много осадков у подножия'],desc:'Горы создают высотную поясность: у подножия — тропические джунгли и ливни, на вершинах — снег и ледники. Наветренный склон получает максимум осадков.'},
+  eq_inland_plain: {cls:'clim-tropical',icon:'🌵',name:'Тропический континентальный',tags:['☀️ Очень жарко','🏜 Сухо','🌬 Сезон дождей короткий'],desc:'Далеко от океана экватор всё равно даёт жару, но влаги меньше. Здесь саванны и редкие ливни в сезон дождей.'},
+  eq_inland_mtn:   {cls:'clim-desert',icon:'🏜️',name:'Тропическая дождевая тень',tags:['☀️ Очень жарко','🏜 Крайне сухо','⛰ Горы блокируют влагу'],desc:'Горы задерживают влагу — за ними формируется засушливая зона. Аналог пустыни Атакама: жарко и крайне сухо.'},
+  temp_coast_plain:{cls:'clim-temperate',icon:'🌤️',name:'Умеренный морской',tags:['🌧 Дождливо','🌡 Мягкая зима','🍃 Прохладное лето'],desc:'Классика Западной Европы — как Лондон или Берлин (с Гольфстримом). Мягкий влажный климат без резких перепадов температур.'},
+  temp_coast_mtn:  {cls:'clim-temperate',icon:'⛰️',name:'Умеренный горный морской',tags:['🌧 Много осадков у склонов','❄️ Снег в горах','🌤 Суше за горами'],desc:'Горы «вылавливают» морскую влагу. На наветренном склоне — леса и ливни, за горами — уже заметно суше. Пример: Скандинавия.'},
+  temp_inland_plain:{cls:'clim-continental',icon:'🌾',name:'Умеренный континентальный',tags:['❄️ Морозная зима','☀️ Тёплое лето','🌦 Мало осадков'],desc:'Вдали от океана — суровые зимы и жаркое лето. Большие перепады температур. Здесь растут степи и леса умеренного пояса.'},
+  temp_inland_mtn: {cls:'clim-continental',icon:'🏔️',name:'Резко-континентальный горный',tags:['❄️ Очень холодная зима','☀️ Жаркое лето','🏜 Сухо за горами'],desc:'Горы изолируют от морских масс, а материк усиливает крайности. Резкий климат с очень сухим воздухом — как в высокогорьях Центральной Азии.'},
+  pole_coast_plain:{cls:'clim-polar',icon:'🧊',name:'Субарктический морской',tags:['❄️ Холодно','🌊 Смягчение от океана','🌧 Туманно и сыро'],desc:'Океан немного смягчает арктическую стужу: зимы суровы, но не так, как в глубине материка. Постоянные туманы и моросящие дожди — как на Аляске или в Норвегии.'},
+  pole_coast_mtn:  {cls:'clim-polar',icon:'🌨️',name:'Арктический горный',tags:['❄️ Постоянные снега','⛰ Ледники','🌊 Чуть мягче у берега'],desc:'Горы у полярного берега покрыты ледниками. Суровый климат, но морской воздух немного сдерживает морозы — как на Шпицбергене или Гренландии.'},
+  pole_inland_plain:{cls:'clim-polar',icon:'🥶',name:'Полярный континентальный',tags:['🌡 Морозы до −50 °C','🏜 Полярная пустыня','☀️ Полярное лето очень короткое'],desc:'Самый суровый климат на Земле — как в Антарктиде или Якутии. Летом полярный день, зимой — полярная ночь и трескучие морозы.'},
+  pole_inland_mtn: {cls:'clim-polar',icon:'⛰️',name:'Ледниковый высокогорный',tags:['❄️ Вечный лёд','🌡 Ниже −40 °C','🌬 Ураганные ветры'],desc:'Горы на полюсе — это край обитаемого мира. Постоянные ледники, ураганные ветры и экстремальный мороз. Аналог ледяного щита Антарктиды.'},
+};
+
+function buildClimate(){
+  const key=`${chosen.A}_${chosen.B}_${chosen.C}`;
+  const cl=CLIMATES[key];
+  if(!cl)return;
+  const r=document.getElementById('climResult');
+  r.className='climate-result show '+cl.cls;
+  r.innerHTML=`
+    <div class="cr-header">
+      <span class="cr-icon">${cl.icon}</span>
+      <span class="cr-name">${cl.name}</span>
+    </div>
+    <div class="cr-body">
+      <div class="cr-row">${cl.tags.map(t=>`<span class="cr-tag">${t}</span>`).join('')}</div>
+      <div class="cr-desc">${cl.desc}</div>
+    </div>`;
+  document.getElementById('buildBtn').style.display='none';
+  document.getElementById('buildReset').style.display='block';
+  document.getElementById('r5').textContent='готово ✓';
+}
+
+function resetBuild(){
+  chosen.A=null; chosen.B=null; chosen.C=null;
+  document.querySelectorAll('.param-opt').forEach(e=>e.classList.remove('chosen'));
+  document.getElementById('climResult').className='climate-result';
+  document.getElementById('climResult').innerHTML='';
+  document.getElementById('buildBtn').disabled=true;
+  document.getElementById('buildBtn').style.display='';
+  document.getElementById('buildReset').style.display='none';
+  document.getElementById('r5').textContent='—';
+}
+</script>
+</body>
+</html>
