@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Углеводы — Интерактивный урок биологии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #F0F7F4;
+  --bg2:       #E4F0EB;
+  --bg3:       #D5E8DE;
+  --white:     #FDFFFE;
+  --teal:      #0A7B6A;
+  --teal2:     #0D9880;
+  --teal-lt:   #DDF2ED;
+  --teal-md:   #A8DACE;
+  --amber:     #B86A00;
+  --amber-lt:  #FEF3E0;
+  --rose:      #B5213C;
+  --rose-lt:   #FAEAEE;
+  --indigo:    #2E4DA0;
+  --indigo-lt: #EBF0FD;
+  --green:     #1A6B3A;
+  --green-lt:  #E4F2EB;
+  --ink:       #111C18;
+  --ink2:      #1E2D28;
+  --muted:     #5C7A6E;
+  --border:    rgba(10,123,106,0.14);
+  --border2:   rgba(10,123,106,0.22);
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Lora', Georgia, serif;
+  --sans:      'Plus Jakarta Sans', system-ui, sans-serif;
+  --radius:    14px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink2);
+  position: relative; overflow: hidden;
+  padding: 0;
+}
+.hero-molecules {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-molecules circle { opacity: 0.06; }
+.hero-molecules line   { opacity: 0.05; stroke: #fff; }
+
+.hero-inner {
+  padding: 5rem 2rem 6.5rem; text-align: center;
+  position: relative;
+}
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(13,152,128,0.2);
+  border: 1px solid rgba(13,152,128,0.35);
+  border-radius: 99px; padding: 5px 16px;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal-md); margin-bottom: 1.4rem;
+}
+.hero-chip span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal2);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 600; line-height: 1.05;
+  color: #fff; letter-spacing: -0.01em;
+  max-width: 600px; margin: 0 auto 0.4rem;
+}
+.hero h1 em { font-style: italic; color: var(--teal-md); }
+.hero-formula {
+  font-family: var(--mono); font-size: 1.1rem;
+  color: rgba(255,255,255,0.2); margin-bottom: 1.8rem;
+  letter-spacing: 0.1em;
+}
+.hero-sub {
+  font-size: 0.98rem; color: rgba(255,255,255,0.45);
+  max-width: 420px; margin: 0 auto 2.5rem;
+}
+.hero-pills {
+  display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.hero-pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 8px; padding: 6px 14px;
+  font-size: 11px; color: rgba(255,255,255,0.5);
+}
+.hero-pill b { color: var(--teal-md); margin-right: 4px; font-weight: 700; }
+
+.hero-wave {
+  position: absolute; bottom: -1px; left: 0; right: 0; line-height: 0;
+}
+.hero-wave svg { display: block; width: 100%; }
+
+/* ── RIBBON ── */
+.ribbon {
+  background: var(--teal); padding: 0.6rem 1.5rem;
+  display: flex; justify-content: center; align-items: center;
+  gap: 2rem; flex-wrap: wrap;
+}
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 0.06em; }
+.rib b { color: #A8DACE; margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 1rem; }
+.sec-tag {
+  font-family: var(--mono); font-size: 9px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.35rem;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 600; line-height: 1.18; color: var(--ink);
+}
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.3rem; }
+
+.wave-sep {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 2rem 0 0.3rem;
+}
+.wave-sep::before, .wave-sep::after {
+  content: ''; flex: 1; height: 1px; background: var(--border2);
+}
+.wave-sep span {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+
+/* ══════════════════════════════
+   TASK 1 — QUIZ
+══════════════════════════════ */
+.quiz-shell {
+  background: var(--white); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.quiz-bar {
+  background: var(--ink2); padding: 0.85rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.quiz-bar-label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.q-segs { display: flex; gap: 4px; }
+.qseg {
+  height: 3px; width: 28px; border-radius: 2px;
+  background: rgba(255,255,255,0.12); transition: background 0.25s;
+}
+.qseg.done { background: var(--teal-md); }
+.qseg.cur  { background: rgba(168,218,206,0.45); }
+
+.quiz-inner { padding: 1.5rem; }
+.q-meta {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem;
+}
+.q-text {
+  font-family: var(--serif); font-size: 1.08rem; font-weight: 600;
+  color: var(--ink); line-height: 1.5; margin-bottom: 1.1rem;
+}
+.q-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 9px; padding: 0.7rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--ink);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4;
+}
+.q-opt:hover:not(.locked) { border-color: var(--teal2); background: var(--teal-lt); transform: translateX(3px); }
+.q-opt .ql {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--bg2); font-family: var(--mono); font-size: 10px;
+  font-weight: 500; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted);
+}
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.q-opt.correct .ql { background: var(--green); color: #fff; }
+.q-opt.wrong   { background: var(--rose-lt); border-color: var(--rose); }
+.q-opt.wrong   .ql { background: var(--rose); color: #fff; }
+.q-opt.locked  { cursor: default; }
+
+.q-fb {
+  display: none; margin-top: 0.85rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 3px solid var(--teal2);
+  border-radius: 0 8px 8px 0; padding: 0.65rem 1rem;
+  font-size: 0.83rem; color: var(--muted); line-height: 1.6;
+  font-family: var(--mono);
+}
+.q-fb.show { display: block; }
+.q-fb.err { border-left-color: var(--rose); }
+.q-fb b { color: var(--ink); }
+
+.q-nxt {
+  display: none; margin-top: 1rem;
+  background: var(--teal); color: #fff;
+  border: none; padding: 0.62rem 1.4rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.14s;
+}
+.q-nxt.show { display: inline-block; }
+.q-nxt:hover { background: var(--teal2); }
+
+.quiz-result {
+  display: none; text-align: center; padding: 2.5rem 1.5rem;
+}
+.quiz-result.show { display: block; }
+.qr-num {
+  font-family: var(--serif); font-size: 5.5rem; font-weight: 600;
+  color: var(--teal); line-height: 1; letter-spacing: -0.02em;
+}
+.qr-num sup { font-family: var(--mono); font-size: 2.2rem; font-weight: 400; color: var(--muted); }
+.qr-rank { font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--ink); margin: 0.3rem 0 0.2rem; }
+.qr-note { font-size: 0.87rem; color: var(--muted); margin-bottom: 1.3rem; }
+.btn-ghost {
+  background: transparent; border: 1px solid var(--border2);
+  color: var(--muted); padding: 0.52rem 1.2rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.84rem; cursor: pointer;
+  transition: border-color 0.14s, color 0.14s;
+}
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ══════════════════════════════
+   TASK 2 — TRUE/FALSE
+══════════════════════════════ */
+.tf-stack { display: flex; flex-direction: column; gap: 0.65rem; }
+.tf-card {
+  background: var(--white); border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 1rem 1.2rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tf-card.ans-v { border-color: var(--green); background: var(--green-lt); }
+.tf-card.ans-n { border-color: var(--amber); background: var(--amber-lt); }
+
+.tf-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.tf-num {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+  color: var(--muted); margin-bottom: 0.2rem;
+}
+.tf-stmt { font-size: 0.96rem; color: var(--ink); line-height: 1.5; flex: 1; font-weight: 500; }
+.tf-btns { display: flex; gap: 0.4rem; flex-shrink: 0; margin-top: 2px; }
+.tf-btn {
+  padding: 5px 14px; border-radius: 7px;
+  border: 1.5px solid var(--border2); background: var(--bg);
+  font-family: var(--sans); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; color: var(--ink2);
+  transition: border-color 0.14s, background 0.14s;
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--teal2); background: var(--teal-lt); }
+.tf-btn:disabled { cursor: default; opacity: 0.5; }
+.tf-btn.chosen-right { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-btn.chosen-wrong { background: var(--rose-lt); border-color: var(--rose); color: var(--rose); }
+.tf-btn.reveal-right { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+
+.tf-exp {
+  display: none; font-size: 0.81rem; color: var(--muted); font-style: italic;
+  margin-top: 0.5rem; padding-top: 0.5rem;
+  border-top: 1px solid rgba(10,123,106,0.1); line-height: 1.55;
+}
+.tf-exp.show { display: block; }
+.tf-exp .vv { color: var(--green); font-style: normal; font-weight: 600; }
+.tf-exp .vn { color: var(--amber); font-style: normal; font-weight: 600; }
+
+.tf-tally {
+  display: none; text-align: center; margin-top: 1rem;
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+}
+.tf-tally.show { display: block; }
+.tf-tally b { color: var(--teal); font-size: 13px; }
+
+/* ══════════════════════════════
+   TASK 3 — CONSOLIDATION TEST
+══════════════════════════════ */
+.acc-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.acc-item {
+  background: var(--white); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.acc-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 1rem 1.2rem; cursor: pointer;
+  transition: background 0.14s; user-select: none;
+}
+.acc-head:hover { background: var(--teal-lt); }
+.acc-num {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--teal); color: #fff;
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.acc-q { font-size: 0.93rem; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.4; }
+.acc-icon {
+  font-size: 14px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0;
+}
+.acc-item.open .acc-icon { transform: rotate(180deg); }
+.acc-body {
+  display: none; padding: 0 1.2rem 1.1rem;
+  font-size: 0.88rem; color: var(--muted); line-height: 1.7;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.acc-body.show { display: block; }
+.acc-body strong { color: var(--teal); font-weight: 600; }
+.acc-body em { font-style: italic; }
+
+/* ══════════════════════════════
+   TASK 4 — DETECTIVE
+══════════════════════════════ */
+.detective-box {
+  background: var(--white); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.det-head {
+  background: var(--ink2); padding: 1rem 1.4rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.det-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(13,152,128,0.2);
+  border: 1px solid rgba(13,152,128,0.35);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.det-head-txt h3 {
+  font-family: var(--serif); font-size: 1rem; color: #fff; font-weight: 600;
+}
+.det-head-txt p { font-size: 11px; color: rgba(255,255,255,0.38); font-family: var(--mono); }
+
+.det-body { padding: 1.4rem; }
+.det-situation {
+  background: var(--bg2); border-left: 3px solid var(--teal2);
+  border-radius: 0 9px 9px 0; padding: 1rem 1.1rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.97rem; line-height: 1.75; color: var(--ink);
+  margin-bottom: 1.3rem;
+}
+.tubes {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+@media(max-width:480px){ .tubes { grid-template-columns: 1fr; } }
+.tube-card {
+  background: var(--bg); border: 1.5px solid var(--border2);
+  border-radius: 10px; padding: 0.9rem; text-align: center;
+  transition: border-color 0.14s, background 0.14s;
+}
+.tube-icon { font-size: 2rem; display: block; margin-bottom: 0.4rem; }
+.tube-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 0.2rem;
+}
+.tube-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.45; }
+
+.tube-answers { display: none; }
+.tube-answers.show { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; margin-bottom: 1rem; }
+@media(max-width:480px){ .tube-answers.show { grid-template-columns: 1fr; } }
+.tube-ans {
+  background: var(--teal-lt); border: 1.5px solid var(--teal-md);
+  border-radius: 10px; padding: 0.9rem; text-align: center;
+}
+.tube-ans-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal2); margin-bottom: 0.3rem; }
+.tube-ans-text { font-size: 0.88rem; color: var(--ink); line-height: 1.45; font-weight: 600; }
+.tube-ans-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+.det-task {
+  font-size: 0.9rem; font-weight: 600; color: var(--ink);
+  margin-bottom: 0.8rem;
+}
+.btn-reveal {
+  background: var(--teal); color: #fff; border: none;
+  padding: 0.65rem 1.4rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.14s;
+}
+.btn-reveal:hover { background: var(--teal2); }
+.det-note {
+  display: none; margin-top: 0.8rem;
+  font-size: 0.83rem; color: var(--muted); font-style: italic; line-height: 1.55;
+}
+.det-note.show { display: block; }
+
+/* ══════════════════════════════
+   TASK 5 — BREAKFAST BUILDER
+══════════════════════════════ */
+.breakfast-box {
+  background: var(--white); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.bf-head {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal2) 100%);
+  padding: 1rem 1.4rem;
+}
+.bf-head h3 { font-family: var(--serif); font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+.bf-head p  { font-size: 11px; color: rgba(255,255,255,0.55); }
+
+.bf-body { padding: 1.4rem; }
+.bf-situation {
+  background: var(--amber-lt); border: 1px solid #F0D080;
+  border-radius: 9px; padding: 0.9rem 1rem;
+  font-size: 0.88rem; color: var(--ink); line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+.bf-situation strong { color: var(--amber); }
+
+.bf-slots { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.2rem; }
+.bf-slot {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 0.7rem 1rem;
+}
+.bf-slot-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--teal); color: #fff;
+  font-family: var(--mono); font-size: 11px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.bf-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: var(--sans); font-size: 0.9rem; color: var(--ink);
+  placeholder-color: var(--muted);
+}
+.bf-type {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  padding: 3px 10px; border-radius: 99px; flex-shrink: 0;
+}
+.bf-type.simple  { background: var(--rose-lt); color: var(--rose); }
+.bf-type.complex { background: var(--teal-lt); color: var(--teal); }
+.bf-type.hidden  { display: none; }
+
+.bf-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.btn-primary {
+  background: var(--teal); color: #fff; border: none;
+  padding: 0.62rem 1.4rem; border-radius: 9px;
+  font-family: var(--sans); font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: background 0.14s;
+}
+.btn-primary:hover { background: var(--teal2); }
+
+.bf-analysis {
+  display: none; background: var(--bg);
+  border-radius: 9px; padding: 1rem; border: 1px solid var(--border);
+}
+.bf-analysis.show { display: block; }
+.bf-analysis-title {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.7rem;
+}
+.bf-breakdown { display: flex; flex-direction: column; gap: 0.4rem; }
+.bf-breakdown-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; color: var(--ink2);
+}
+.bf-breakdown-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.bf-score {
+  margin-top: 0.8rem; padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.bf-score-bar { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; margin: 0.4rem 0; }
+.bf-score-fill { height: 100%; border-radius: 4px; background: var(--teal); transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+.bf-score-label { font-size: 0.82rem; color: var(--muted); font-style: italic; }
+
+.bf-example {
+  display: none; margin-top: 0.8rem;
+  background: var(--indigo-lt); border: 1px solid rgba(46,77,160,0.2);
+  border-radius: 9px; padding: 0.9rem;
+  font-size: 0.83rem; color: var(--ink); line-height: 1.6;
+}
+.bf-example.show { display: block; }
+.bf-example strong { color: var(--indigo); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--ink2); margin-top: 3.5rem; padding: 2.5rem;
+  text-align: center;
+}
+.footer p {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.22);
+}
+.footer span { color: var(--teal-md); }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.quiz-shell, .tf-card, .acc-item, .detective-box, .breakfast-box { animation: fadeUp 0.3s ease backwards; }
+.tf-card:nth-child(1){animation-delay:.02s}.tf-card:nth-child(2){animation-delay:.05s}
+.tf-card:nth-child(3){animation-delay:.08s}.tf-card:nth-child(4){animation-delay:.11s}
+.tf-card:nth-child(5){animation-delay:.14s}.tf-card:nth-child(6){animation-delay:.17s}
+.acc-item:nth-child(1){animation-delay:.03s}.acc-item:nth-child(2){animation-delay:.07s}
+.acc-item:nth-child(3){animation-delay:.11s}.acc-item:nth-child(4){animation-delay:.15s}
+.acc-item:nth-child(5){animation-delay:.19s}
+@keyframes pop { 0%{transform:scale(0.8);opacity:0}70%{transform:scale(1.07)}100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-num { animation: pop 0.4s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <svg class="hero-molecules" style="position:absolute;inset:0;width:100%;height:100%;" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="80"  cy="80"  r="40" fill="#0D9880"/><circle cx="160" cy="80"  r="25" fill="#0D9880"/>
+    <circle cx="80"  cy="170" r="25" fill="#0D9880"/><circle cx="500" cy="60"  r="35" fill="#0D9880"/>
+    <circle cx="560" cy="130" r="20" fill="#0D9880"/><circle cx="520" cy="200" r="30" fill="#0D9880"/>
+    <circle cx="300" cy="20"  r="15" fill="#A8DACE"/><circle cx="380" cy="50"  r="20" fill="#A8DACE"/>
+    <line x1="80" y1="80" x2="160" y2="80" stroke-width="3"/>
+    <line x1="80" y1="80" x2="80"  y2="170" stroke-width="3"/>
+    <line x1="500" y1="60" x2="560" y2="130" stroke-width="3"/>
+    <line x1="560" y1="130" x2="520" y2="200" stroke-width="3"/>
+    <line x1="300" y1="20" x2="380" y2="50" stroke-width="2"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-chip"><span></span>Биология · 9–10 класс</div>
+    <h1>Углеводы:<br><em>строение и функции</em></h1>
+    <div class="hero-formula">C₆H₁₂O₆ · Cₙ(H₂O)ₙ</div>
+    <p class="hero-sub">Пять интерактивных заданий: от викторины до «Завтрака учёного»</p>
+    <div class="hero-pills">
+      <div class="hero-pill"><b>1</b>Викторина</div>
+      <div class="hero-pill"><b>2</b>Верно/Нет</div>
+      <div class="hero-pill"><b>3</b>Закрепление</div>
+      <div class="hero-pill"><b>4</b>Детектив</div>
+      <div class="hero-pill"><b>5</b>Завтрак</div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 65" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,35 Q360,70 720,25 Q1080,-10 1440,40 L1440,65 L0,65Z" fill="#F0F7F4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ribbon">
+  <div class="rib">Викторина: <b id="r1">0/5</b></div>
+  <div class="rib">Верно/Нет: <b id="r2">0/6</b></div>
+  <div class="rib">Закрепление: <b id="r3">0/5</b></div>
+  <div class="rib">Детектив: <b id="r4">—</b></div>
+  <div class="rib">Завтрак: <b id="r5">—</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ TASK 1 ═══ -->
+  <div class="sec">
+    <div class="sec-tag">Задание 1</div>
+    <div class="sec-title">Викторина «Знаешь ли ты углеводы?»</div>
+    <div class="sec-desc">5 вопросов с одним верным ответом. Объяснение появится после выбора.</div>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-bar">
+      <span class="quiz-bar-label">Углеводы · 5 вопросов</span>
+      <div class="q-segs" id="qSegs"></div>
+    </div>
+    <div id="qInner" class="quiz-inner"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="qr-num" id="qrNum">0<sup>/5</sup></div>
+      <div class="qr-rank" id="qrRank"></div>
+      <div class="qr-note" id="qrNote"></div>
+      <button class="btn-ghost" onclick="quizReset()" style="margin-top:.4rem">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <div class="wave-sep"><span>Задание 2</span></div>
+
+  <!-- ═══ TASK 2 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Верно / Неверно»</div>
+    <div class="sec-desc">6 утверждений о строении и функциях углеводов. Нажми «Верно» или «Неверно».</div>
+  </div>
+  <div class="tf-stack" id="tfStack"></div>
+  <div class="tf-tally" id="tfTally"></div>
+
+  <div class="wave-sep"><span>Задание 3</span></div>
+
+  <!-- ═══ TASK 3 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Тест на закрепление</div>
+    <div class="sec-desc">5 вопросов с развёрнутым ответом. Нажми на вопрос — увидишь объяснение.</div>
+  </div>
+  <div class="acc-list" id="accList"></div>
+
+  <div class="wave-sep"><span>Задание 4</span></div>
+
+  <!-- ═══ TASK 4 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">🔬 Углеводный детектив</div>
+    <div class="sec-desc">Три пробирки с неизвестными веществами. Определи, что в каждой.</div>
+  </div>
+
+  <div class="detective-box">
+    <div class="det-head">
+      <div class="det-badge">🔬</div>
+      <div class="det-head-txt">
+        <h3>Лаборатория детектива</h3>
+        <p>Анализируй свойства → определяй вещества</p>
+      </div>
+    </div>
+    <div class="det-body">
+      <div class="det-situation">
+        Ты — биолог-детектив. Тебе принесли три пробирки с неизвестными веществами. Изучи свойства каждого и определи вещество.
+      </div>
+      <div class="tubes" id="tubes">
+        <div class="tube-card">
+          <span class="tube-icon">🧪</span>
+          <div class="tube-label">Пробирка А</div>
+          <div class="tube-desc">Сладкая, быстро всасывается в кровь без расщепления</div>
+        </div>
+        <div class="tube-card">
+          <span class="tube-icon">🧪</span>
+          <div class="tube-label">Пробирка Б</div>
+          <div class="tube-desc">Сладкая, но требует расщепления ферментом</div>
+        </div>
+        <div class="tube-card">
+          <span class="tube-icon">🧪</span>
+          <div class="tube-label">Пробирка В</div>
+          <div class="tube-desc">Не сладкая. При добавлении йода — синеет!</div>
+        </div>
+      </div>
+      <div class="tube-answers" id="tubeAnswers">
+        <div class="tube-ans">
+          <div class="tube-ans-label">Пробирка А</div>
+          <div class="tube-ans-text">Моносахарид</div>
+          <div class="tube-ans-sub">Глюкоза или фруктоза. Всасывается прямо в кровь.</div>
+        </div>
+        <div class="tube-ans">
+          <div class="tube-ans-label">Пробирка Б</div>
+          <div class="tube-ans-text">Дисахарид</div>
+          <div class="tube-ans-sub">Сахароза, лактоза или мальтоза. Нужен фермент.</div>
+        </div>
+        <div class="tube-ans">
+          <div class="tube-ans-label">Пробирка В</div>
+          <div class="tube-ans-text">Крахмал</div>
+          <div class="tube-ans-sub">Полисахарид. Даёт синюю реакцию с йодом.</div>
+        </div>
+      </div>
+      <div class="det-task">🧪 Задание: определи вещества в пробирках А, Б, В. Нажми «Показать ответы», когда будешь готов.</div>
+      <button class="btn-reveal" id="detBtn" onclick="revealDet()">Показать ответы</button>
+      <div class="det-note" id="detNote">
+        Реакция с йодом (синение) — качественная реакция на <strong>крахмал</strong>. Сладкий вкус — признак наличия свободных сахаров. Чем проще углевод, тем быстрее он всасывается. Именно поэтому глюкозу вводят внутривенно — она не требует переваривания.
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-sep"><span>Задание 5</span></div>
+
+  <!-- ═══ TASK 5 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">🍳 «Мой завтрак для учёбы»</div>
+    <div class="sec-desc">Составь завтрак из 3–4 продуктов перед сложным экзаменом (4 часа). Система проанализирует твой выбор по типу углеводов.</div>
+  </div>
+
+  <div class="breakfast-box">
+    <div class="bf-head">
+      <h3>Конструктор завтрака перед экзаменом</h3>
+      <p>Нужна стабильная энергия без резких скачков сахара</p>
+    </div>
+    <div class="bf-body">
+      <div class="bf-situation">
+        <strong>Условие:</strong> завтра экзамен — 4 часа концентрации. Мозгу нужна <strong>стабильная глюкоза</strong>. Простые углеводы дадут быстрый подъём и резкий спад. Составь завтрак, который продержит тебя 4 часа.
+      </div>
+      <div class="bf-slots" id="bfSlots">
+        <div class="bf-slot">
+          <div class="bf-slot-num">1</div>
+          <input class="bf-input" id="bf1" type="text" placeholder="Например: овсяная каша…">
+          <span class="bf-type hidden" id="bft1"></span>
+        </div>
+        <div class="bf-slot">
+          <div class="bf-slot-num">2</div>
+          <input class="bf-input" id="bf2" type="text" placeholder="Например: яйцо…">
+          <span class="bf-type hidden" id="bft2"></span>
+        </div>
+        <div class="bf-slot">
+          <div class="bf-slot-num">3</div>
+          <input class="bf-input" id="bf3" type="text" placeholder="Например: горсть орехов…">
+          <span class="bf-type hidden" id="bft3"></span>
+        </div>
+        <div class="bf-slot">
+          <div class="bf-slot-num">4</div>
+          <input class="bf-input" id="bf4" type="text" placeholder="Опционально…">
+          <span class="bf-type hidden" id="bft4"></span>
+        </div>
+      </div>
+      <div class="bf-controls">
+        <button class="btn-primary" onclick="analyzeBreakfast()">🔬 Проанализировать</button>
+        <button class="btn-ghost" onclick="resetBreakfast()">↩ Сбросить</button>
+      </div>
+      <div class="bf-analysis" id="bfAnalysis">
+        <div class="bf-analysis-title">Анализ завтрака</div>
+        <div class="bf-breakdown" id="bfBreakdown"></div>
+        <div class="bf-score" id="bfScore"></div>
+      </div>
+      <div class="bf-example" id="bfExample">
+        <strong>Пример идеального завтрака:</strong> Овсяная каша (сложные углеводы → долгая энергия) + яйцо (белок → сытость) + горсть орехов (жиры → замедляют всасывание) + зелёный чай без сахара. <em>Избегай: сладкие хлопья, белый хлеб с джемом, сладкий йогурт — быстрые углеводы вызовут «сахарные качели».</em>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Интерактивный урок биологии · <span>Углеводы: строение и функции</span></p>
+</div>
+
+<script>
+/* ════════════════════════
+   TASK 1 — QUIZ
+════════════════════════ */
+const QS = [
+  { tag:'Функции углеводов', q:'Какой углевод является основным топливом для мозга?',
+    opts:['Крахмал','Глюкоза','Целлюлоза','Хитин'], ans:1,
+    fb:'<b>Глюкоза</b> — единственный углевод, который мозг использует напрямую. Именно поэтому при голодании в первую очередь страдают когнитивные функции.' },
+  { tag:'Структурные полисахариды', q:'Какой полисахарид выполняет структурную функцию в клеточных стенках растений?',
+    opts:['Гликоген','Крахмал','Целлюлоза','Хитин'], ans:2,
+    fb:'<b>Целлюлоза</b> — основа клеточных стенок растений. Её длинные параллельные цепи скреплены водородными связями, образуя очень прочные микрофибриллы.' },
+  { tag:'Запасные углеводы', q:'Какой углевод запасается в печени и мышцах животных?',
+    opts:['Крахмал','Гликоген','Целлюлоза','Сахароза'], ans:1,
+    fb:'<b>Гликоген</b> — «животный крахмал». Особенно много его в печени (до 6% массы) и мышцах. При необходимости расщепляется до глюкозы.' },
+  { tag:'Непереносимость углеводов', q:'Люди с непереносимостью какого углевода не могут пить обычное молоко?',
+    opts:['Сахароза','Мальтоза','Лактоза','Глюкоза'], ans:2,
+    fb:'<b>Непереносимость лактозы</b> — нехватка фермента лактазы. Нерасщеплённая лактоза поступает в толстый кишечник, где сбраживается бактериями — отсюда дискомфорт.' },
+  { tag:'Исключение', q:'Что из перечисленного НЕ является углеводом?',
+    opts:['Хитин','Крахмал','Гликоген','Инсулин'], ans:3,
+    fb:'<b>Инсулин — это белок</b> (пептидный гормон), а не углевод. Хитин, крахмал и гликоген — полисахариды. Частая ловушка на экзаменах!' },
+];
+
+let qi=0, qsc=0;
+
+function renderQ(){
+  document.getElementById('qResult').classList.remove('show');
+  document.getElementById('qInner').style.display='';
+  const q=QS[qi];
+  document.getElementById('qSegs').innerHTML=QS.map((_,i)=>
+    `<div class="qseg ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  document.getElementById('qInner').innerHTML=`
+    <div class="q-meta">Вопрос ${qi+1}/5 · ${q.tag}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="q-opt" onclick="pickQ(${i})">
+        <span class="ql">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qFb"></div>
+    <button class="q-nxt" id="qNxt" onclick="nextQ()">${qi<4?'Далее →':'Результат →'}</button>`;
+}
+
+function pickQ(c){
+  const q=QS[qi];
+  document.querySelectorAll('.q-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok=c===q.ans;
+  document.querySelectorAll('.q-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.innerHTML=q.fb; fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) qsc++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('r1').textContent=qsc+'/5';
+}
+function nextQ(){qi++;if(qi>=5){showQR();return;}renderQ();}
+function showQR(){
+  document.getElementById('qInner').style.display='none';
+  document.getElementById('qResult').classList.add('show');
+  document.getElementById('qrNum').innerHTML=qsc+'<sup>/5</sup>';
+  const ranks=[[5,'Биохимик-эксперт!','Все пять верно. Гликоген, лактоза и инсулин больше не запутают.'],
+    [4,'Отлично!','Один вопрос с ошибкой — перечитай объяснение.'],
+    [3,'Хорошо','Половина тем усвоена. Повтори полисахариды.'],
+    [0,'Нужно повторить','Изучи классификацию углеводов ещё раз!']].find(([n])=>qsc>=n);
+  document.getElementById('qrRank').textContent=ranks[1];
+  document.getElementById('qrNote').textContent=ranks[2];
+  document.getElementById('qSegs').innerHTML=QS.map(()=>`<div class="qseg done"></div>`).join('');
+}
+function quizReset(){qi=0;qsc=0;document.getElementById('r1').textContent='0/5';renderQ();}
+renderQ();
+
+/* ════════════════════════
+   TASK 2 — TRUE/FALSE
+════════════════════════ */
+const TF=[
+  {num:1,stmt:'Глюкоза и фруктоза — это изомеры: одинаковая формула C₆H₁₂O₆, но разное строение.',ans:true,
+   exp:'<span class="vv">✓ Верно.</span> Изомеры — вещества с одинаковой формулой, но разной структурой. Поэтому глюкоза и фруктоза имеют разные свойства: фруктоза слаще.'},
+  {num:2,stmt:'Целлюлоза легко переваривается организмом человека.',ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> У человека нет фермента целлюлазы. Целлюлоза проходит ЖКТ нетронутой и выполняет роль пищевых волокон (клетчатки).'},
+  {num:3,stmt:'Гликоген — это запасной углевод растений.',ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> У растений запасной углевод — <b>крахмал</b>, у животных и грибов — <b>гликоген</b>. Запомни: «живот-ные — гликоген».'},
+  {num:4,stmt:'Хитин содержится в панцирях ракообразных и клеточных стенках грибов.',ans:true,
+   exp:'<span class="vv">✓ Верно.</span> Хитин — прочный полисахарид. У членистоногих образует экзоскелет, у грибов — клеточные стенки. По структуре напоминает целлюлозу.'},
+  {num:5,stmt:'Лактоза — это дисахарид, состоящий из глюкозы и фруктозы.',ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> Лактоза = <b>глюкоза + галактоза</b>. Глюкоза + фруктоза = сахароза (тростниковый сахар). Глюкоза + глюкоза = мальтоза.'},
+  {num:6,stmt:'Рибоза входит в состав ДНК.',ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> В <b>ДНК — дезоксирибоза</b>, в <b>РНК — рибоза</b>. Именно этим обусловлены названия: дезоксирибонуклеиновая и рибонуклеиновая кислоты.'},
+];
+
+let tfOk=0,tfDone=0;
+function renderTF(){
+  tfOk=0;tfDone=0;
+  document.getElementById('tfTally').classList.remove('show');
+  document.getElementById('r2').textContent='0/6';
+  const stack=document.getElementById('tfStack');
+  stack.innerHTML='';
+  TF.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='tf-card';card.id='tfc-'+i;
+    card.innerHTML=`
+      <div class="tf-row">
+        <div style="flex:1">
+          <div class="tf-num">Утверждение ${item.num}</div>
+          <div class="tf-stmt">${item.stmt}</div>
+          <div class="tf-exp" id="tfe-${i}">${item.exp}</div>
+        </div>
+        <div class="tf-btns">
+          <button class="tf-btn" id="tfv-${i}" onclick="pickTF(${i},true)">✓ Верно</button>
+          <button class="tf-btn" id="tfn-${i}" onclick="pickTF(${i},false)">✗ Нет</button>
+        </div>
+      </div>`;
+    stack.appendChild(card);
+  });
+}
+function pickTF(i,ua){
+  const item=TF[i];
+  const vb=document.getElementById('tfv-'+i);
+  const nb=document.getElementById('tfn-'+i);
+  vb.disabled=true;nb.disabled=true;
+  const ok=ua===item.ans;
+  (ua?vb:nb).classList.add(ok?'chosen-right':'chosen-wrong');
+  if(!ok)(item.ans?vb:nb).classList.add('reveal-right');
+  document.getElementById('tfe-'+i).classList.add('show');
+  document.getElementById('tfc-'+i).classList.add(item.ans?'ans-v':'ans-n');
+  if(ok)tfOk++;
+  tfDone++;
+  document.getElementById('r2').textContent=tfOk+'/6';
+  if(tfDone===6){
+    const t=document.getElementById('tfTally');
+    t.innerHTML=`Итог: <b>${tfOk}/6</b> — ${['Ещё раз изучи тему!','Почти!','Хорошо!','Очень хорошо!','Отлично!','Блестяще!'][Math.min(tfOk,5)]}`;
+    t.classList.add('show');
+  }
+}
+renderTF();
+
+/* ════════════════════════
+   TASK 3 — ACCORDION
+════════════════════════ */
+const ACC=[
+  {num:1,q:'Расположите углеводы в порядке увеличения сложности: крахмал, глюкоза, сахароза, целлюлоза.',
+   ans:`<strong>Глюкоза</strong> (моносахарид, 1 звено) → <strong>Сахароза</strong> (дисахарид, 2 звена) → <strong>Крахмал</strong> (полисахарид, α-связи, рыхлая структура) → <strong>Целлюлоза</strong> (полисахарид, β-связи, параллельные цепи, максимальная прочность).`},
+  {num:2,q:'Почему спортсмены на длинные дистанции за день до соревнований едят пасту, а не шоколад?',
+   ans:`Макароны содержат <strong>крахмал</strong> (полисахарид). Он расщепляется медленно, постепенно пополняя запасы <strong>гликогена</strong> в мышцах и печени. Шоколад — простые углеводы, дают быстрый, но короткий всплеск энергии. Через час — спад, и марафон закончится раньше финиша.`},
+  {num:3,q:'Что прочнее: крахмал или целлюлоза? Почему?',
+   ans:`<strong>Целлюлоза прочнее.</strong> Её цепочки лежат параллельно и скреплены множеством водородных связей, образуя микрофибриллы. Крахмал имеет рыхлую разветвлённую структуру (амилопектин) или спиральную (амилоза), что делает его легко доступным для ферментов — именно для запасания, а не строительства.`},
+  {num:4,q:'Почему корова может питаться травой, а человек — нет?',
+   ans:`В <strong>рубце</strong> (отдел желудка) коров живут симбиотические бактерии и простейшие, вырабатывающие фермент <strong>целлюлазу</strong>, который расщепляет целлюлозу до глюкозы. У человека этого фермента нет — целлюлоза проходит транзитом и выполняет роль пищевых волокон.`},
+  {num:5,q:'Объясни фразу: «Углеводы — это не только энергия, но и адресная табличка клетки».',
+   ans:`На поверхности клеточных мембран находятся <strong>гликопротеины</strong> (белок + углеводный фрагмент). Углеводные «антенны» служат <strong>маркерами</strong>, по которым иммунная система отличает «свои» клетки от «чужих». Именно поэтому несовместимость групп крови (АВО) — это разница в углеводных антигенах на поверхности эритроцитов.`},
+];
+let accOpen=new Set();
+function renderAcc(){
+  accOpen.clear();
+  document.getElementById('r3').textContent='0/5';
+  const list=document.getElementById('accList');
+  list.innerHTML='';
+  ACC.forEach((item,i)=>{
+    const el=document.createElement('div');
+    el.className='acc-item';el.id='acc-'+i;
+    el.innerHTML=`
+      <div class="acc-head" onclick="toggleAcc(${i})">
+        <div class="acc-num">${item.num}</div>
+        <div class="acc-q">${item.q}</div>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="acc-body" id="accb-${i}">${item.ans}</div>`;
+    list.appendChild(el);
+  });
+}
+function toggleAcc(i){
+  const item=document.getElementById('acc-'+i);
+  const body=document.getElementById('accb-'+i);
+  const isOpen=item.classList.contains('open');
+  if(!isOpen){
+    item.classList.add('open');
+    body.classList.add('show');
+    accOpen.add(i);
+    document.getElementById('r3').textContent=accOpen.size+'/5';
+  } else {
+    item.classList.remove('open');
+    body.classList.remove('show');
+  }
+}
+renderAcc();
+
+/* ════════════════════════
+   TASK 4 — DETECTIVE
+════════════════════════ */
+function revealDet(){
+  document.getElementById('tubeAnswers').classList.add('show');
+  document.getElementById('tubes').style.display='none';
+  document.getElementById('detNote').classList.add('show');
+  document.getElementById('detBtn').style.display='none';
+  document.getElementById('r4').textContent='готово ✓';
+}
+
+/* ════════════════════════
+   TASK 5 — BREAKFAST
+════════════════════════ */
+const COMPLEX_KEYWORDS=['каша','овсянка','гречка','рис','хлеб','макарон','паст','бобов','чечевица','горох','орех','семечк'];
+const SIMPLE_KEYWORDS=['сахар','конфет','шоколад','мёд','джем','варень','сок','йогурт','хлопь','печень','пирож','сладк','фрукт','банан','ягод'];
+const PROTEIN_KEYWORDS=['яйцо','яйц','молоко','творог','сыр','мясо','рыба','курица'];
+const FAT_KEYWORDS=['орех','масло','авокадо','семечк','сыр'];
+
+function classifyFood(text){
+  const t=text.toLowerCase();
+  if(SIMPLE_KEYWORDS.some(k=>t.includes(k))) return 'simple';
+  if(COMPLEX_KEYWORDS.some(k=>t.includes(k))) return 'complex';
+  if(PROTEIN_KEYWORDS.some(k=>t.includes(k))) return 'protein';
+  if(FAT_KEYWORDS.some(k=>t.includes(k))) return 'fat';
+  return 'unknown';
+}
+
+function analyzeBreakfast(){
+  const inputs=[1,2,3,4].map(i=>document.getElementById('bf'+i).value.trim());
+  const filled=inputs.filter(v=>v.length>0);
+  if(filled.length<2){
+    alert('Добавь хотя бы 2 продукта!');return;
+  }
+  const types=inputs.map(v=>v?classifyFood(v):'empty');
+  const typeLabels={complex:'Сложные углеводы ✓',simple:'Простые углеводы ⚠',protein:'Белок ✓',fat:'Жиры ✓',unknown:'Другое',empty:''};
+  const typeColors={complex:'#0A7B6A',simple:'#B5213C',protein:'#2E4DA0',fat:'#B86A00',unknown:'#5C7A6E',empty:'transparent'};
+  const typeClass={complex:'complex',simple:'simple',protein:'complex',fat:'complex',unknown:'',empty:''};
+
+  // show type badges
+  [1,2,3,4].forEach((n,i)=>{
+    const badge=document.getElementById('bft'+n);
+    if(inputs[i]&&types[i]!=='empty'){
+      badge.textContent=typeLabels[types[i]];
+      badge.className='bf-type '+(typeClass[types[i]]||'');
+      badge.style.display='inline';
+    }
+  });
+
+  // breakdown
+  const bfBreakdown=document.getElementById('bfBreakdown');
+  bfBreakdown.innerHTML=inputs.map((v,i)=>v?`
+    <div class="bf-breakdown-item">
+      <span class="dot" style="background:${typeColors[types[i]]}"></span>
+      <span><b>${v}</b> — ${typeLabels[types[i]]}</span>
+    </div>`:'').join('');
+
+  // score
+  const complexCount=types.filter(t=>t==='complex').length;
+  const simpleCount=types.filter(t=>t==='simple').length;
+  const proteinCount=types.filter(t=>t==='protein').length;
+  let score=0;
+  let advice='';
+  if(complexCount>=1) score+=40;
+  if(proteinCount>=1) score+=30;
+  if(simpleCount===0) score+=20;
+  else advice='⚠ Убери простые углеводы — они вызовут сахарные качели.';
+  if(filled.length>=3) score+=10;
+  score=Math.min(score,100);
+
+  const bfScore=document.getElementById('bfScore');
+  bfScore.innerHTML=`
+    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.3rem">Оценка завтрака: <b style="color:var(--teal)">${score}/100</b></div>
+    <div class="bf-score-bar"><div class="bf-score-fill" style="width:${score}%"></div></div>
+    <div class="bf-score-label">${score>=80?'Отличный выбор — мозг скажет спасибо!':score>=60?'Неплохо, но можно улучшить.':'Слишком много быстрых углеводов.'} ${advice}</div>`;
+
+  document.getElementById('bfAnalysis').classList.add('show');
+  document.getElementById('bfExample').classList.add('show');
+  document.getElementById('r5').textContent=score+'pts';
+}
+
+function resetBreakfast(){
+  [1,2,3,4].forEach(n=>{
+    document.getElementById('bf'+n).value='';
+    const badge=document.getElementById('bft'+n);
+    badge.textContent='';badge.className='bf-type hidden';
+  });
+  document.getElementById('bfAnalysis').classList.remove('show');
+  document.getElementById('bfExample').classList.remove('show');
+  document.getElementById('r5').textContent='—';
+}
+</script>
+</body>
+</html>

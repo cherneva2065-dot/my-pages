@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Куликовская битва — Интерактивный урок истории</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Rubik:wght@400;500;600;700&family=Inconsolata:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --parchment: #F5EDD8;
+  --parch2:    #ECE2C5;
+  --parch3:    #DDD4B8;
+  --leather:   #3D2B10;
+  --leather2:  #5C4018;
+  --gold:      #C8952A;
+  --gold-lt:   #FDF3DC;
+  --gold-md:   #F0D08A;
+  --crimson:   #8B1A1A;
+  --crimson-lt:#FAECEC;
+  --forest:    #1A4A2E;
+  --forest-lt: #E4F0EA;
+  --steel:     #2A3A5C;
+  --steel-lt:  #E5EAF5;
+  --border:    rgba(61,43,16,0.15);
+  --border2:   rgba(61,43,16,0.25);
+  --muted:     #7A6A48;
+  --ink:       #1E1508;
+  --serif:     'IM Fell English', Georgia, serif;
+  --sans:      'Rubik', system-ui, sans-serif;
+  --mono:      'Inconsolata', monospace;
+  --radius:    10px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--parchment);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--leather);
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.hero-texture {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 8px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 8px);
+}
+.hero-glow {
+  position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(200,149,42,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-band {
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(200,149,42,0.2);
+  padding: 0.5rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.3rem;
+}
+.hero-band-text {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(200,149,42,0.55);
+}
+.hero-main { padding: 3.5rem 2rem 4.5rem; position: relative; }
+.hero-ornament {
+  display: flex; align-items: center; gap: 1rem; justify-content: center;
+  margin-bottom: 1.2rem;
+}
+.hero-ornament::before, .hero-ornament::after {
+  content: ''; width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,149,42,0.5));
+}
+.hero-ornament::after { transform: scaleX(-1); }
+.hero-ornament-inner {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(200,149,42,0.5);
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  font-weight: 400; color: #F5EDD8;
+  line-height: 1.05; letter-spacing: 0.01em;
+  margin-bottom: 0.3rem;
+}
+.hero h1 em { font-style: italic; color: var(--gold-md); }
+.hero-year {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  color: rgba(245,237,216,0.4); margin-bottom: 2rem;
+}
+.hero-divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,149,42,0.35), transparent);
+  margin-bottom: 1.8rem;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.hero-stat { text-align: center; }
+.hero-stat strong {
+  display: block; font-family: var(--serif); font-size: 2rem;
+  color: var(--gold-md); line-height: 1;
+}
+.hero-stat span {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(245,237,216,0.3);
+}
+.hero-wave {
+  position: relative; line-height: 0;
+  border-top: 1px solid rgba(200,149,42,0.15);
+}
+.hero-wave svg { display: block; width: 100%; }
+
+/* ── RIBBON ── */
+.ribbon {
+  background: var(--leather2);
+  padding: 0.55rem 1.5rem;
+  display: flex; justify-content: center; align-items: center;
+  gap: 2rem; flex-wrap: wrap;
+}
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(245,237,216,0.35); letter-spacing: 0.06em; }
+.rib b { color: var(--gold); margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 1rem; }
+.sec-num {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 400; color: var(--leather); line-height: 1.2;
+}
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.3rem; }
+
+.divider {
+  display: flex; align-items: center; gap: 1rem; padding: 2rem 0 0.5rem;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--parch3);
+}
+.divider span {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+
+/* ══════════════════════════════
+   INTERACTIVE 1 — DIALOGUE
+══════════════════════════════ */
+.dialogue-wrap {
+  background: #fff; border: 1.5px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.dlg-top {
+  background: var(--leather); padding: 0.9rem 1.4rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.dlg-shield {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid var(--gold); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.dlg-top-text h3 {
+  font-family: var(--serif); font-size: 0.9rem; color: var(--parchment);
+  font-weight: 400; letter-spacing: 0.05em;
+}
+.dlg-top-text p { font-size: 11px; color: rgba(245,237,216,0.4); font-family: var(--mono); }
+
+.dlg-body { padding: 1.5rem; }
+.dlg-intro {
+  background: var(--parch2);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.1rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.02rem; line-height: 1.75;
+  color: var(--leather); margin-bottom: 1.5rem;
+}
+.dlg-intro em { font-style: normal; font-weight: 400; color: var(--crimson); }
+.dlg-question {
+  font-family: var(--serif); font-size: 1.05rem;
+  color: var(--ink); margin-bottom: 1rem; line-height: 1.5;
+}
+.dlg-choices { display: flex; flex-direction: column; gap: 0.55rem; }
+.choice {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--parchment); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 0.75rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--leather);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  line-height: 1.45;
+}
+.choice:hover { border-color: var(--gold); background: var(--gold-lt); transform: translateX(3px); }
+.choice-ltr {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--leather); color: var(--gold);
+  font-family: var(--serif); font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.dlg-result {
+  display: none; border-radius: 9px; padding: 1.1rem 1.2rem;
+  margin-bottom: 0.8rem;
+}
+.dlg-result.show { display: block; }
+.dlg-result.hist { background: var(--forest-lt); border: 1.5px solid #9CC8AD; }
+.dlg-result.bad  { background: var(--crimson-lt); border: 1.5px solid #E0AAAA; }
+.dlg-result .r-badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 2px 10px; border-radius: 99px; margin-bottom: 0.5rem;
+  font-family: var(--mono); letter-spacing: 0.06em;
+}
+.hist .r-badge { background: #B8E0C8; color: var(--forest); }
+.bad  .r-badge { background: #F0C0C0; color: var(--crimson); }
+.dlg-result h4 {
+  font-family: var(--serif); font-size: 1rem; margin-bottom: 0.35rem;
+}
+.hist h4 { color: var(--forest); }
+.bad  h4 { color: var(--crimson); }
+.dlg-result p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+.dlg-next {
+  background: var(--leather); color: var(--gold);
+  border: none; padding: 0.62rem 1.4rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.87rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s; margin-top: 0.8rem;
+}
+.dlg-next:hover { background: var(--crimson); color: #fff; }
+
+.dlg-final { display: none; text-align: center; }
+.dlg-final.show { display: block; }
+.dlg-final-quote {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.05rem; color: var(--muted);
+  line-height: 1.8; border-top: 1px solid var(--border);
+  padding-top: 1.2rem; margin-bottom: 1rem;
+}
+.btn-soft {
+  background: transparent; border: 1.5px solid var(--border2);
+  color: var(--muted); padding: 0.5rem 1.1rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.83rem;
+  cursor: pointer; transition: border-color 0.14s, color 0.14s;
+}
+.btn-soft:hover { border-color: var(--leather); color: var(--leather); }
+
+/* ══════════════════════════════
+   INTERACTIVE 2 — MATCH
+══════════════════════════════ */
+.match-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+@media(max-width:560px){ .match-grid { grid-template-columns: 1fr; } }
+
+.match-col-title {
+  font-family: var(--mono); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.6rem;
+}
+.match-item {
+  background: #fff; border: 1.5px solid var(--border2);
+  border-radius: 9px; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+  cursor: pointer; user-select: none;
+  transition: border-color 0.14s, background 0.14s, transform 0.12s;
+  font-size: 0.9rem; line-height: 1.45; position: relative;
+}
+.match-item.date-item {
+  font-family: var(--mono); font-size: 0.95rem;
+  font-weight: 600; color: var(--leather);
+}
+.match-item.event-item {
+  font-family: var(--serif); font-style: italic; color: var(--ink);
+}
+.match-item:hover:not(.matched):not(.locked) {
+  border-color: var(--gold); background: var(--gold-lt); transform: translateY(-2px);
+}
+.match-item.selected { border-color: var(--gold); background: var(--gold-lt); box-shadow: 0 0 0 2px rgba(200,149,42,0.25); }
+.match-item.matched  { border-color: var(--forest); background: var(--forest-lt); cursor: default; }
+.match-item.shake    { border-color: var(--crimson); background: var(--crimson-lt); }
+.match-item .tick    { display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--forest); font-weight:700; }
+.match-item.matched .tick { display:inline; }
+
+.match-status {
+  text-align: center; margin-top: 0.8rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.92rem; color: var(--muted); min-height: 1.4em;
+}
+.match-status b { color: var(--forest); font-style: normal; }
+.btn-match-reset {
+  display: block; margin: 0.6rem auto 0;
+  background: transparent; border: 1.5px solid var(--border2);
+  color: var(--muted); padding: 0.45rem 1rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.82rem; cursor: pointer;
+  transition: border-color 0.14s, color 0.14s;
+}
+.btn-match-reset:hover { border-color: var(--leather); color: var(--leather); }
+
+/* ══════════════════════════════
+   INTERACTIVE 3 — TRUE/FALSE
+══════════════════════════════ */
+.tf-list { display: flex; flex-direction: column; gap: 0.7rem; }
+.tf-card {
+  background: #fff; border: 1.5px solid var(--border2);
+  border-radius: var(--radius); padding: 1.1rem 1.2rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tf-card.v-yes { border-color: var(--forest); background: var(--forest-lt); }
+.tf-card.v-no  { border-color: var(--crimson); background: var(--crimson-lt); }
+.tf-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.tf-num {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+  color: var(--muted); margin-bottom: 0.2rem;
+}
+.tf-stmt {
+  font-family: var(--serif); font-size: 0.98rem;
+  color: var(--ink); line-height: 1.5; flex: 1;
+}
+.tf-btns { display: flex; gap: 0.4rem; flex-shrink: 0; margin-top: 2px; }
+.tf-btn {
+  padding: 5px 14px; border-radius: 7px;
+  border: 1.5px solid var(--border2); background: var(--parchment);
+  font-family: var(--sans); font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; color: var(--leather);
+  transition: border-color 0.14s, background 0.14s;
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-lt); }
+.tf-btn:disabled { cursor: default; opacity: 0.5; }
+.tf-btn.right  { background: var(--forest-lt); border-color: var(--forest); color: var(--forest); }
+.tf-btn.wrong  { background: var(--crimson-lt); border-color: var(--crimson); color: var(--crimson); }
+.tf-btn.reveal { background: var(--forest-lt); border-color: var(--forest); color: var(--forest); }
+.tf-exp {
+  display: none; font-size: 0.82rem; color: var(--muted); font-style: italic;
+  margin-top: 0.55rem; padding-top: 0.5rem;
+  border-top: 1px solid rgba(61,43,16,0.08); line-height: 1.55;
+}
+.tf-exp.show { display: block; }
+.tf-exp b { font-style: normal; }
+.tf-exp .vv { color: var(--forest); }
+.tf-exp .vn { color: var(--crimson); }
+
+.tf-tally {
+  text-align: center; margin-top: 1rem; display: none;
+  font-family: var(--serif); font-style: italic; color: var(--muted);
+}
+.tf-tally.show { display: block; }
+.tf-tally b { color: var(--forest); font-style: normal; }
+
+/* ══════════════════════════════
+   TASK 4 — MAP
+══════════════════════════════ */
+.map-shell {
+  background: #fff; border: 1.5px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.map-top {
+  background: var(--parch2); border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.2rem;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted);
+}
+.map-body { padding: 1.2rem; }
+.map-desc { font-size: 0.87rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.55; }
+
+.map-area {
+  position: relative; background: #C8DDEF;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.map-area svg { display: block; width: 100%; height: auto; }
+
+.map-markers { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.map-marker-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--parch2); border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 0.5rem 0.85rem;
+  cursor: pointer; font-size: 0.86rem; color: var(--leather);
+  font-family: var(--sans); font-weight: 500;
+  transition: border-color 0.14s, background 0.14s;
+}
+.map-marker-btn:hover:not(.placed) { border-color: var(--gold); background: var(--gold-lt); }
+.map-marker-btn.placed { border-color: var(--forest); background: var(--forest-lt); color: var(--forest); opacity: 0.7; cursor: default; }
+.map-marker-btn.selected { border-color: var(--gold); background: var(--gold-lt); box-shadow: 0 0 0 2px rgba(200,149,42,0.3); }
+.map-marker-btn .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+.map-hint { font-size: 0.82rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; }
+.map-score { font-family: var(--mono); font-size: 11px; color: var(--forest); margin-top: 0.5rem; display:none; }
+.map-score.show { display: block; }
+
+/* ══════════════════════════════
+   TASK 5 — CROSSWORD
+══════════════════════════════ */
+.crossword-wrap {
+  background: #fff; border: 1.5px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.cw-top {
+  background: var(--leather); padding: 0.85rem 1.4rem;
+  font-family: var(--serif); font-size: 0.92rem;
+  color: var(--gold-md); letter-spacing: 0.04em;
+}
+.cw-body { padding: 1.3rem 1.5rem; }
+
+.cw-grid {
+  display: inline-grid;
+  gap: 2px; margin-bottom: 1.2rem;
+}
+.cw-cell {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--parch3);
+  background: var(--parchment);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 14px; font-weight: 600;
+  color: var(--leather); text-transform: uppercase;
+  position: relative; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.cw-cell.active  { border-color: var(--gold); background: var(--gold-lt); }
+.cw-cell.empty   { background: var(--leather); border-color: var(--leather); cursor: default; }
+.cw-cell.correct { background: var(--forest-lt); border-color: var(--forest); color: var(--forest); }
+.cw-cell.wrong   { background: var(--crimson-lt); border-color: var(--crimson); color: var(--crimson); }
+.cw-cell .cn {
+  position: absolute; top: 2px; left: 3px;
+  font-size: 8px; font-weight: 700; color: var(--gold);
+  line-height: 1;
+}
+
+.cw-clues { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 1.5rem; margin-bottom: 1rem; }
+@media(max-width:500px){ .cw-clues { grid-template-columns: 1fr; } }
+.cw-clue-group h4 {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem;
+}
+.cw-clue {
+  font-size: 0.85rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.3rem;
+}
+.cw-clue b { font-family: var(--mono); color: var(--gold); margin-right: 4px; }
+
+.cw-input-row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.8rem; }
+.cw-select {
+  background: var(--parchment); border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 0.5rem 0.8rem;
+  font-family: var(--sans); font-size: 0.87rem; color: var(--leather);
+  cursor: pointer; outline: none;
+}
+.cw-input {
+  flex: 1; min-width: 140px;
+  background: var(--parchment); border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 0.5rem 0.9rem;
+  font-family: var(--mono); font-size: 0.95rem; color: var(--leather);
+  text-transform: uppercase; letter-spacing: 0.08em; outline: none;
+  transition: border-color 0.14s;
+}
+.cw-input:focus { border-color: var(--gold); background: var(--gold-lt); }
+.cw-input.correct { border-color: var(--forest); background: var(--forest-lt); color: var(--forest); }
+.cw-input.wrong   { border-color: var(--crimson); background: var(--crimson-lt); }
+.btn-cw {
+  background: var(--leather); color: var(--gold);
+  border: none; padding: 0.5rem 1.2rem; border-radius: 8px;
+  font-family: var(--sans); font-size: 0.87rem; font-weight: 600;
+  cursor: pointer; transition: background 0.14s;
+}
+.btn-cw:hover { background: var(--crimson); color: #fff; }
+.cw-score { font-family: var(--mono); font-size: 11px; color: var(--forest); margin-top: 0.3rem; min-height: 1.2em; }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--leather); margin-top: 3.5rem; padding: 2.5rem;
+  text-align: center; border-top: 3px double rgba(200,149,42,0.2);
+}
+.footer-text {
+  font-family: var(--serif); font-style: italic;
+  color: rgba(245,237,216,0.25); font-size: 0.9rem; margin-bottom: 0.5rem;
+}
+.footer-meta {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(245,237,216,0.2);
+}
+.footer-meta span { color: var(--gold); opacity: 0.6; }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.dialogue-wrap, .match-grid, .tf-card, .map-shell, .crossword-wrap { animation: fadeUp 0.32s ease backwards; }
+.tf-card:nth-child(1){animation-delay:.03s} .tf-card:nth-child(2){animation-delay:.07s}
+.tf-card:nth-child(3){animation-delay:.11s} .tf-card:nth-child(4){animation-delay:.15s}
+.tf-card:nth-child(5){animation-delay:.19s}
+@keyframes shake { 0%,100%{transform:translateY(0)} 20%{transform:translateY(-4px)} 60%{transform:translateY(4px)} }
+.match-item.shake { animation: shake 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-band">
+    <span class="hero-band-text">История России · 6 класс</span>
+    <span class="hero-band-text">XIV век</span>
+  </div>
+  <div class="hero-main">
+    <div class="hero-ornament"><div class="hero-ornament-inner">Интерактивный урок</div></div>
+    <h1><em>Куликовская</em><br>битва</h1>
+    <div class="hero-year">1380 год · Поле Куликово</div>
+    <div class="hero-divider"></div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>5</strong><span>заданий</span></div>
+      <div class="hero-stat"><strong>1380</strong><span>год битвы</span></div>
+      <div class="hero-stat"><strong>∞</strong><span>попыток</span></div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,30 Q360,60 720,20 Q1080,-10 1440,35 L1440,60 L0,60Z" fill="#F5EDD8"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ribbon">
+  <div class="rib">Диалог:<b id="r1">—</b></div>
+  <div class="rib">Даты:<b id="r2">0/4</b></div>
+  <div class="rib">Верно/Нет:<b id="r3">0/5</b></div>
+  <div class="rib">Карта:<b id="r4">0/3</b></div>
+  <div class="rib">Кроссворд:<b id="r5">0/4</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ ИНТЕРАКТИВ 1 ══ -->
+  <div class="sec">
+    <div class="sec-num">Интерактив №1</div>
+    <div class="sec-title">«Командующий битвой»</div>
+    <div class="sec-desc">Ты — князь Дмитрий Иванович. Прими решение и узнай последствия.</div>
+  </div>
+
+  <div class="dialogue-wrap">
+    <div class="dlg-top">
+      <div class="dlg-shield">⚔️</div>
+      <div class="dlg-top-text">
+        <h3>Диалоговый тренажёр</h3>
+        <p>Пошаговый выбор · Исторические последствия</p>
+      </div>
+    </div>
+    <div class="dlg-body" id="dlgBody"></div>
+    <div class="dlg-final" id="dlgFinal">
+      <div class="dlg-final-quote" id="dlgFinalText"></div>
+      <button class="btn-soft" onclick="dlgRestart()">↩ Начать снова</button>
+    </div>
+  </div>
+
+  <div class="divider"><span>Интерактив №2</span></div>
+
+  <!-- ══ ИНТЕРАКТИВ 2 ══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Сопоставь событие и дату»</div>
+    <div class="sec-desc">Нажми на дату, затем на соответствующее событие. Найди все четыре пары.</div>
+  </div>
+
+  <div class="match-grid">
+    <div>
+      <div class="match-col-title">Дата</div>
+      <div id="matchDates"></div>
+    </div>
+    <div>
+      <div class="match-col-title">Событие</div>
+      <div id="matchEvents"></div>
+    </div>
+  </div>
+  <div class="match-status" id="matchStatus">Выбери дату, затем событие.</div>
+  <button class="btn-match-reset" onclick="matchReset()">↩ Сбросить</button>
+
+  <div class="divider"><span>Интерактив №3</span></div>
+
+  <!-- ══ ИНТЕРАКТИВ 3 ══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Верно / Неверно»</div>
+    <div class="sec-desc">Проверь факты о Куликовской битве. Нет правильных ответов — только история.</div>
+  </div>
+
+  <div class="tf-list" id="tfList"></div>
+  <div class="tf-tally" id="tfTally"></div>
+
+  <div class="divider"><span>Задание №4</span></div>
+
+  <!-- ══ ЗАДАНИЕ 4 ══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Работа с картой</div>
+    <div class="sec-desc">Выбери объект и нажми на нужное место на карте, чтобы его отметить.</div>
+  </div>
+
+  <div class="map-shell">
+    <div class="map-top">Контурная карта · Русь и Орда · XIV век</div>
+    <div class="map-body">
+      <div class="map-desc">Отметь три объекта: <b>Куликово поле</b> (между Доном и Непрядвой), <b>Москву</b> и <b>Сарай-Бату</b> (столицу Орды).</div>
+      <div class="map-area" id="mapArea">
+        <svg id="mapSvg" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg">
+          <!-- Water bodies -->
+          <rect width="600" height="420" fill="#B8D4E8"/>
+          <!-- Land mass - simplified East Europe / Rus -->
+          <path d="M30,30 Q80,20 150,25 Q220,15 300,30 Q380,20 450,35 Q520,25 580,40 L580,180 Q550,200 520,220 Q500,250 490,290 Q470,320 450,350 Q420,380 400,400 L200,400 Q180,380 160,360 Q140,340 120,310 Q100,280 80,260 Q50,240 30,220 Z" fill="#D4C4A0"/>
+          <!-- Rivers -->
+          <path d="M280,80 Q290,120 285,160 Q280,200 290,240 Q300,280 295,320 Q290,360 285,400" stroke="#6AAACF" stroke-width="2.5" fill="none" opacity="0.7"/>
+          <text x="258" y="220" font-size="10" fill="#3A7AAF" font-family="serif" font-style="italic" opacity="0.8">Дон</text>
+          <path d="M200,200 Q240,210 280,205 Q320,195 360,200" stroke="#6AAACF" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <text x="300" y="198" font-size="9" fill="#3A7AAF" font-family="serif" font-style="italic" opacity="0.7">Непрядва</text>
+          <path d="M100,100 Q130,130 150,170 Q160,200 155,230" stroke="#6AAACF" stroke-width="2" fill="none" opacity="0.5"/>
+          <text x="100" y="175" font-size="9" fill="#3A7AAF" font-family="serif" font-style="italic" opacity="0.7">Ока</text>
+          <path d="M350,40 Q360,80 355,130 Q348,170 340,200" stroke="#6AAACF" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <text x="355" y="110" font-size="9" fill="#3A7AAF" font-family="serif" font-style="italic" opacity="0.7">Волга</text>
+          <!-- Region labels -->
+          <text x="120" y="90" font-size="13" fill="rgba(61,43,16,0.3)" font-family="serif" font-style="italic">Русь</text>
+          <text x="390" y="300" font-size="13" fill="rgba(61,43,16,0.2)" font-family="serif" font-style="italic">Золотая</text>
+          <text x="400" y="318" font-size="13" fill="rgba(61,43,16,0.2)" font-family="serif" font-style="italic">Орда</text>
+          <!-- Clickable zones (invisible, for interaction) -->
+          <circle id="zone-kulikovo" cx="280" cy="207" r="30" fill="rgba(200,149,42,0.08)" stroke="rgba(200,149,42,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+          <circle id="zone-moscow"   cx="180" cy="130" r="28" fill="rgba(200,149,42,0.08)" stroke="rgba(200,149,42,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+          <circle id="zone-sarai"    cx="420" cy="310" r="28" fill="rgba(200,149,42,0.08)" stroke="rgba(200,149,42,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- Placed markers (hidden initially) -->
+          <g id="pin-kulikovo" display="none">
+            <circle cx="280" cy="207" r="8" fill="#8B1A1A" stroke="#FAF0E0" stroke-width="1.5"/>
+            <text x="280" y="222" font-size="9" text-anchor="middle" fill="#8B1A1A" font-family="serif" font-weight="bold">Куликово поле</text>
+          </g>
+          <g id="pin-moscow" display="none">
+            <circle cx="180" cy="130" r="8" fill="#1A4A2E" stroke="#FAF0E0" stroke-width="1.5"/>
+            <text x="180" y="145" font-size="9" text-anchor="middle" fill="#1A4A2E" font-family="serif" font-weight="bold">Москва</text>
+          </g>
+          <g id="pin-sarai" display="none">
+            <circle cx="420" cy="310" r="8" fill="#2A3A5C" stroke="#FAF0E0" stroke-width="1.5"/>
+            <text x="420" y="325" font-size="9" text-anchor="middle" fill="#2A3A5C" font-family="serif" font-weight="bold">Сарай-Бату</text>
+          </g>
+        </svg>
+      </div>
+      <div class="map-markers" id="mapMarkers">
+        <button class="map-marker-btn" id="mb-kulikovo" onclick="selectMarker('kulikovo')">
+          <span class="dot" style="background:#8B1A1A"></span>Куликово поле
+        </button>
+        <button class="map-marker-btn" id="mb-moscow" onclick="selectMarker('moscow')">
+          <span class="dot" style="background:#1A4A2E"></span>Москва
+        </button>
+        <button class="map-marker-btn" id="mb-sarai" onclick="selectMarker('sarai')">
+          <span class="dot" style="background:#2A3A5C"></span>Сарай-Бату
+        </button>
+      </div>
+      <div class="map-hint" id="mapHint">Выбери объект выше, затем нажми в примерное место на карте.</div>
+      <div class="map-score" id="mapScore"></div>
+    </div>
+  </div>
+
+  <div class="divider"><span>Задание №5</span></div>
+
+  <!-- ══ ЗАДАНИЕ 5 ══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Кроссворд</div>
+    <div class="sec-desc">Выбери слово из подсказок и введи ответ. Всего 4 слова.</div>
+  </div>
+
+  <div class="crossword-wrap">
+    <div class="cw-top">Кроссворд · Куликовская битва</div>
+    <div class="cw-body">
+      <div style="overflow-x:auto">
+        <div class="cw-grid" id="cwGrid" style="grid-template-columns:repeat(9,36px)"></div>
+      </div>
+      <div class="cw-clues">
+        <div class="cw-clue-group">
+          <h4>По горизонтали</h4>
+          <div class="cw-clue"><b>1→</b>Монах-воин, участник поединка (9 букв)</div>
+          <div class="cw-clue"><b>2→</b>Река, у которой произошла битва (3 буквы)</div>
+        </div>
+        <div class="cw-clue-group">
+          <h4>По вертикали</h4>
+          <div class="cw-clue"><b>3↓</b>Ордынский правитель, противник Дмитрия (5 букв)</div>
+          <div class="cw-clue"><b>4↓</b>Полк, решивший исход битвы (7 букв)</div>
+        </div>
+      </div>
+      <div class="cw-input-row">
+        <select class="cw-select" id="cwSelect" onchange="cwSelectWord()">
+          <option value="">— Выбери слово —</option>
+          <option value="1">1→ Монах-воин (9 букв)</option>
+          <option value="2">2→ Река (3 буквы)</option>
+          <option value="3">3↓ Правитель Орды (5 букв)</option>
+          <option value="4">4↓ Полк-победитель (7 букв)</option>
+        </select>
+        <input type="text" class="cw-input" id="cwInput" placeholder="Введи ответ…" maxlength="9"
+               oninput="cwInputChange()" onkeydown="if(event.key==='Enter')checkCwWord()">
+        <button class="btn-cw" onclick="checkCwWord()">Проверить</button>
+      </div>
+      <div class="cw-score" id="cwScore"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-text">«И была сеча злая и жестокая, какой не бывало ни в одной из прежних битв…»</div>
+  <div class="footer-meta">Урок истории · <span>Куликовская битва · 1380 год</span></div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   ИНТЕРАКТИВ 1 — DIALOGUE
+════════════════════════════════ */
+const STEPS = {
+  start: {
+    intro: `<em>Год 1380-й.</em> Мамай идёт на Русь с огромным войском. Литва и Рязань готовы ударить с флангов. Ты — князь Дмитрий Иванович.`,
+    question: 'Мамай собирает силы. Твои действия?',
+    choices: [
+      {l:'А', text:'Сидеть в Москве за крепкими стенами', next:'pathA'},
+      {l:'Б', text:'Выйти навстречу и дать бой в поле', next:'pathB'},
+      {l:'В', text:'Отправить послов к Мамаю с данью', next:'pathC'}
+    ]
+  },
+  pathA: {
+    type:'result', badge:'bad',
+    label:'❌ Упущен шанс на победу',
+    title:'Ты остался в Москве',
+    text:'Мамай объединяется с Ягайло и Олегом. Москва в осаде. Город выдерживает, но Орда разоряет окрестности. Авторитет твой падает — другие князья видят слабость.',
+    final:'Ты выбрал осторожность. Дмитрий Донской выбрал иначе — он вышел навстречу и победил. История не даёт второго шанса упущенному моменту.'
+  },
+  pathB: {
+    type:'result', badge:'hist',
+    label:'✅ Исторический путь Дмитрия Донского',
+    title:'Ты вышел навстречу',
+    text:'Ты собираешь войско со всей Руси. Переходишь Дон и сжигаешь мосты — пути назад нет. На Куликовом поле в критический момент из засады вступает Засадный полк под командованием Боброка — победа!',
+    final:'Ты выбрал битву — как и Дмитрий Донской. Победа на Куликовом поле стала символом единства Руси. А что выбрал бы ты, если бы не знал исхода?'
+  },
+  pathC: {
+    type:'result', badge:'bad',
+    label:'❌ Ты отсрочил, но не решил проблему',
+    title:'Ты отправил дань',
+    text:'Мамай получает дань, но требует больше. Твоя слабость вдохновляет других врагов. Через год Мамай снова идёт на Русь — теперь с ещё большими силами.',
+    final:'Ты купил время, но потерял уважение. Дмитрий Донской выбрал битву — и получил прозвище «Донской». История помнит тех, кто рискнул.'
+  }
+};
+
+let dlgChoice = null;
+
+function dlgRender(stepId) {
+  const s = STEPS[stepId];
+  const body = document.getElementById('dlgBody');
+  document.getElementById('dlgFinal').classList.remove('show');
+  document.getElementById('r1').textContent = 'в игре';
+
+  if (stepId === 'start') {
+    body.innerHTML = `
+      <div class="dlg-intro">${s.intro}</div>
+      <div class="dlg-question">${s.question}</div>
+      <div class="dlg-choices">
+        ${s.choices.map(c=>`<button class="choice" onclick="dlgChoose('${c.next}')">
+          <span class="choice-ltr">${c.l}</span>${c.text}</button>`).join('')}
+      </div>`;
+  } else {
+    dlgChoice = s;
+    const cls = s.badge==='hist' ? 'hist' : 'bad';
+    body.innerHTML = `
+      <div class="dlg-result show ${cls}">
+        <span class="r-badge">${s.label}</span>
+        <h4>${s.title}</h4>
+        <p>${s.text}</p>
+        <button class="dlg-next" onclick="dlgShowFinal('${s.final}')">Продолжить →</button>
+      </div>`;
+  }
+}
+
+function dlgChoose(next) { dlgRender(next); }
+
+function dlgShowFinal(txt) {
+  document.getElementById('dlgBody').innerHTML = '';
+  document.getElementById('dlgFinalText').textContent = '«' + txt + '»';
+  document.getElementById('dlgFinal').classList.add('show');
+  document.getElementById('r1').textContent = dlgChoice.badge==='hist' ? '✓ победа' : '✗';
+}
+
+function dlgRestart() { dlgRender('start'); document.getElementById('r1').textContent='—'; }
+dlgRender('start');
+
+/* ════════════════════════════════
+   ИНТЕРАКТИВ 2 — MATCH
+════════════════════════════════ */
+const PAIRS = [
+  {id:1, date:'1380 г.',       event:'Куликовская битва'},
+  {id:2, date:'1359–1380 гг.', event:'«Великая замятня» в Орде'},
+  {id:3, date:'1382 г.',       event:'Поход Тохтамыша на Москву'},
+  {id:4, date:'XIV век',       event:'Усиление Московского княжества'},
+];
+
+let mState = {selDate:null, selEvent:null, matched:new Set()};
+
+function matchRender() {
+  mState = {selDate:null, selEvent:null, matched:new Set()};
+  const dates  = [...PAIRS].sort(()=>Math.random()-.5);
+  const events = [...PAIRS].sort(()=>Math.random()-.5);
+  const dc=document.getElementById('matchDates');
+  const ec=document.getElementById('matchEvents');
+  dc.innerHTML=''; ec.innerHTML='';
+  dates.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='match-item date-item';
+    el.dataset.id=p.id; el.dataset.role='date';
+    el.innerHTML=p.date+'<span class="tick">✓</span>';
+    el.addEventListener('click',()=>mClick(el,'date'));
+    dc.appendChild(el);
+  });
+  events.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='match-item event-item';
+    el.dataset.id=p.id; el.dataset.role='event';
+    el.innerHTML=p.event+'<span class="tick">✓</span>';
+    el.addEventListener('click',()=>mClick(el,'event'));
+    ec.appendChild(el);
+  });
+  document.getElementById('matchStatus').innerHTML='Выбери дату, затем событие.';
+  document.getElementById('r2').textContent='0/4';
+}
+
+function mClick(el, role) {
+  if(el.classList.contains('matched'))return;
+  if(role==='date'){
+    document.querySelectorAll('.date-item').forEach(e=>e.classList.remove('selected'));
+    el.classList.add('selected'); mState.selDate=el;
+  } else {
+    document.querySelectorAll('.event-item').forEach(e=>e.classList.remove('selected'));
+    el.classList.add('selected'); mState.selEvent=el;
+  }
+  if(mState.selDate&&mState.selEvent){
+    if(mState.selDate.dataset.id===mState.selEvent.dataset.id){
+      mState.selDate.classList.remove('selected'); mState.selDate.classList.add('matched');
+      mState.selEvent.classList.remove('selected'); mState.selEvent.classList.add('matched');
+      mState.matched.add(mState.selDate.dataset.id);
+      mState.selDate=null; mState.selEvent=null;
+      const n=mState.matched.size;
+      document.getElementById('r2').textContent=n+'/4';
+      document.getElementById('matchStatus').innerHTML=n===4?'<b>Отлично — все четыре пары найдены!</b>':`Найдено: ${n} из 4`;
+    } else {
+      const d=mState.selDate, ev=mState.selEvent;
+      d.classList.add('shake'); ev.classList.add('shake');
+      document.getElementById('matchStatus').textContent='Не совпадает — попробуй ещё раз.';
+      setTimeout(()=>{
+        d.classList.remove('selected','shake');
+        ev.classList.remove('selected','shake');
+      },380);
+      mState.selDate=null; mState.selEvent=null;
+    }
+  }
+}
+
+function matchReset(){matchRender();}
+matchRender();
+
+/* ════════════════════════════════
+   ИНТЕРАКТИВ 3 — TRUE / FALSE
+════════════════════════════════ */
+const TF = [
+  {num:1, stmt:'Куликовская битва окончательно освободила Русь от ордынского ига.', ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> Иго продолжалось ещё почти 100 лет — до 1480 года (стояние на реке Угре). Куликово было важной моральной победой, но не освобождением.'},
+  {num:2, stmt:'Дмитрий получил прозвище «Донской» после победы на Дону.', ans:true,
+   exp:'<span class="vv">✓ Верно.</span> Прозвище «Донской» прочно закрепилось за Дмитрием Ивановичем именно за победу на Куликовом поле у реки Дон в 1380 году.'},
+  {num:3, stmt:'Пересвет и Ослябя были профессиональными воинами, а не монахами.', ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> Они были монахами Троице-Сергиева монастыря, которых благословил Сергий Радонежский. До пострига оба были опытными воинами.'},
+  {num:4, stmt:'Засадный полк решил исход битвы.', ans:true,
+   exp:'<span class="vv">✓ Верно.</span> Засадный полк под командованием воеводы Боброка-Волынского и серпуховского князя Владимира вступил в бой в критический момент и переломил ход сражения.'},
+  {num:5, stmt:'Мамай был законным ханом Золотой Орды.', ans:false,
+   exp:'<span class="vn">✗ Неверно.</span> Мамай был темником — военным командиром. Законным ханом он не являлся, а лишь управлял ханами-марионетками. После поражения при Куликово он был убит.'},
+];
+
+let tfOk=0, tfDone=0;
+
+function renderTF(){
+  tfOk=0; tfDone=0;
+  document.getElementById('tfTally').classList.remove('show');
+  document.getElementById('r3').textContent='0/5';
+  const list=document.getElementById('tfList');
+  list.innerHTML='';
+  TF.forEach((item,i)=>{
+    const card=document.createElement('div');
+    card.className='tf-card'; card.id='tfc-'+i;
+    card.innerHTML=`
+      <div class="tf-top">
+        <div style="flex:1">
+          <div class="tf-num">Утверждение ${item.num}</div>
+          <div class="tf-stmt">${item.stmt}</div>
+          <div class="tf-exp" id="tfe-${i}">${item.exp}</div>
+        </div>
+        <div class="tf-btns">
+          <button class="tf-btn" id="tfv-${i}" onclick="pickTF(${i},true)">✓ Верно</button>
+          <button class="tf-btn" id="tfn-${i}" onclick="pickTF(${i},false)">✗ Неверно</button>
+        </div>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function pickTF(i,userAns){
+  const item=TF[i];
+  const vb=document.getElementById('tfv-'+i);
+  const nb=document.getElementById('tfn-'+i);
+  vb.disabled=true; nb.disabled=true;
+  const ok=userAns===item.ans;
+  (userAns?vb:nb).classList.add(ok?'right':'wrong');
+  if(!ok)(item.ans?vb:nb).classList.add('reveal');
+  document.getElementById('tfe-'+i).classList.add('show');
+  document.getElementById('tfc-'+i).classList.add(item.ans?'v-yes':'v-no');
+  if(ok)tfOk++;
+  tfDone++;
+  document.getElementById('r3').textContent=tfOk+'/5';
+  if(tfDone===5){
+    const t=document.getElementById('tfTally');
+    t.innerHTML=`Результат: <b>${tfOk}/5</b> — ${['Изучи факты ещё раз!','Хорошо, один нюанс.','Неплохо!','Почти идеально!','Блестяще!'][Math.min(tfOk,4)]}`;
+    t.classList.add('show');
+  }
+}
+
+renderTF();
+
+/* ════════════════════════════════
+   ЗАДАНИЕ 4 — MAP
+════════════════════════════════ */
+const MAP_ZONES = {
+  kulikovo: {cx:280, cy:207, r:45},
+  moscow:   {cx:180, cy:130, r:45},
+  sarai:    {cx:420, cy:310, r:55},
+};
+let selMarker=null, mapPlaced=new Set();
+
+function selectMarker(key){
+  if(mapPlaced.has(key))return;
+  selMarker=key;
+  document.querySelectorAll('.map-marker-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('mb-'+key).classList.add('selected');
+  document.getElementById('mapHint').textContent='Теперь нажми на нужное место на карте!';
+}
+
+document.getElementById('mapSvg').addEventListener('click',function(e){
+  if(!selMarker)return;
+  const svg=this;
+  const rect=svg.getBoundingClientRect();
+  const vbW=600, vbH=420;
+  const scaleX=vbW/rect.width;
+  const scaleY=vbH/rect.height;
+  const mx=(e.clientX-rect.left)*scaleX;
+  const my=(e.clientY-rect.top)*scaleY;
+
+  // check if click is near the correct zone
+  const z=MAP_ZONES[selMarker];
+  const dist=Math.sqrt((mx-z.cx)**2+(my-z.cy)**2);
+  if(dist<=z.r){
+    // correct placement
+    document.getElementById('pin-'+selMarker).removeAttribute('display');
+    document.getElementById('mb-'+selMarker).classList.remove('selected');
+    document.getElementById('mb-'+selMarker).classList.add('placed');
+    mapPlaced.add(selMarker);
+    selMarker=null;
+    const n=mapPlaced.size;
+    document.getElementById('r4').textContent=n+'/3';
+    const ms=document.getElementById('mapScore');
+    if(n===3){
+      ms.textContent='✓ Все три объекта отмечены верно!';
+      ms.classList.add('show');
+      document.getElementById('mapHint').textContent='Отлично! Карта заполнена.';
+    } else {
+      document.getElementById('mapHint').textContent=`Верно! Отмечено ${n} из 3. Выбери следующий объект.`;
+    }
+  } else {
+    document.getElementById('mapHint').textContent='Не совсем точно — попробуй ещё раз. Нажимай в обозначенную область.';
+  }
+});
+
+/* ════════════════════════════════
+   ЗАДАНИЕ 5 — CROSSWORD
+════════════════════════════════ */
+// Grid layout: 9 cols × 7 rows
+// 1→ ПЕРЕСВЕТ   row 0, cols 0-8
+// 2→ ДОН        row 4, cols 3-5
+// 3↓ МАМАЙ      col 5, rows 0-4
+// 4↓ ЗАСАДНЫЙ   col 3, rows 1-7 (but grid is 7 rows, 0-6)
+
+const GRID_ROWS=7, GRID_COLS=9;
+const WORDS = {
+  1: {word:'ПЕРЕСВЕТ', dir:'h', row:0, col:0},
+  2: {word:'ДОН',      dir:'h', row:4, col:3},
+  3: {word:'МАМАЙ',   dir:'v', row:0, col:5},
+  4: {word:'ЗАСАДНЫЙ', dir:'v', row:0, col:3},
+};
+
+// Cells: row*GRID_COLS+col -> {letter, wordIds[]}
+const cellMap = {};
+Object.entries(WORDS).forEach(([id,w])=>{
+  for(let i=0;i<w.word.length;i++){
+    const row=w.dir==='h'?w.row:w.row+i;
+    const col=w.dir==='h'?w.col+i:w.col;
+    const key=row*GRID_COLS+col;
+    if(!cellMap[key]) cellMap[key]={letter:w.word[i],words:[]};
+    cellMap[key].words.push(parseInt(id));
+  }
+});
+
+// Number labels: first cell of each word
+const numberLabels={};
+Object.entries(WORDS).forEach(([id,w])=>{
+  const key=w.row*GRID_COLS+w.col;
+  numberLabels[key]=parseInt(id);
+});
+
+let cwSolved=new Set();
+let cwSelected=null;
+
+function buildCW(){
+  const grid=document.getElementById('cwGrid');
+  grid.innerHTML='';
+  for(let r=0;r<GRID_ROWS;r++){
+    for(let c=0;c<GRID_COLS;c++){
+      const key=r*GRID_COLS+c;
+      const cell=document.createElement('div');
+      if(cellMap[key]){
+        cell.className='cw-cell';
+        cell.dataset.key=key;
+        if(numberLabels[key]!==undefined){
+          const n=document.createElement('span');
+          n.className='cn'; n.textContent=numberLabels[key];
+          cell.appendChild(n);
+        }
+      } else {
+        cell.className='cw-cell empty';
+      }
+      grid.appendChild(cell);
+    }
+  }
+  cwSolved=new Set(); cwSelected=null;
+  document.getElementById('cwScore').textContent='';
+  document.getElementById('cwSelect').value='';
+  document.getElementById('cwInput').value='';
+  document.getElementById('cwInput').className='cw-input';
+  document.getElementById('r5').textContent='0/4';
+}
+
+function cwSelectWord(){
+  cwSelected=parseInt(document.getElementById('cwSelect').value)||null;
+  document.getElementById('cwInput').value='';
+  document.getElementById('cwInput').className='cw-input';
+  // highlight word cells
+  document.querySelectorAll('.cw-cell:not(.empty)').forEach(c=>{
+    if(!c.classList.contains('correct')) c.classList.remove('active');
+  });
+  if(cwSelected){
+    const w=WORDS[cwSelected];
+    for(let i=0;i<w.word.length;i++){
+      const row=w.dir==='h'?w.row:w.row+i;
+      const col=w.dir==='h'?w.col+i:w.col;
+      const key=row*GRID_COLS+col;
+      const el=document.querySelector(`[data-key="${key}"]`);
+      if(el&&!el.classList.contains('correct')) el.classList.add('active');
+    }
+  }
+}
+
+function cwInputChange(){
+  document.getElementById('cwInput').className='cw-input';
+}
+
+function checkCwWord(){
+  if(!cwSelected) return;
+  const input=document.getElementById('cwInput').value.trim().toUpperCase();
+  const w=WORDS[cwSelected];
+  const inp=document.getElementById('cwInput');
+  if(input===w.word){
+    inp.classList.add('correct');
+    // fill cells
+    for(let i=0;i<w.word.length;i++){
+      const row=w.dir==='h'?w.row:w.row+i;
+      const col=w.dir==='h'?w.col+i:w.col;
+      const key=row*GRID_COLS+col;
+      const el=document.querySelector(`[data-key="${key}"]`);
+      if(el){
+        el.classList.remove('active','wrong');
+        el.classList.add('correct');
+        // remove existing text node (not .cn span)
+        Array.from(el.childNodes).forEach(n=>{if(n.nodeType===3) el.removeChild(n);});
+        el.appendChild(document.createTextNode(w.word[i]));
+      }
+    }
+    cwSolved.add(cwSelected);
+    document.getElementById('r5').textContent=cwSolved.size+'/4';
+    const msgs={1:'«Пересвет» ✓',2:'«Дон» ✓',3:'«Мамай» ✓',4:'«Засадный» ✓'};
+    const all=cwSolved.size===4;
+    document.getElementById('cwScore').textContent=all?'✓ Все слова угаданы! Кроссворд решён.':msgs[cwSelected];
+    if(all) document.getElementById('cwSelect').disabled=true;
+  } else {
+    inp.classList.add('wrong');
+    document.getElementById('cwScore').textContent='Неверно — попробуй ещё раз.';
+  }
+}
+
+buildCW();
+</script>
+</body>
+</html>
