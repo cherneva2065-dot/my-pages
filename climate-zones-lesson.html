@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Климатические пояса Земли — Интерактивный урок</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sky:       #1A3A6E;
+  --sky2:      #2050A0;
+  --sky-lt:    #E5EDF8;
+  --teal:      #0E7A6A;
+  --teal-lt:   #DDF2EE;
+  --sun:       #C87A00;
+  --sun-lt:    #FEF3DC;
+  --sun-md:    #F0C060;
+  --snow:      #4A6080;
+  --snow-lt:   #EAF0F8;
+  --tropical:  #1A6A30;
+  --tropical-lt:#E4F2EB;
+  --red:       #B52020;
+  --red-lt:    #FAEBEB;
+  --paper:     #F8F6F0;
+  --paper2:    #EEE8DC;
+  --paper3:    #E0D8C8;
+  --white:     #FDFCFA;
+  --ink:       #0E1820;
+  --ink2:      #1A2838;
+  --muted:     #5A6878;
+  --border:    rgba(14,24,32,0.12);
+  --border2:   rgba(14,24,32,0.2);
+  --green:     #186438;
+  --green-lt:  #E2F2EA;
+  --serif:     'Lora', Georgia, serif;
+  --sans:      'Montserrat', system-ui, sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+  --radius:    13px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--sky);
+  position: relative; overflow: hidden;
+  padding: 0;
+}
+.hero-atmosphere {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(10,20,50,0.8) 0%,
+    rgba(26,58,110,0.6) 40%,
+    rgba(14,122,106,0.2) 80%,
+    transparent 100%);
+}
+.hero-zones {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 12px;
+  display: flex;
+}
+.hz { flex: 1; }
+.hz-arctic   { background: #C8DFF0; }
+.hz-subarct  { background: #88B0D0; }
+.hz-temperate{ background: #68A070; }
+.hz-subtrop  { background: #D0B040; }
+.hz-tropical { background: #D04040; }
+.hz-equat    { background: #A03060; }
+.hz-tropical2{ background: #D04040; }
+.hz-subtrop2 { background: #D0B040; }
+.hz-temperate2{background: #68A070; }
+.hz-subarct2 { background: #88B0D0; }
+.hz-antarctic{ background: #E8F4FF; }
+
+.hero-inner { padding: 5rem 2rem 5.5rem; text-align: center; position: relative; }
+.hero-kicker {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-bottom: 1.3rem;
+}
+.hero-kicker::before, .hero-kicker::after { content:''; width:30px; height:1px; background:rgba(255,255,255,0.2); }
+.hero h1 {
+  position: relative;
+  font-family: var(--serif); font-size: clamp(2.4rem, 6.5vw, 5rem);
+  font-weight: 600; color: #fff; line-height: 1.05;
+  max-width: 660px; margin: 0 auto 0.4rem; letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; color: var(--sun-md); }
+.hero-sub { position: relative; font-size: 0.98rem; color: rgba(255,255,255,0.45); max-width: 420px; margin: 0 auto 2.5rem; }
+.hero-chips { position: relative; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+.hero-chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; padding: 6px 14px; font-size: 11px; color: rgba(255,255,255,0.5); font-family: var(--mono); }
+.hero-chip b { color: var(--sun-md); margin-right: 4px; }
+.hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; line-height: 0; }
+.hero-wave svg { display: block; width: 100%; }
+
+/* ── RIBBON ── */
+.ribbon { background: var(--sky2); padding: 0.6rem 1.5rem; display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.38); letter-spacing: 0.06em; }
+.rib b { color: var(--sun-md); margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 840px; margin: 0 auto; padding: 0 1.5rem; }
+.sec { padding: 3rem 0 1rem; }
+.sec-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--sky2); margin-bottom: 0.35rem; }
+.sec-title { font-family: var(--serif); font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 600; line-height: 1.2; color: var(--ink); }
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.3rem; }
+
+.wave-sep { display: flex; align-items: center; gap: 1rem; padding: 1.8rem 0 0.3rem; }
+.wave-sep::before, .wave-sep::after { content:''; flex:1; height:1px; background:var(--paper3); }
+.wave-sep span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+/* ══════════════════════════════
+   TASK 1 — QUIZ
+══════════════════════════════ */
+.quiz-shell { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.quiz-topbar { background: var(--ink2); padding: 0.85rem 1.4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.quiz-topbar-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+.q-segs { display: flex; gap: 4px; }
+.qseg { height: 3px; width: 26px; border-radius: 2px; background: rgba(255,255,255,0.15); transition: background 0.25s; }
+.qseg.done { background: var(--sun-md); }
+.qseg.cur  { background: rgba(240,192,96,0.45); }
+
+.quiz-inner { padding: 1.5rem; }
+.q-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem; }
+.q-desc-box { background: var(--paper2); border: 1px solid var(--border); border-left: 3px solid var(--sky2); border-radius: 0 9px 9px 0; padding: 0.9rem 1.1rem; font-size: 0.95rem; color: var(--ink); line-height: 1.65; margin-bottom: 1.1rem; font-family: var(--serif); font-style: italic; }
+.q-text { font-size: 1.02rem; font-weight: 600; color: var(--ink); margin-bottom: 1.1rem; line-height: 1.5; }
+.q-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q-opt { display: flex; align-items: flex-start; gap: 10px; background: var(--paper); border: 1px solid var(--border); border-radius: 9px; padding: 0.7rem 1rem; cursor: pointer; font-size: 0.9rem; color: var(--ink); font-family: var(--sans); text-align: left; transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4; }
+.q-opt:hover:not(.locked) { border-color: var(--sky2); background: var(--sky-lt); transform: translateX(3px); }
+.q-opt .ql { width: 24px; height: 24px; border-radius: 6px; background: var(--paper2); font-family: var(--mono); font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.q-opt.correct .ql { background: var(--green); color: #fff; }
+.q-opt.wrong   { background: var(--red-lt); border-color: var(--red); }
+.q-opt.wrong   .ql { background: var(--red); color: #fff; }
+.q-opt.locked  { cursor: default; }
+
+.q-fb { display: none; margin-top: 0.85rem; background: var(--paper2); border: 1px solid var(--border); border-left: 3px solid var(--sky2); border-radius: 0 8px 8px 0; padding: 0.65rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; font-family: var(--mono); }
+.q-fb.show { display: block; }
+.q-fb.err { border-left-color: var(--red); }
+.q-fb b { color: var(--ink); }
+
+.q-nxt { display: none; margin-top: 1rem; background: var(--ink2); color: var(--sun-md); border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.q-nxt.show { display: inline-block; }
+.q-nxt:hover { background: var(--sky2); color: #fff; }
+
+.quiz-result { display: none; text-align: center; padding: 2.5rem 1.5rem; }
+.quiz-result.show { display: block; }
+.qr-score { font-family: var(--serif); font-size: 5.5rem; font-weight: 600; color: var(--ink2); line-height: 1; letter-spacing: -0.03em; }
+.qr-score sup { font-family: var(--mono); font-size: 2.2rem; font-weight: 400; color: var(--muted); }
+.qr-rank { font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--sky2); margin: 0.3rem 0 0.2rem; }
+.qr-note { font-size: 0.87rem; color: var(--muted); margin-bottom: 1.3rem; }
+.btn-soft { background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 0.52rem 1.2rem; border-radius: 9px; font-family: var(--sans); font-size: 0.84rem; cursor: pointer; transition: border-color 0.14s, color 0.14s; }
+.btn-soft:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ══════════════════════════════
+   TASK 2 — TABLE FILL
+══════════════════════════════ */
+.table-wrap { overflow-x: auto; }
+.climate-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.climate-table th { background: var(--ink2); color: rgba(255,255,255,0.75); font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 0.8rem; text-align: left; white-space: nowrap; }
+.climate-table td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--ink); line-height: 1.4; }
+.climate-table tr:last-child td { border-bottom: none; }
+.climate-table tr:nth-child(even) td { background: var(--paper); }
+.belt-name { font-weight: 600; font-size: 0.82rem; white-space: nowrap; }
+.belt-name.equat   { color: #A03060; }
+.belt-name.subequat{ color: #C04020; }
+.belt-name.tropic  { color: #C06000; }
+.belt-name.subtropic{ color: #906000; }
+.belt-name.temperate{ color: #186438; }
+.belt-name.subarct { color: #1A5080; }
+.belt-name.arctic  { color: #304870; }
+
+.fill-input { background: var(--sky-lt); border: 1.5px solid rgba(26,58,110,0.25); border-radius: 6px; padding: 4px 8px; font-family: var(--mono); font-size: 0.82rem; color: var(--ink2); width: 100%; min-width: 120px; outline: none; transition: border-color 0.14s; }
+.fill-input:focus { border-color: var(--sky2); background: #E0EBF8; }
+.fill-input.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.fill-input.wrong   { background: var(--red-lt); border-color: var(--red); color: var(--red); }
+
+.table-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+.btn-primary { background: var(--sky2); color: #fff; border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.btn-primary:hover { background: var(--sky); }
+.table-score { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+/* ══════════════════════════════
+   TASK 3 — CLIMATOGRAMS
+══════════════════════════════ */
+.clim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+.clim-card { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.clim-card-head { padding: 0.65rem 1rem; display: flex; align-items: center; gap: 8px; }
+.clim-card-num { width: 22px; height: 22px; border-radius: 50%; background: var(--ink2); color: var(--sun-md); font-family: var(--mono); font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.clim-card-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+.clim-chart { padding: 0 1rem; margin: 0.3rem 0; }
+.chart-area { position: relative; height: 120px; }
+.bars-layer { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 2px; }
+.bar { flex: 1; border-radius: 2px 2px 0 0; opacity: 0.75; transition: opacity 0.2s; }
+.bars-layer:hover .bar { opacity: 0.55; }
+.bars-layer .bar:hover { opacity: 1; }
+.temp-line { position: absolute; inset: 0; pointer-events: none; }
+
+.clim-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; padding: 0.7rem 1rem; background: var(--paper); }
+.clim-stat { font-size: 0.8rem; color: var(--muted); }
+.clim-stat b { color: var(--ink); font-weight: 600; }
+
+.clim-card-foot { padding: 0.7rem 1rem; }
+.clim-q { font-size: 0.85rem; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; }
+.clim-opts { display: flex; flex-direction: column; gap: 0.35rem; }
+.clim-opt { background: var(--paper); border: 1px solid var(--border); border-radius: 7px; padding: 0.5rem 0.7rem; font-size: 0.83rem; cursor: pointer; color: var(--ink); transition: border-color 0.14s, background 0.14s; }
+.clim-opt:hover:not(.locked) { border-color: var(--sky2); background: var(--sky-lt); }
+.clim-opt.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); font-weight: 600; }
+.clim-opt.wrong   { background: var(--red-lt); border-color: var(--red); color: var(--red); }
+.clim-opt.locked  { cursor: default; }
+.clim-exp { display: none; font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; line-height: 1.5; }
+.clim-exp.show { display: block; }
+
+.clim-tally { text-align: center; margin-top: 1rem; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.clim-tally b { color: var(--green); }
+
+/* ══════════════════════════════
+   TASK 4 — OPEN QUESTION
+══════════════════════════════ */
+.open-q-box { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.oq-head { background: var(--ink2); padding: 1rem 1.4rem; display: flex; align-items: center; gap: 12px; }
+.oq-badge { font-size: 1.6rem; }
+.oq-head-txt h3 { font-family: var(--serif); font-size: 0.95rem; color: #fff; font-weight: 600; }
+.oq-head-txt p  { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.38); }
+.oq-body { padding: 1.4rem; }
+.oq-question { font-family: var(--serif); font-size: 1.05rem; font-style: italic; color: var(--ink); line-height: 1.65; background: var(--paper2); border-left: 3px solid var(--sun); border-radius: 0 9px 9px 0; padding: 1rem 1.1rem; margin-bottom: 1.2rem; }
+.oq-textarea { width: 100%; min-height: 120px; background: var(--paper); border: 1.5px solid var(--border2); border-radius: 9px; padding: 0.8rem 1rem; font-family: var(--sans); font-size: 0.9rem; color: var(--ink); resize: vertical; outline: none; transition: border-color 0.14s; line-height: 1.6; }
+.oq-textarea:focus { border-color: var(--sky2); background: var(--white); }
+.oq-btn { margin-top: 0.8rem; background: var(--sky2); color: #fff; border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.oq-btn:hover { background: var(--sky); }
+.oq-answer { display: none; margin-top: 1rem; }
+.oq-answer.show { display: block; }
+.oq-ans-title { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 0.7rem; }
+.oq-reason { display: flex; gap: 10px; margin-bottom: 0.6rem; align-items: flex-start; }
+.oq-reason-num { width: 22px; height: 22px; border-radius: 50%; background: var(--sky2); color: #fff; font-family: var(--mono); font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.oq-reason-txt { font-size: 0.88rem; color: var(--ink); line-height: 1.6; }
+.oq-reason-txt b { color: var(--sky2); }
+.oq-verdict { display: none; background: var(--green-lt); border: 1px solid var(--green); border-radius: 9px; padding: 0.8rem 1rem; margin-top: 0.8rem; font-size: 0.85rem; color: var(--green); font-weight: 600; }
+.oq-verdict.show { display: block; }
+
+/* ══════════════════════════════
+   TASK 5 — MATCH
+══════════════════════════════ */
+.match-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media(max-width:560px){ .match-layout { grid-template-columns: 1fr; } }
+.match-col-lbl { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+.match-chip { background: var(--white); border: 1.5px solid var(--border2); border-radius: 9px; padding: 0.7rem 1rem; margin-bottom: 0.45rem; font-size: 0.88rem; cursor: pointer; user-select: none; transition: border-color 0.14s, background 0.14s, transform 0.12s; position: relative; line-height: 1.4; }
+.match-chip.type-chip { font-family: var(--mono); font-weight: 600; color: var(--ink2); }
+.match-chip.zone-chip { font-family: var(--serif); font-style: italic; color: var(--ink); }
+.match-chip:hover:not(.matched):not(.locked) { border-color: var(--sky2); background: var(--sky-lt); transform: translateY(-2px); }
+.match-chip.selected { border-color: var(--sun); background: var(--sun-lt); box-shadow: 0 0 0 2px rgba(200,122,0,0.2); }
+.match-chip.matched  { border-color: var(--green); background: var(--green-lt); cursor: default; }
+.match-chip.shake    { border-color: var(--red); background: var(--red-lt); }
+.match-chip .ck      { display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--green); font-weight:700; }
+.match-chip.matched .ck { display:inline; }
+
+.match-status { text-align: center; margin-top: 0.8rem; font-family: var(--serif); font-style: italic; font-size: 0.9rem; color: var(--muted); min-height: 1.4em; }
+.match-status b { color: var(--green); font-style: normal; }
+.btn-match-reset { display: block; margin: 0.6rem auto 0; background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 0.45rem 1rem; border-radius: 8px; font-family: var(--sans); font-size: 0.82rem; cursor: pointer; transition: border-color 0.14s, color 0.14s; }
+.btn-match-reset:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ── FOOTER ── */
+.footer { background: var(--ink2); margin-top: 3.5rem; padding: 2.5rem; text-align: center; }
+.footer p { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.22); }
+.footer span { color: var(--sun-md); opacity: 0.6; }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.quiz-shell, .climate-table, .clim-card, .open-q-box, .match-layout { animation: fadeUp 0.32s ease backwards; }
+.clim-card:nth-child(2){animation-delay:.06s} .clim-card:nth-child(3){animation-delay:.12s} .clim-card:nth-child(4){animation-delay:.18s}
+@keyframes pop { 0%{transform:scale(0.8);opacity:0}70%{transform:scale(1.07)}100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-score { animation: pop 0.42s ease forwards; }
+@keyframes shake { 0%,100%{transform:translateY(0)}20%{transform:translateY(-4px)}60%{transform:translateY(4px)} }
+.match-chip.shake { animation: shake 0.3s ease; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-atmosphere"></div>
+  <div class="hero-inner">
+    <div class="hero-kicker"><span>География · 7–8 класс · ОГЭ</span></div>
+    <h1>Климатические<br><em>пояса Земли</em></h1>
+    <p class="hero-sub">Пять интерактивных заданий: от теста до климатограмм и соединения стрелками</p>
+    <div class="hero-chips">
+      <div class="hero-chip"><b>1</b>Тест</div>
+      <div class="hero-chip"><b>2</b>Таблица</div>
+      <div class="hero-chip"><b>3</b>Климатограммы</div>
+      <div class="hero-chip"><b>4</b>Полюс холода</div>
+      <div class="hero-chip"><b>5</b>Воздушные массы</div>
+    </div>
+  </div>
+  <div class="hero-zones">
+    <div class="hz hz-arctic"></div><div class="hz hz-subarct"></div><div class="hz hz-temperate"></div>
+    <div class="hz hz-subtrop"></div><div class="hz hz-tropical"></div><div class="hz hz-equat"></div>
+    <div class="hz hz-tropical2"></div><div class="hz hz-subtrop2"></div><div class="hz hz-temperate2"></div>
+    <div class="hz hz-subarct2"></div><div class="hz hz-antarctic"></div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,45 Q360,5 720,50 Q1080,85 1440,25 L1440,70 L0,70Z" fill="#F8F6F0"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ribbon">
+  <div class="rib">Тест: <b id="r1">0/5</b></div>
+  <div class="rib">Таблица: <b id="r2">0/6</b></div>
+  <div class="rib">Климатограммы: <b id="r3">0/4</b></div>
+  <div class="rib">Полюс: <b id="r4">—</b></div>
+  <div class="rib">ВМ: <b id="r5">0/4</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ TASK 1 ═══ -->
+  <div class="sec">
+    <div class="sec-tag">Задание 1</div>
+    <div class="sec-title">Определи пояс по характеристике</div>
+    <div class="sec-desc">5 климатических описаний — выбери правильный пояс. После ответа — объяснение.</div>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-topbar">
+      <span class="quiz-topbar-lbl">Климатические пояса · 5 вопросов</span>
+      <div class="q-segs" id="qSegs"></div>
+    </div>
+    <div id="qInner" class="quiz-inner"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="qr-score" id="qrScore">0<sup>/5</sup></div>
+      <div class="qr-rank" id="qrRank"></div>
+      <div class="qr-note"  id="qrNote"></div>
+      <button class="btn-soft" onclick="quizReset()" style="margin-top:.4rem">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <div class="wave-sep"><span>Задание 2</span></div>
+
+  <!-- ═══ TASK 2 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Заполни таблицу климатических поясов</div>
+    <div class="sec-desc">Вставь пропущенные воздушные массы и температуры. Затем нажми «Проверить».</div>
+  </div>
+  <div class="table-wrap">
+    <table class="climate-table" id="climTable">
+      <thead>
+        <tr>
+          <th>Пояс</th>
+          <th>ВМ лето</th>
+          <th>ВМ зима</th>
+          <th>Темп. июль</th>
+          <th>Темп. январь</th>
+          <th>Осадки</th>
+        </tr>
+      </thead>
+      <tbody id="climTbody"></tbody>
+    </table>
+  </div>
+  <div class="table-controls">
+    <button class="btn-primary" onclick="checkTable()">Проверить</button>
+    <button class="btn-soft" onclick="resetTable()">↩ Сбросить</button>
+    <span class="table-score" id="tableScore"></span>
+  </div>
+
+  <div class="wave-sep"><span>Задание 3</span></div>
+
+  <!-- ═══ TASK 3 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Климатограммы — определи пояс</div>
+    <div class="sec-desc">Изучи данные климатограммы и выбери правильный климатический пояс.</div>
+  </div>
+  <div class="clim-grid" id="climGrid"></div>
+  <div class="clim-tally" id="climTally" style="display:none"></div>
+
+  <div class="wave-sep"><span>Задание 4</span></div>
+
+  <!-- ═══ TASK 4 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Где зимует полюс холода?»</div>
+    <div class="sec-desc">Развёрнутый вопрос в формате ОГЭ. Ответь своими словами, затем сравни с эталоном.</div>
+  </div>
+  <div class="open-q-box">
+    <div class="oq-head">
+      <div class="oq-badge">🥶</div>
+      <div class="oq-head-txt">
+        <h3>Развёрнутый ответ · ОГЭ-формат</h3>
+        <p>Напиши 2–3 предложения</p>
+      </div>
+    </div>
+    <div class="oq-body">
+      <div class="oq-question">На каком материке и в каком климатическом поясе находится полюс холода Земли? Почему там так холодно? Назовите не менее двух причин.</div>
+      <textarea class="oq-textarea" id="oqText" placeholder="Напиши свой ответ здесь…"></textarea>
+      <button class="oq-btn" onclick="showOqAnswer()">Сверить с эталонным ответом</button>
+      <div class="oq-answer" id="oqAnswer">
+        <div class="oq-ans-title">✓ Эталонный ответ</div>
+        <div class="oq-reason">
+          <div class="oq-reason-num">→</div>
+          <div class="oq-reason-txt">Полюс холода — <b>Антарктида</b>, антарктический климатический пояс (ст. «Восток», −89,2°C).</div>
+        </div>
+        <div class="oq-reason">
+          <div class="oq-reason-num">1</div>
+          <div class="oq-reason-txt"><b>Высокая широта</b> (ок. 80° ю.ш.) → солнечные лучи падают очень наклонно, почти не нагревают поверхность.</div>
+        </div>
+        <div class="oq-reason">
+          <div class="oq-reason-num">2</div>
+          <div class="oq-reason-txt"><b>Большая высота</b> (ст. «Восток» — ≈3500 м н.у.м.) → температура падает на ~0,6°C каждые 100 м.</div>
+        </div>
+        <div class="oq-reason">
+          <div class="oq-reason-num">3</div>
+          <div class="oq-reason-txt"><b>Высокое альбедо льда</b> (до 90%) → почти вся солнечная радиация отражается обратно в космос.</div>
+        </div>
+        <div class="oq-verdict show">Проверь свой ответ: упомянул(а) 2 причины — отлично! 3 причины — превосходно!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wave-sep"><span>Задание 5</span></div>
+
+  <!-- ═══ TASK 5 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Соедини воздушные массы с поясами</div>
+    <div class="sec-desc">Нажми на тип воздушной массы → затем на пояс, где она господствует. Найди все 4 пары.</div>
+  </div>
+  <div class="match-layout">
+    <div><div class="match-col-lbl">Тип воздушной массы</div><div id="matchTypes"></div></div>
+    <div><div class="match-col-lbl">Климатический пояс</div><div id="matchZones"></div></div>
+  </div>
+  <div class="match-status" id="matchStatus">Выбери тип воздушной массы, затем пояс.</div>
+  <button class="btn-match-reset" onclick="matchReset()">↩ Сбросить</button>
+
+</div>
+
+<div class="footer">
+  <p>Интерактивный урок географии · <span>Климатические пояса Земли</span> · ОГЭ-подготовка</p>
+</div>
+
+<script>
+/* ════════════════════
+   TASK 1 — QUIZ
+════════════════════ */
+const QS = [
+  { tag:'Климат №1', desc:'Температура +25…+28°C круглый год. Осадки >2000 мм, дожди каждый день.', q:'Определи климатический пояс:', opts:['Экваториальный','Тропический','Умеренный'], ans:0, fb:'<b>Экваториальный пояс.</b> Постоянно высокая температура и огромное количество осадков — следствие круглогодичного господства экваториальных воздушных масс.' },
+  { tag:'Климат №2', desc:'Зимой — морозы до −40°C, летом — короткое прохладное лето (+10°C). Многолетняя мерзлота.', q:'Определи климатический пояс:', opts:['Субтропический','Субарктический','Арктический'], ans:1, fb:'<b>Субарктический пояс.</b> Характерны резкие сезонные контрасты: суровые зимы с арктическими ВМ и короткое прохладное лето с умеренными ВМ.' },
+  { tag:'Климат №3', desc:'Лето жаркое и сухое (+35°C), зима мягкая и дождливая (+10°C). Осадки — 500 мм, зимний максимум.', q:'Определи климатический пояс:', opts:['Тропический','Умеренный','Субтропический (средиземноморский)'], ans:2, fb:'<b>Субтропический средиземноморский тип.</b> Главный признак — сухое жаркое лето (тропические ВМ) и влажная тёплая зима (умеренные ВМ).' },
+  { tag:'Климат №4', desc:'Чётко выражены 4 сезона. Лето +20°C, зима −15°C. Осадки 600 мм, равномерно.', q:'Определи климатический пояс:', opts:['Умеренный','Субэкваториальный','Тропический'], ans:0, fb:'<b>Умеренный пояс.</b> Четыре хорошо выраженных сезона, умеренные ВМ круглый год, равномерное распределение осадков.' },
+  { tag:'Климат №5', desc:'Здесь находится полюс холода Земли (−89°C). Осадки <200 мм, ледяные пустыни.', q:'Определи климатический пояс:', opts:['Арктический','Антарктический','Субантарктический'], ans:1, fb:'<b>Антарктический пояс.</b> Самый холодный климат на Земле. Станция «Восток» в Антарктиде зафиксировала рекордный минимум −89,2°C.' },
+];
+let qi=0, qsc=0;
+function renderQ(){
+  const q=QS[qi];
+  document.getElementById('qResult').classList.remove('show');
+  document.getElementById('qInner').style.display='';
+  document.getElementById('qSegs').innerHTML=QS.map((_,i)=>`<div class="qseg ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  document.getElementById('qInner').innerHTML=`
+    <div class="q-tag">Вопрос ${qi+1}/5 · ${q.tag}</div>
+    <div class="q-desc-box">${q.desc}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="q-opt" onclick="pickQ(${i})"><span class="ql">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qFb"></div>
+    <button class="q-nxt" id="qNxt" onclick="nextQ()">${qi<4?'Следующий →':'Результат →'}</button>`;
+}
+function pickQ(c){
+  const q=QS[qi];
+  document.querySelectorAll('.q-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok=c===q.ans;
+  document.querySelectorAll('.q-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+  const fb=document.getElementById('qFb');
+  fb.innerHTML=q.fb; fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) qsc++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('r1').textContent=qsc+'/5';
+}
+function nextQ(){qi++;if(qi>=5){showQR();return;}renderQ();}
+function showQR(){
+  document.getElementById('qInner').style.display='none';
+  document.getElementById('qResult').classList.add('show');
+  document.getElementById('qrScore').innerHTML=qsc+'<sup>/5</sup>';
+  const ranks=[[5,5,'Климатолог-эксперт!','Все пять верно — климатические пояса от тебя секретов не скрывают.'],[4,4,'Отлично!','Один вопрос с погрешностью — повтори отличительные признаки поясов.'],[3,3,'Хорошо','Закрепи характеристики субтропического и субарктического поясов.'],[0,2,'Нужно повторить','Изучи таблицу ниже — там все ключевые характеристики.']].find(([a,b])=>qsc>=a&&qsc<=b);
+  document.getElementById('qrRank').textContent=ranks[2];
+  document.getElementById('qrNote').textContent=ranks[3];
+  document.getElementById('qSegs').innerHTML=QS.map(()=>`<div class="qseg done"></div>`).join('');
+}
+function quizReset(){qi=0;qsc=0;document.getElementById('r1').textContent='0/5';renderQ();}
+renderQ();
+
+/* ════════════════════
+   TASK 2 — TABLE
+════════════════════ */
+const ROWS=[
+  {name:'Экваториальный',cls:'equat',    vmL:'Экваториальные',vmW:'Экваториальные',tJul:'+25…+28',tJan:'+25…+28',prec:'>2000 мм',blanks:[]},
+  {name:'Субэкваториальный',cls:'subequat',vmL:'?',             vmW:'Тропические',  tJul:'+25…+30',tJan:'+20…+25',prec:'1000–1500 мм',blanks:['vmL'],answers:{vmL:'Экваториальные'}},
+  {name:'Тропический',cls:'tropic',      vmL:'Тропические',    vmW:'Тропические',  tJul:'+30…+50',tJan:'?',       prec:'50–250 мм',blanks:['tJan'],answers:{tJan:'+10…+20'}},
+  {name:'Субтропический',cls:'subtropic',vmL:'Тропические',    vmW:'?',            tJul:'+25…+35',tJan:'+5…+15',  prec:'400–800 мм',blanks:['vmW'],answers:{vmW:'Умеренные'}},
+  {name:'Умеренный',cls:'temperate',     vmL:'Умеренные',      vmW:'Умеренные',    tJul:'?',       tJan:'−5…−25',  prec:'500–700 мм',blanks:['tJul'],answers:{tJul:'+15…+25'}},
+  {name:'Субарктический',cls:'subarct',  vmL:'Умеренные',      vmW:'?',            tJul:'+5…+12',  tJan:'−20…−40', prec:'200–400 мм',blanks:['vmW'],answers:{vmW:'Арктические'}},
+  {name:'Арктический',cls:'arctic',      vmL:'Арктические',    vmW:'Арктические',  tJul:'0…−5',    tJan:'?',       prec:'100–200 мм',blanks:['tJan'],answers:{tJan:'−30…−60'}},
+];
+const FIELD_LABELS={vmL:'ВМ (лето)',vmW:'ВМ (зима)',tJul:'Темп. июль',tJan:'Темп. январь'};
+
+function buildTable(){
+  const tbody=document.getElementById('climTbody');
+  tbody.innerHTML='';
+  ROWS.forEach((row,ri)=>{
+    const tr=document.createElement('tr');
+    const fields=['vmL','vmW','tJul','tJan'];
+    let html=`<td><span class="belt-name ${row.cls}">${row.name}</span></td>`;
+    fields.forEach(f=>{
+      if(row.blanks&&row.blanks.includes(f)){
+        html+=`<td><input class="fill-input" id="fi-${ri}-${f}" placeholder="?"></td>`;
+      } else {
+        html+=`<td>${row[f]}</td>`;
+      }
+    });
+    html+=`<td>${row.prec}</td>`;
+    tr.innerHTML=html;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('tableScore').textContent='';
+  document.getElementById('r2').textContent='0/6';
+}
+function checkTable(){
+  let ok=0,total=0;
+  ROWS.forEach((row,ri)=>{
+    if(!row.blanks) return;
+    row.blanks.forEach(f=>{
+      total++;
+      const inp=document.getElementById(`fi-${ri}-${f}`);
+      if(!inp) return;
+      const val=inp.value.trim().replace(/\s+/g,' ');
+      const ans=row.answers[f];
+      const correct=val.toLowerCase().includes(ans.toLowerCase().replace(/[+−]/g,'').split('…')[0].toLowerCase())||val===ans;
+      inp.classList.remove('correct','wrong');
+      inp.classList.add(correct?'correct':'wrong');
+      if(correct) ok++;
+    });
+  });
+  document.getElementById('tableScore').textContent=`Верно: ${ok} из ${total}`;
+  document.getElementById('r2').textContent=ok+'/'+total;
+}
+function resetTable(){buildTable(); document.getElementById('r2').textContent='0/6';}
+buildTable();
+
+/* ════════════════════
+   TASK 3 — CLIMATOGRAMS
+════════════════════ */
+const CLIMS=[
+  {
+    title:'Климатограмма 1',
+    jul:27,jan:26,precTotal:2800,
+    months:[230,220,240,250,240,220,230,250,260,250,220,240],
+    temps:[27,27,27,27,27,27,27,27,27,27,27,27],
+    color:'#A03060',
+    opts:['Умеренный пояс','Тропический пояс','Экваториальный пояс','Субарктический пояс'],
+    ans:2,
+    exp:'Постоянная температура +25…+27°C и равномерные осадки >200 мм каждый месяц (сумма 2800 мм) — признак экваториального пояса.'
+  },
+  {
+    title:'Климатограмма 2',
+    jul:25,jan:-20,precTotal:550,
+    months:[30,28,35,45,55,65,70,65,55,50,35,25],
+    temps:[-20,-18,-10,2,12,20,25,22,14,4,-8,-17],
+    color:'#186438',
+    opts:['Арктический пояс','Субтропический пояс','Тропический пояс','Умеренный пояс (континентальный)'],
+    ans:3,
+    exp:'Амплитуда 45°C (июль +25°C, январь −20°C) и летний максимум осадков (550 мм) — признак умеренного континентального климата.'
+  },
+  {
+    title:'Климатограмма 3',
+    jul:30,jan:15,precTotal:150,
+    months:[5,5,10,10,10,15,20,15,15,15,15,15],
+    temps:[16,18,22,26,30,33,33,32,30,26,20,17],
+    color:'#C87A00',
+    opts:['Субтропический пояс','Тропический пояс (пустыня)','Субэкваториальный пояс','Умеренный пояс'],
+    ans:1,
+    exp:'Июль +30°C, январь +15°C, всего 150 мм осадков в год — типичный тропический пустынный климат. Сухо круглый год, огромная дневная жара.'
+  },
+  {
+    title:'Климатограмма 4',
+    jul:28,jan:10,precTotal:600,
+    months:[80,70,60,40,30,10,5,10,30,50,75,80],
+    temps:[10,12,15,18,22,26,28,28,24,20,14,11],
+    color:'#1A3A6E',
+    opts:['Экваториальный пояс','Умеренный морской','Субтропический (средиземноморский)','Субарктический пояс'],
+    ans:2,
+    exp:'Июль +28°C, январь +10°C, осадки 600 мм с зимним максимумом (дек–февр) — характерный средиземноморский тип субтропического пояса.'
+  },
+];
+let climOk=0,climDone=0;
+
+function buildChartSvg(data){
+  const maxPrec=Math.max(...data.months)*1.2;
+  const bars=data.months.map((v,i)=>{
+    const pct=v/maxPrec*100;
+    return `<rect x="${i*8.3+0.2}%" y="${100-pct}%" width="7.5%" height="${pct}%" fill="${data.color}" opacity="0.65" rx="1"/>`;
+  }).join('');
+  // temp line
+  const minT=Math.min(...data.temps), maxT=Math.max(...data.temps);
+  const range=maxT-minT||1;
+  const pts=data.temps.map((t,i)=>{
+    const x=i*8.3+4.15;
+    const y=90-(t-minT)/range*80;
+    return `${x},${y}`;
+  }).join(' ');
+  return `<svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="height:120px;width:100%;display:block">
+    ${bars}
+    <polyline points="${pts}" fill="none" stroke="#C84040" stroke-width="1.5" stroke-linejoin="round"/>
+    ${data.temps.map((t,i)=>{
+      const x=i*8.3+4.15;
+      const y=90-(t-minT)/range*80;
+      return `<circle cx="${x}" cy="${y}" r="1.2" fill="#C84040"/>`;
+    }).join('')}
+  </svg>`;
+}
+
+function buildClimCards(){
+  const grid=document.getElementById('climGrid');
+  grid.innerHTML='';
+  CLIMS.forEach((c,ci)=>{
+    const card=document.createElement('div');
+    card.className='clim-card';
+    card.innerHTML=`
+      <div class="clim-card-head">
+        <div class="clim-card-num">${ci+1}</div>
+        <div class="clim-card-lbl">${c.title}</div>
+      </div>
+      <div class="clim-chart">${buildChartSvg(c)}</div>
+      <div class="clim-stats">
+        <div class="clim-stat">☀️ Июль: <b>${c.jul>0?'+':''}${c.jul}°C</b></div>
+        <div class="clim-stat">❄️ Январь: <b>${c.jan>0?'+':''}${c.jan}°C</b></div>
+        <div class="clim-stat">🌧 Осадки: <b>${c.precTotal} мм/год</b></div>
+        <div class="clim-stat">📊 Амплитуда: <b>${c.jul-c.jan}°C</b></div>
+      </div>
+      <div class="clim-card-foot">
+        <div class="clim-q">Определи климатический пояс:</div>
+        <div class="clim-opts" id="co-${ci}">
+          ${c.opts.map((o,oi)=>`<div class="clim-opt" onclick="pickClim(${ci},${oi})">${o}</div>`).join('')}
+        </div>
+        <div class="clim-exp" id="ce-${ci}">${c.exp}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function pickClim(ci,oi){
+  const c=CLIMS[ci];
+  const opts=document.querySelectorAll(`#co-${ci} .clim-opt`);
+  opts.forEach(o=>o.classList.add('locked'));
+  const ok=oi===c.ans;
+  opts[oi].classList.add(ok?'correct':'wrong');
+  if(!ok) opts[c.ans].classList.add('correct');
+  document.getElementById(`ce-${ci}`).classList.add('show');
+  if(ok) climOk++;
+  climDone++;
+  document.getElementById('r3').textContent=climOk+'/4';
+  if(climDone===4){
+    const t=document.getElementById('climTally');
+    t.innerHTML=`Результат: <b>${climOk}/4</b> — ${['Повтори признаки климатических поясов!','Неплохо — один нюанс.','Хорошо!','Отлично — все четыре верно!'][Math.min(climOk,3)]}`;
+    t.style.display='block';
+  }
+}
+buildClimCards();
+
+/* ════════════════════
+   TASK 4 — OPEN Q
+════════════════════ */
+function showOqAnswer(){
+  const txt=document.getElementById('oqText').value.trim();
+  if(!txt){alert('Сначала напиши свой ответ!');return;}
+  document.getElementById('oqAnswer').classList.add('show');
+  document.getElementById('r4').textContent='проверено ✓';
+}
+
+/* ════════════════════
+   TASK 5 — MATCH
+════════════════════ */
+const MPAIRS=[
+  {id:1, type:'ЭВМ — Экваториальные', zone:'Экваториальный пояс'},
+  {id:2, type:'ТВМ — Тропические',    zone:'Тропический пояс'},
+  {id:3, type:'УВМ — Умеренные',      zone:'Умеренный пояс'},
+  {id:4, type:'АВМ — Арктические',    zone:'Арктический / Антарктический пояс'},
+];
+let ms2={selT:null,selZ:null,matched:new Set()};
+
+function matchRender(){
+  ms2={selT:null,selZ:null,matched:new Set()};
+  const types=[...MPAIRS].sort(()=>Math.random()-.5);
+  const zones=[...MPAIRS].sort(()=>Math.random()-.5);
+  const tc=document.getElementById('matchTypes'),zc=document.getElementById('matchZones');
+  tc.innerHTML='';zc.innerHTML='';
+  types.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='match-chip type-chip';el.dataset.id=p.id;
+    el.innerHTML=p.type+'<span class="ck">✓</span>';
+    el.addEventListener('click',()=>mClick2(el,'t'));tc.appendChild(el);
+  });
+  zones.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='match-chip zone-chip';el.dataset.id=p.id;
+    el.innerHTML=p.zone+'<span class="ck">✓</span>';
+    el.addEventListener('click',()=>mClick2(el,'z'));zc.appendChild(el);
+  });
+  document.getElementById('matchStatus').innerHTML='Выбери тип воздушной массы, затем пояс.';
+  document.getElementById('r5').textContent='0/4';
+}
+function mClick2(el,role){
+  if(el.classList.contains('matched'))return;
+  if(role==='t'){
+    document.querySelectorAll('.type-chip').forEach(e=>e.classList.remove('selected'));
+    el.classList.add('selected');ms2.selT=el;
+  } else {
+    document.querySelectorAll('.zone-chip').forEach(e=>e.classList.remove('selected'));
+    el.classList.add('selected');ms2.selZ=el;
+  }
+  if(ms2.selT&&ms2.selZ){
+    if(ms2.selT.dataset.id===ms2.selZ.dataset.id){
+      ms2.selT.classList.remove('selected');ms2.selT.classList.add('matched');
+      ms2.selZ.classList.remove('selected');ms2.selZ.classList.add('matched');
+      ms2.matched.add(ms2.selT.dataset.id);ms2.selT=null;ms2.selZ=null;
+      const n=ms2.matched.size;
+      document.getElementById('r5').textContent=n+'/4';
+      document.getElementById('matchStatus').innerHTML=n===4?'<b>Отлично — все четыре пары найдены!</b>':`Найдено: ${n} из 4`;
+    } else {
+      const t=ms2.selT,z=ms2.selZ;
+      t.classList.add('shake');z.classList.add('shake');
+      document.getElementById('matchStatus').textContent='Не совпадает — попробуй ещё раз.';
+      setTimeout(()=>{t.classList.remove('selected','shake');z.classList.remove('selected','shake');},380);
+      ms2.selT=null;ms2.selZ=null;
+    }
+  }
+}
+function matchReset(){matchRender();}
+matchRender();
+</script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Евгений Онегин — Интерактивный урок литературы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Raleway:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --night:     #0E0C1A;
+  --night2:    #16132A;
+  --night3:    #201C38;
+  --violet:    #5B4B8A;
+  --violet2:   #7A65B0;
+  --violet-lt: #EDEAF8;
+  --violet-md: #C4B8E8;
+  --rose:      #A83050;
+  --rose2:     #C84060;
+  --rose-lt:   #FAEAEE;
+  --rose-md:   #F0B0C0;
+  --gold:      #C8922A;
+  --gold-lt:   #FDF3DC;
+  --gold-md:   #F0D090;
+  --paper:     #FAF7F2;
+  --paper2:    #F0EBE0;
+  --paper3:    #E4DDD0;
+  --ink:       #1A160E;
+  --ink2:      #2E2818;
+  --muted:     #7A6A50;
+  --border:    rgba(26,22,14,0.13);
+  --border2:   rgba(26,22,14,0.22);
+  --green:     #1A5C30;
+  --green-lt:  #E4F2EB;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Raleway', system-ui, sans-serif;
+  --mono:      'Courier Prime', monospace;
+  --radius:    12px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--night);
+  position: relative; overflow: hidden;
+}
+.hero-starfield {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 18%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 70%, rgba(200,146,42,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 55%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 82%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 15%, rgba(200,146,42,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 45%, rgba(200,146,42,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  50%, rgba(255,255,255,0.3) 0%, transparent 100%);
+}
+.hero-aurora {
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 350px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(91,75,138,0.25) 0%, rgba(168,48,80,0.1) 50%, transparent 80%);
+  pointer-events: none;
+}
+.hero-top {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 0.5rem 2rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.3rem;
+}
+.hero-top-txt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+
+.hero-main { padding: 4rem 2rem 5.5rem; text-align: center; position: relative; }
+.hero-eyebrow {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-bottom: 1.4rem;
+}
+.hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,146,42,0.45)); }
+.hero-eyebrow::after { transform: scaleX(-1); }
+.hero-eyebrow span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(200,146,42,0.5); }
+
+.hero h1 { position: relative; font-family: var(--serif); font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; color: #fff; line-height: 0.95; letter-spacing: -0.01em; max-width: 680px; margin: 0 auto 0.2rem; }
+.hero h1 .italic { font-style: italic; font-weight: 300; color: rgba(255,255,255,0.5); font-size: 0.52em; display: block; margin-top: 0.35rem; letter-spacing: 0.04em; }
+.hero-author { position: relative; font-family: var(--serif); font-style: italic; font-size: clamp(1rem,2.5vw,1.35rem); color: rgba(255,255,255,0.3); margin: 0.4rem 0 2rem; }
+
+.hero-quote-band { position: relative; padding: 1rem 0; margin-bottom: 1.8rem; }
+.hero-quote-band::before, .hero-quote-band::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 220px; height: 1px; background: linear-gradient(90deg, transparent, rgba(200,146,42,0.3), transparent); }
+.hero-quote-band::before { top: 0; }
+.hero-quote-band::after  { bottom: 0; }
+.hero-quote { font-family: var(--serif); font-style: italic; font-size: clamp(1rem,2vw,1.2rem); color: rgba(255,255,255,0.35); line-height: 1.9; }
+
+.hero-pills { position: relative; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
+.hero-pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.11); border-radius: 8px; padding: 6px 16px; font-size: 11px; color: rgba(255,255,255,0.45); }
+.hero-pill b { color: var(--gold-md); margin-right: 4px; }
+
+.hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; line-height: 0; }
+.hero-wave svg { display: block; width: 100%; }
+
+/* ── RIBBON ── */
+.ribbon { background: var(--night2); padding: 0.55rem 1.5rem; display: flex; justify-content: center; align-items: center; gap: 2.5rem; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.28); letter-spacing: 0.06em; }
+.rib b { color: var(--gold-md); margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 1.1rem; }
+.sec-num { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rose2); margin-bottom: 0.35rem; }
+.sec-title { font-family: var(--serif); font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; line-height: 1.15; color: var(--ink); }
+.sec-title em { font-style: italic; color: var(--violet); }
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.35rem; }
+
+.divider { display: flex; align-items: center; gap: 1rem; padding: 2.5rem 0 0.5rem; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--paper3); }
+.divider span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+/* ══════════════════════════════════
+   QUIZ 1 — GUESS THE HERO
+══════════════════════════════════ */
+.quiz1-shell { background: #fff; border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.q1-bar { background: var(--night); padding: 0.9rem 1.4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.q1-bar-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.q1-segs { display: flex; gap: 4px; }
+.q1seg { height: 3px; width: 24px; border-radius: 2px; background: rgba(255,255,255,0.14); transition: background 0.25s; }
+.q1seg.done { background: var(--gold-md); }
+.q1seg.cur  { background: rgba(240,208,144,0.45); }
+
+.q1-inner { padding: 1.6rem; }
+.q1-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+
+.q1-quote {
+  background: var(--night);
+  border-radius: 10px; padding: 1.2rem 1.4rem;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+.q1-quote::before { content: '«'; position: absolute; top: -8px; left: 14px; font-family: var(--serif); font-size: 3.5rem; color: rgba(200,146,42,0.2); line-height: 1; }
+.q1-quote-text { font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: rgba(255,255,255,0.88); line-height: 1.8; padding-left: 0.5rem; position: relative; }
+
+.q1-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q1-opt {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--paper); border: 1px solid var(--border);
+  border-radius: 9px; padding: 0.7rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--ink2);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s, transform 0.1s;
+  line-height: 1.4;
+}
+.q1-opt:hover:not(.locked) { border-color: var(--violet2); background: var(--violet-lt); transform: translateX(3px); }
+.q1-opt .ol { width: 24px; height: 24px; border-radius: 6px; background: var(--paper2); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); transition: background 0.14s, color 0.14s; }
+.q1-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.q1-opt.correct .ol { background: var(--green); color: #fff; }
+.q1-opt.wrong   { background: var(--rose-lt); border-color: var(--rose2); }
+.q1-opt.wrong   .ol { background: var(--rose2); color: #fff; }
+.q1-opt.locked  { cursor: default; }
+
+.q1-fb { display: none; margin-top: 0.85rem; background: var(--paper2); border: 1px solid var(--border); border-left: 3px solid var(--violet2); border-radius: 0 8px 8px 0; padding: 0.65rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; font-family: var(--mono); }
+.q1-fb.show { display: block; }
+.q1-fb.err { border-left-color: var(--rose2); }
+.q1-fb b { color: var(--ink); }
+
+.q1-nxt { display: none; margin-top: 1rem; background: var(--night); color: var(--gold-md); border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.q1-nxt.show { display: inline-block; }
+.q1-nxt:hover { background: var(--violet); color: #fff; }
+
+.q1-result { display: none; text-align: center; padding: 2.5rem 1.5rem; }
+.q1-result.show { display: block; }
+.q1r-score { font-family: var(--serif); font-size: 6rem; font-weight: 700; color: var(--night); line-height: 1; letter-spacing: -0.03em; }
+.q1r-score sup { font-family: var(--mono); font-size: 2.5rem; font-weight: 400; color: var(--muted); }
+.q1r-rank { font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--violet); margin: 0.3rem 0 0.25rem; }
+.q1r-note { font-size: 0.87rem; color: var(--muted); margin-bottom: 1.3rem; }
+.btn-soft { background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 0.52rem 1.2rem; border-radius: 9px; font-family: var(--sans); font-size: 0.84rem; cursor: pointer; transition: border-color 0.14s, color 0.14s; }
+.btn-soft:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ══════════════════════════════════
+   QUIZ 2 — WHICH HERO ARE YOU?
+══════════════════════════════════ */
+.q2-shell { background: #fff; border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.q2-bar { background: var(--night2); padding: 0.9rem 1.4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.q2-bar-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.q2-steps { display: flex; gap: 4px; }
+.q2step { height: 3px; width: 32px; border-radius: 2px; background: rgba(255,255,255,0.14); transition: background 0.25s; }
+.q2step.done { background: var(--rose-md); }
+.q2step.cur  { background: rgba(240,176,192,0.45); }
+
+.q2-inner { padding: 1.6rem; }
+.q2-step-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+.q2-question { font-family: var(--serif); font-size: 1.12rem; font-weight: 700; color: var(--ink); line-height: 1.45; margin-bottom: 1.1rem; }
+
+.q2-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q2-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 0.7rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--ink2);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4;
+}
+.q2-opt:hover:not(.locked) { border-color: var(--rose2); background: var(--rose-lt); transform: translateX(3px); }
+.q2-opt .q2l { width: 24px; height: 24px; border-radius: 50%; font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.14s, color 0.14s; }
+.q2-opt[data-hero="onegin"] .q2l { background: #2A3A5C; color: #90A8C8; }
+.q2-opt[data-hero="tatyana"] .q2l { background: #5C2A3A; color: #C890A8; }
+.q2-opt[data-hero="lensky"]  .q2l { background: #2A5C3A; color: #90C8A8; }
+.q2-opt[data-hero="olga"]    .q2l { background: #5C4A2A; color: #C8B890; }
+.q2-opt[data-hero="author"]  .q2l { background: #3A2A5C; color: #A890C8; }
+.q2-opt.chosen { opacity: 0.65; }
+.q2-opt.chosen-this { border-color: var(--rose2); background: var(--rose-lt); }
+
+/* HERO RESULT CARD */
+.hero-result-card { display: none; }
+.hero-result-card.show { display: block; padding: 0 1.6rem 1.6rem; }
+
+.hrc { border-radius: var(--radius); overflow: hidden; }
+.hrc-top { padding: 1.5rem 1.5rem 1rem; display: flex; align-items: flex-start; gap: 1.2rem; }
+.hrc-emoji { font-size: 3rem; flex-shrink: 0; line-height: 1; }
+.hrc-name { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+.hrc-sub  { font-family: var(--serif); font-style: italic; font-size: 1rem; opacity: 0.7; margin-top: 0.2rem; }
+.hrc-body { padding: 0 1.5rem 1.5rem; }
+.hrc-desc { font-size: 0.92rem; line-height: 1.7; margin-bottom: 0.8rem; }
+.hrc-quote { font-family: var(--serif); font-style: italic; font-size: 1rem; line-height: 1.7; opacity: 0.7; border-left: 3px solid currentColor; padding-left: 0.9rem; }
+
+/* Hero color themes */
+.hrc.onegin { background: linear-gradient(135deg, #E8EEF8 0%, #F5F8FF 100%); color: #1A2A50; border: 1px solid #C0CDE8; }
+.hrc.onegin .hrc-name { color: #1A2A50; }
+.hrc.tatyana{ background: linear-gradient(135deg, #F8EEF2 0%, #FFF5F8 100%); color: #501A2A; border: 1px solid #E8C0CC; }
+.hrc.tatyana .hrc-name { color: #501A2A; }
+.hrc.lensky { background: linear-gradient(135deg, #EEF8EE 0%, #F5FFF5 100%); color: #1A501A; border: 1px solid #C0E8C0; }
+.hrc.lensky .hrc-name { color: #1A501A; }
+.hrc.olga   { background: linear-gradient(135deg, #F8F4EE 0%, #FFFAF5 100%); color: #50381A; border: 1px solid #E8D4C0; }
+.hrc.olga   .hrc-name { color: #50381A; }
+.hrc.author { background: linear-gradient(135deg, #F0EEF8 0%, #F8F5FF 100%); color: #301A50; border: 1px solid #D4C0E8; }
+.hrc.author .hrc-name { color: #301A50; }
+
+.q2-restart { margin-top: 1.2rem; text-align: center; }
+
+/* ── SCORE MINI ── */
+.score-wrap { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; }
+.score-bar { flex: 1; height: 4px; background: var(--paper2); border-radius: 2px; overflow: hidden; }
+.score-fill { height: 100%; border-radius: 2px; background: var(--violet2); transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+.score-txt { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* ── FOOTER ── */
+.footer { background: var(--night); margin-top: 3.5rem; padding: 3rem 2rem; text-align: center; }
+.footer-verse { font-family: var(--serif); font-style: italic; font-size: 1rem; color: rgba(255,255,255,0.25); line-height: 2; margin-bottom: 1rem; }
+.footer-meta { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.18); }
+.footer-meta span { color: var(--gold-md); opacity: 0.5; }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)} }
+.quiz1-shell, .q2-shell { animation: fadeUp 0.35s ease backwards; }
+@keyframes pop { 0%{transform:scale(0.78);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1} }
+.q1-result.show .q1r-score { animation: pop 0.42s ease forwards; }
+@keyframes slideIn { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
+.hero-result-card.show .hrc { animation: slideIn 0.4s ease; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-starfield"></div>
+  <div class="hero-aurora"></div>
+  <div class="hero-top">
+    <span class="hero-top-txt">Литература · 9 класс</span>
+    <span class="hero-top-txt">А. С. Пушкин</span>
+  </div>
+  <div class="hero-main">
+    <div class="hero-eyebrow"><span>Интерактивный урок</span></div>
+    <h1>Евгений Онегин<span class="italic">Роман в стихах</span></h1>
+    <div class="hero-author">А. С. Пушкин · 1823–1831</div>
+    <div class="hero-quote-band">
+      <div class="hero-quote">
+        «Я к вам пишу — чего же боле?<br>Что я могу ещё сказать?»
+      </div>
+    </div>
+    <div class="hero-pills">
+      <div class="hero-pill"><b>1</b>Угадай героя по цитате</div>
+      <div class="hero-pill"><b>2</b>Какой вы герой Онегина?</div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 Q360,0 720,50 Q1080,90 1440,20 L1440,70 L0,70Z" fill="#FAF7F2"/>
+    </svg>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <div class="rib">Викторина: <b id="r1">0/6</b></div>
+  <div class="rib">Тест «Кто я?»: <b id="r2">—</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ QUIZ 1 ═══ -->
+  <div class="sec">
+    <div class="sec-num">Задание 1</div>
+    <div class="sec-title">Угадай героя <em>по цитате</em></div>
+    <div class="sec-desc">6 цитат из романа. Определи, кому принадлежит каждая строфа.</div>
+  </div>
+
+  <div class="quiz1-shell">
+    <div class="q1-bar">
+      <span class="q1-bar-lbl">«Евгений Онегин» · 6 цитат</span>
+      <div class="q1-segs" id="q1Segs"></div>
+    </div>
+    <div id="q1Inner" class="q1-inner"></div>
+    <div class="q1-result" id="q1Result">
+      <div class="q1r-score" id="q1rScore">0<sup>/6</sup></div>
+      <div class="q1r-rank" id="q1rRank"></div>
+      <div class="q1r-note" id="q1rNote"></div>
+      <div class="score-wrap" style="max-width:300px;margin:.8rem auto">
+        <div class="score-bar"><div class="score-fill" id="q1rFill"></div></div>
+        <span class="score-txt" id="q1rPct"></span>
+      </div>
+      <button class="btn-soft" onclick="q1Reset()" style="margin-top:.5rem">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <div class="divider"><span>Задание 2</span></div>
+
+  <!-- ═══ QUIZ 2 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Какой вы <em>герой Онегина?</em></div>
+    <div class="sec-desc">5 вопросов о вашем характере. В конце — ваш литературный двойник.</div>
+  </div>
+
+  <div class="q2-shell">
+    <div class="q2-bar">
+      <span class="q2-bar-lbl">Литературный тест · 5 вопросов</span>
+      <div class="q2-steps" id="q2Steps"></div>
+    </div>
+    <div id="q2Inner" class="q2-inner"></div>
+    <div class="hero-result-card" id="heroResult">
+      <div class="hrc" id="hrcCard">
+        <div class="hrc-top">
+          <div class="hrc-emoji" id="hrcEmoji"></div>
+          <div>
+            <div class="hrc-name" id="hrcName"></div>
+            <div class="hrc-sub"  id="hrcSub"></div>
+          </div>
+        </div>
+        <div class="hrc-body">
+          <div class="hrc-desc"  id="hrcDesc"></div>
+          <div class="hrc-quote" id="hrcQuote"></div>
+        </div>
+      </div>
+      <div class="q2-restart">
+        <button class="btn-soft" onclick="q2Reset()">↩ Пройти тест снова</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-verse">
+    «Привычка свыше нам дана:<br>
+    Замена счастию она»
+  </div>
+  <div class="footer-meta">Интерактивный урок литературы · <span>Евгений Онегин</span></div>
+</div>
+
+<script>
+/* ════════════════════════════════
+   QUIZ 1 — GUESS THE HERO
+════════════════════════════════ */
+const Q1 = [
+  {
+    tag: 'Цитата 1',
+    quote: '«Он из Германии туманной\nПривёз учёности плоды»',
+    opts: ['Онегин', 'Ленский', 'Автор'],
+    ans: 1,
+    fb: '<b>Ленский</b> — молодой поэт-романтик, приехавший из Германии с головой, полной идеалов и философии Шиллера.'
+  },
+  {
+    tag: 'Цитата 2',
+    quote: '«Всегда скромна, всегда послушна,\nВсегда как утро весела»',
+    opts: ['Татьяна', 'Ольга', 'Няня'],
+    ans: 1,
+    fb: '<b>Ольга</b> — младшая сестра Татьяны, легкомысленная и весёлая. Пушкин описывает её с нескрываемой иронией.'
+  },
+  {
+    tag: 'Цитата 3',
+    quote: '«Я думал уж о форме плана\nИ как героя назову»',
+    opts: ['Онегин', 'Ленский', 'Автор'],
+    ans: 2,
+    fb: '<b>Автор</b> — рассказчик романа, говорит о своём замысле в первой главе. Пушкин часто иронично говорит о себе как о творце.'
+  },
+  {
+    tag: 'Цитата 4',
+    quote: '«Но я другому отдана;\nЯ буду век ему верна»',
+    opts: ['Татьяна', 'Ольга', 'Мать Татьяны'],
+    ans: 0,
+    fb: '<b>Татьяна</b> — финальные слова романа. В них весь её характер: сила, жертвенность и верность долгу выше личного счастья.'
+  },
+  {
+    tag: 'Цитата 5',
+    quote: '«Кто жил и мыслил, тот не может\nВ душе не презирать людей»',
+    opts: ['Онегин', 'Ленский', 'Автор'],
+    ans: 0,
+    fb: '<b>Онегин</b> — эти слова об Евгении, которого светская жизнь сделала циником. Он умён, но пуст. Мыслит — но не чувствует.'
+  },
+  {
+    tag: 'Цитата 6',
+    quote: '«Привычка свыше нам дана:\nЗамена счастию она»',
+    opts: ['Татьяна', 'Онегин', 'Автор'],
+    ans: 2,
+    fb: '<b>Автор</b> — одно из знаменитых авторских отступлений. Пушкин размышляет о браке матери Татьяны и о природе человеческого счастья.'
+  },
+];
+
+let q1i = 0, q1sc = 0;
+
+function q1Render() {
+  const q = Q1[q1i];
+  document.getElementById('q1Result').classList.remove('show');
+  document.getElementById('q1Inner').style.display = '';
+
+  document.getElementById('q1Segs').innerHTML = Q1.map((_,i) =>
+    `<div class="q1seg ${i<q1i?'done':i===q1i?'cur':''}"></div>`).join('');
+
+  const lines = q.quote.split('\n');
+  document.getElementById('q1Inner').innerHTML = `
+    <div class="q1-tag">Вопрос ${q1i+1} / 6 · ${q.tag}</div>
+    <div class="q1-quote">
+      <div class="q1-quote-text">${lines.join('<br>')}</div>
+    </div>
+    <div class="q1-opts" id="q1Opts">
+      ${q.opts.map((o,i)=>`<button class="q1-opt" onclick="pickQ1(${i})">
+        <span class="ol">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q1-fb" id="q1Fb"></div>
+    <button class="q1-nxt" id="q1Nxt" onclick="nextQ1()">${q1i<5?'Следующая цитата →':'Узнать результат →'}</button>`;
+}
+
+function pickQ1(c) {
+  const q = Q1[q1i];
+  document.querySelectorAll('.q1-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok = c === q.ans;
+  document.querySelectorAll('.q1-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q1-opt')[q.ans].classList.add('correct');
+  const fb = document.getElementById('q1Fb');
+  fb.innerHTML = q.fb; fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) q1sc++;
+  document.getElementById('q1Nxt').classList.add('show');
+  document.getElementById('r1').textContent = q1sc + '/6';
+}
+
+function nextQ1() { q1i++; if(q1i>=6){showQ1Result();return;} q1Render(); }
+
+function showQ1Result() {
+  document.getElementById('q1Inner').style.display = 'none';
+  document.getElementById('q1Result').classList.add('show');
+  document.getElementById('q1rScore').innerHTML = q1sc + '<sup>/6</sup>';
+  const pct = Math.round(q1sc/6*100);
+  document.getElementById('q1rFill').style.width = pct + '%';
+  document.getElementById('q1rPct').textContent = pct + '%';
+  const ranks = [
+    [6, 6, '«Онегин-эксперт»', 'Все шесть верно — вы чувствуете стиль Пушкина!'],
+    [4, 5, '«Читатель со стажем»', 'Почти идеально. Одна-две цитаты ускользнули.'],
+    [0, 3, '«Пора перечитывать роман»', 'Откройте первую главу — там вас ждёт Онегин.']
+  ].find(([a,b]) => q1sc>=a && q1sc<=b);
+  document.getElementById('q1rRank').textContent = ranks[2];
+  document.getElementById('q1rNote').textContent  = ranks[3];
+  document.getElementById('q1Segs').innerHTML = Q1.map(()=>`<div class="q1seg done"></div>`).join('');
+}
+
+function q1Reset() { q1i=0; q1sc=0; document.getElementById('r1').textContent='0/6'; q1Render(); }
+q1Render();
+
+/* ════════════════════════════════
+   QUIZ 2 — WHICH HERO ARE YOU?
+════════════════════════════════ */
+const Q2 = [
+  {
+    q: 'Как вы обычно проводите свободное время?',
+    opts: [
+      {l:'А', hero:'onegin',  txt:'Скучаю, ничего не хочется делать'},
+      {l:'Б', hero:'tatyana', txt:'Читаю книги, мечтаю, пишу посты'},
+      {l:'В', hero:'lensky',  txt:'Сочиняю стихи, смотрю на луну, верю в любовь'},
+      {l:'Г', hero:'olga',    txt:'Тусуюсь, веселюсь, флиртую'},
+      {l:'Д', hero:'author',  txt:'Наблюдаю за всеми и комментирую'},
+    ]
+  },
+  {
+    q: 'Что вы делаете, когда влюблены?',
+    opts: [
+      {l:'А', hero:'onegin',  txt:'Ничего — это всё глупости'},
+      {l:'Б', hero:'tatyana', txt:'Пишу длинное письмо и признаюсь первой(ым)'},
+      {l:'В', hero:'lensky',  txt:'Посвящаю стихи и пою под окном'},
+      {l:'Г', hero:'olga',    txt:'Кокетничаю, но без серьёзных намерений'},
+      {l:'Д', hero:'author',  txt:'Рассказываю всем, какие они смешные'},
+    ]
+  },
+  {
+    q: 'Ваше отношение к конфликтам и принципиальным спорам?',
+    opts: [
+      {l:'А', hero:'onegin',  txt:'Глупость, но если вызвали — пойду'},
+      {l:'Б', hero:'tatyana', txt:'Я против — предпочитаю достоинство'},
+      {l:'В', hero:'lensky',  txt:'Готов защищать честь и идеалы'},
+      {l:'Г', hero:'olga',    txt:'Ой, только не это — лучше помириться'},
+      {l:'Д', hero:'author',  txt:'Буду комментировать со стороны'},
+    ]
+  },
+  {
+    q: 'Что для вас важнее всего?',
+    opts: [
+      {l:'А', hero:'onegin',  txt:'Свобода и независимость'},
+      {l:'Б', hero:'tatyana', txt:'Верность долгу и честь'},
+      {l:'В', hero:'lensky',  txt:'Любовь и идеалы'},
+      {l:'Г', hero:'olga',    txt:'Веселье и приятное общение'},
+      {l:'Д', hero:'author',  txt:'Ирония и возможность посмеяться над всем'},
+    ]
+  },
+  {
+    q: 'Как друзья описывают вас?',
+    opts: [
+      {l:'А', hero:'onegin',  txt:'Умный, но скучный'},
+      {l:'Б', hero:'tatyana', txt:'Странная, но настоящая'},
+      {l:'В', hero:'lensky',  txt:'Романтик, не от мира сего'},
+      {l:'Г', hero:'olga',    txt:'Душа компании'},
+      {l:'Д', hero:'author',  txt:'Тот, кто всегда подколет'},
+    ]
+  },
+];
+
+const HERO_DATA = {
+  onegin:  {
+    name: 'Евгений Онегин', sub: 'Умный, но скучающий',
+    emoji: '🎭', cls: 'onegin',
+    desc: 'Вы умны, эрудированы и видите людей насквозь. Но всё вам быстро надоедает. Возможно, вы просто ещё не нашли себя — или боитесь найти.',
+    quote: '«Кто жил и мыслил, тот не может / В душе не презирать людей»'
+  },
+  tatyana: {
+    name: 'Татьяна Ларина', sub: 'Честная и верная',
+    emoji: '📖', cls: 'tatyana',
+    desc: 'Вы сильный, честный и цельный человек. Долг для вас важнее страсти, а принципы — дороже выгоды. Именно таких людей история запоминает.',
+    quote: '«Но я другому отдана; / Я буду век ему верна»'
+  },
+  lensky:  {
+    name: 'Владимир Ленский', sub: 'Романтик с горящим сердцем',
+    emoji: '🌙', cls: 'lensky',
+    desc: 'Вы верите в любовь, идеалы и красоту мира. Это прекрасно — но берегитесь столкновения с жёсткой реальностью. Поэты бывают хрупкими.',
+    quote: '«Он из Германии туманной / Привёз учёности плоды»'
+  },
+  olga:    {
+    name: 'Ольга Ларина', sub: 'Милая и лёгкая',
+    emoji: '🌸', cls: 'olga',
+    desc: 'Вы обаятельны, веселы и легко сходитесь с людьми. Это настоящий дар! Иногда стоит чуть глубже заглянуть в себя — там тоже кое-что есть.',
+    quote: '«Всегда скромна, всегда послушна, / Всегда как утро весела»'
+  },
+  author:  {
+    name: 'Автор (Пушкин)', sub: 'Ироничный наблюдатель',
+    emoji: '✒️', cls: 'author',
+    desc: 'Вы смотрите на мир немного сверху, с иронией и любопытством. Умеете замечать смешное там, где другие серьёзничают. В вас живёт писатель.',
+    quote: '«Привычка свыше нам дана: / Замена счастию она»'
+  },
+};
+
+let q2i = 0, q2votes = {onegin:0, tatyana:0, lensky:0, olga:0, author:0};
+
+function q2Render() {
+  const q = Q2[q2i];
+  document.getElementById('heroResult').classList.remove('show');
+  document.getElementById('q2Inner').style.display = '';
+
+  document.getElementById('q2Steps').innerHTML = Q2.map((_,i)=>
+    `<div class="q2step ${i<q2i?'done':i===q2i?'cur':''}"></div>`).join('');
+
+  document.getElementById('q2Inner').innerHTML = `
+    <div class="q2-step-lbl">Вопрос ${q2i+1} / 5</div>
+    <div class="q2-question">${q.q}</div>
+    <div class="q2-opts">
+      ${q.opts.map(o=>`<button class="q2-opt" data-hero="${o.hero}" onclick="pickQ2('${o.hero}',this)">
+        <span class="q2l">${o.l}</span>${o.txt}</button>`).join('')}
+    </div>`;
+}
+
+function pickQ2(hero, el) {
+  document.querySelectorAll('.q2-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;b.classList.add('chosen');});
+  el.classList.add('chosen-this');
+  q2votes[hero]++;
+  setTimeout(() => { q2i++; if(q2i>=5){showQ2Result();return;} q2Render(); }, 500);
+}
+
+function showQ2Result() {
+  document.getElementById('q2Inner').style.display = 'none';
+  const winner = Object.entries(q2votes).sort((a,b)=>b[1]-a[1])[0][0];
+  const h = HERO_DATA[winner];
+  document.getElementById('q2Steps').innerHTML = Q2.map(()=>`<div class="q2step done"></div>`).join('');
+  document.getElementById('hrcCard').className = 'hrc ' + h.cls;
+  document.getElementById('hrcEmoji').textContent = h.emoji;
+  document.getElementById('hrcName').textContent  = h.name;
+  document.getElementById('hrcSub').textContent   = h.sub;
+  document.getElementById('hrcDesc').textContent  = h.desc;
+  document.getElementById('hrcQuote').textContent = h.quote;
+  document.getElementById('heroResult').classList.add('show');
+  document.getElementById('r2').textContent = h.name;
+}
+
+function q2Reset() {
+  q2i = 0;
+  q2votes = {onegin:0, tatyana:0, lensky:0, olga:0, author:0};
+  document.getElementById('r2').textContent = '—';
+  document.getElementById('heroResult').classList.remove('show');
+  q2Render();
+}
+
+q2Render();
+</script>
+</body>
+</html>
