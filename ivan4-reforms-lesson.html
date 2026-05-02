@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Иван IV и реформы Избранной рады</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #FAF6EE;
+  --bg2:       #F0E8D8;
+  --bg3:       #E6DCCB;
+  --white:     #FDFBF8;
+  --crimson:   #8B1520;
+  --crimson2:  #A81C2A;
+  --crimson-lt:#FAECEE;
+  --crimson-md:#EBB0B8;
+  --gold:      #B8841A;
+  --gold2:     #D4A020;
+  --gold-lt:   #FEF5DC;
+  --gold-md:   #EDD090;
+  --navy:      #1A2A50;
+  --navy2:     #243670;
+  --navy-lt:   #E8EBF5;
+  --green:     #1A5C32;
+  --green-lt:  #E4F2EA;
+  --ink:       #120E06;
+  --ink2:      #1E180A;
+  --muted:     #6A5C3A;
+  --border:    rgba(18,14,6,0.12);
+  --border2:   rgba(18,14,6,0.22);
+  --serif:     'Playfair Display', Georgia, serif;
+  --sans:      'Nunito', system-ui, sans-serif;
+  --mono:      'Courier Prime', monospace;
+  --radius:    12px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--navy);
+  position: relative; overflow: hidden;
+}
+.hero-texture {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(30deg, rgba(184,132,26,0.04) 0px, rgba(184,132,26,0.04) 1px, transparent 1px, transparent 20px),
+    repeating-linear-gradient(-30deg, rgba(184,132,26,0.04) 0px, rgba(184,132,26,0.04) 1px, transparent 1px, transparent 20px);
+}
+.hero-glow { position:absolute; top:-100px; left:50%; transform:translateX(-50%); width:700px; height:400px; background:radial-gradient(ellipse, rgba(184,132,26,0.12) 0%, rgba(139,21,32,0.06) 50%, transparent 75%); pointer-events:none; }
+
+.hero-crown {
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(184,132,26,0.2);
+  padding: 0.5rem 2rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.3rem;
+}
+.hero-crown-txt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+
+.hero-main { padding: 4rem 2rem 5.5rem; text-align: center; position: relative; }
+.hero-ornament { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.4rem; }
+.hero-ornament::before, .hero-ornament::after { content:''; width: 50px; height: 1px; background: linear-gradient(90deg, transparent, rgba(184,132,26,0.5)); }
+.hero-ornament::after { transform: scaleX(-1); }
+.hero-ornament-txt { font-family: var(--mono); font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(184,132,26,0.55); }
+
+.hero h1 { position: relative; font-family: var(--serif); font-size: clamp(2.6rem, 7vw, 5.5rem); font-weight: 900; color: #fff; line-height: 0.97; letter-spacing: -0.01em; max-width: 680px; margin: 0 auto 0.3rem; }
+.hero h1 em { font-style: italic; font-weight: 400; color: rgba(255,255,255,0.45); font-size: 0.55em; display: block; letter-spacing: 0.04em; margin-top: 0.4rem; }
+.hero-dates { position: relative; font-family: var(--serif); font-style: italic; font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--gold-md); margin: 0.5rem 0 2.2rem; }
+
+.hero-rule { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(184,132,26,0.35), transparent); margin-bottom: 1.8rem; }
+.hero-stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+.hero-stat { text-align: center; }
+.hero-stat strong { display: block; font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--gold-md); line-height: 1; }
+.hero-stat span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+
+.hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; line-height: 0; }
+.hero-wave svg { display: block; width: 100%; }
+
+/* ── RIBBON ── */
+.ribbon { background: var(--crimson); padding: 0.55rem 1.5rem; display: flex; justify-content: center; align-items: center; gap: 2.2rem; flex-wrap: wrap; }
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.38); letter-spacing: 0.06em; }
+.rib b { color: var(--gold-md); margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+.sec { padding: 3rem 0 1rem; }
+.sec-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--crimson2); margin-bottom: 0.35rem; }
+.sec-title { font-family: var(--serif); font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; line-height: 1.2; color: var(--ink); }
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.3rem; }
+
+.divider { display: flex; align-items: center; gap: 1rem; padding: 2rem 0 0.3rem; }
+.divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--bg3); }
+.divider span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+/* ═══════════════════════════════════
+   TASK 1 — SINGLE CHOICE
+═══════════════════════════════════ */
+.task-shell { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.task-bar { background: var(--ink2); padding: 0.85rem 1.4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.task-bar-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+.task-type { font-family: var(--mono); font-size: 9px; color: var(--gold-md); letter-spacing: 0.08em; }
+.task-body { padding: 1.5rem; }
+
+.t-context {
+  background: var(--bg2);
+  border-left: 3px solid var(--gold2);
+  border-radius: 0 9px 9px 0;
+  padding: 0.9rem 1.1rem;
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.97rem; line-height: 1.7; color: var(--ink);
+  margin-bottom: 1.2rem;
+}
+.t-q { font-family: var(--serif); font-size: 1.08rem; font-weight: 700; color: var(--ink); line-height: 1.45; margin-bottom: 1rem; }
+
+.t-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.t-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 9px; padding: 0.72rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--ink2);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4;
+}
+.t-opt:hover:not(.locked) { border-color: var(--gold2); background: var(--gold-lt); transform: translateX(3px); }
+.t-opt .ol { width: 24px; height: 24px; border-radius: 6px; background: var(--bg2); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+.t-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.t-opt.correct .ol { background: var(--green); color: #fff; }
+.t-opt.wrong   { background: var(--crimson-lt); border-color: var(--crimson2); }
+.t-opt.wrong   .ol { background: var(--crimson2); color: #fff; }
+.t-opt.locked  { cursor: default; }
+
+.t-fb { display: none; margin-top: 0.9rem; background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--navy2); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+.t-fb.show { display: block; }
+.t-fb.err { border-left-color: var(--crimson2); }
+.t-fb b { color: var(--ink); }
+
+.t-reveal-btn { display: none; margin-top: 1rem; background: var(--ink2); color: var(--gold-md); border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.t-reveal-btn.show { display: inline-block; }
+.t-reveal-btn:hover { background: var(--crimson); color: #fff; }
+
+/* ═══════════════════════════════════
+   TASK 2 — MATCHING
+═══════════════════════════════════ */
+.match-table { width: 100%; border-collapse: separate; border-spacing: 0 0.4rem; }
+.match-row td { padding: 0; }
+.match-left { padding-right: 0.5rem; }
+.match-right { padding-left: 0.5rem; }
+
+.person-card { background: var(--white); border: 1px solid var(--border2); border-radius: 9px; padding: 0.7rem 0.9rem; display: flex; align-items: center; gap: 10px; }
+.person-num { width: 24px; height: 24px; border-radius: 50%; background: var(--navy2); color: var(--gold-md); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.person-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+
+.role-select {
+  width: 100%; background: var(--bg); border: 1.5px solid var(--border2);
+  border-radius: 9px; padding: 0.62rem 0.9rem;
+  font-family: var(--sans); font-size: 0.88rem; color: var(--ink);
+  cursor: pointer; outline: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236A5C3A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.8rem center;
+  padding-right: 2rem;
+  transition: border-color 0.14s;
+}
+.role-select:focus { border-color: var(--gold2); background-color: var(--gold-lt); }
+.role-select.correct { border-color: var(--green); background-color: var(--green-lt); color: var(--green); }
+.role-select.wrong   { border-color: var(--crimson2); background-color: var(--crimson-lt); color: var(--crimson2); }
+
+.match-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+.match-score { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.match-exp { display: none; margin-top: 0.8rem; background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--navy2); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+.match-exp.show { display: block; }
+
+.btn-primary { background: var(--ink2); color: var(--gold-md); border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.btn-primary:hover { background: var(--crimson); color: #fff; }
+.btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 0.52rem 1.2rem; border-radius: 9px; font-family: var(--sans); font-size: 0.84rem; cursor: pointer; transition: border-color 0.14s, color 0.14s; }
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ═══════════════════════════════════
+   TASK 4 — MULTIPLE CHOICE
+═══════════════════════════════════ */
+.t-opts-multi { display: flex; flex-direction: column; gap: 0.45rem; }
+.t-opt-multi {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 0.72rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--ink2);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s; line-height: 1.4;
+  user-select: none;
+}
+.t-opt-multi:hover:not(.locked) { border-color: var(--gold2); background: var(--gold-lt); }
+.t-opt-multi.chosen { border-color: var(--navy2); background: var(--navy-lt); }
+.t-opt-multi.correct { background: var(--green-lt); border-color: var(--green); cursor: default; }
+.t-opt-multi.wrong   { background: var(--crimson-lt); border-color: var(--crimson2); cursor: default; }
+.t-opt-multi.missed  { background: var(--gold-lt); border-color: var(--gold2); cursor: default; }
+.t-opt-multi.locked  { cursor: default; }
+
+.t-checkbox {
+  width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--border2);
+  background: var(--bg); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: transparent;
+  transition: background 0.14s, border-color 0.14s, color 0.14s;
+}
+.t-opt-multi.chosen  .t-checkbox { background: var(--navy2); border-color: var(--navy2); color: #fff; }
+.t-opt-multi.correct .t-checkbox { background: var(--green); border-color: var(--green); color: #fff; }
+.t-opt-multi.wrong   .t-checkbox { background: var(--crimson2); border-color: var(--crimson2); color: #fff; }
+.t-opt-multi.missed  .t-checkbox { background: var(--gold2); border-color: var(--gold2); color: #fff; }
+
+.multi-meta { font-size: 0.8rem; color: var(--muted); font-style: italic; margin-bottom: 0.75rem; }
+
+/* ═══════════════════════════════════
+   TASK 5 — CALCULATION
+═══════════════════════════════════ */
+.calc-visual {
+  background: var(--bg2); border-radius: 10px;
+  padding: 1.2rem 1.3rem; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+}
+.calc-estate {
+  display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+}
+.calc-field {
+  width: 36px; height: 36px; border-radius: 4px;
+  background: var(--gold-lt); border: 1.5px solid var(--gold2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.calc-field.x2 { width: 64px; }
+.calc-equals { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; color: var(--muted); }
+.calc-soldier {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--navy2); display: flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+.calc-label { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+.calc-formula { font-family: var(--mono); font-size: 0.9rem; font-weight: 700; color: var(--ink2); background: var(--white); border: 1px solid var(--border2); border-radius: 8px; padding: 0.5rem 0.9rem; }
+
+/* ═══════════════════════════════════
+   SCORE SUMMARY
+═══════════════════════════════════ */
+.score-panel {
+  background: var(--ink2); border-radius: var(--radius);
+  padding: 2rem; text-align: center; margin-top: 2rem;
+}
+.sp-score { font-family: var(--serif); font-size: 4.5rem; font-weight: 700; color: var(--gold-md); line-height: 1; letter-spacing: -0.02em; }
+.sp-score sup { font-family: var(--mono); font-size: 2rem; font-weight: 400; color: rgba(255,255,255,0.35); }
+.sp-msg { font-size: 0.9rem; color: rgba(255,255,255,0.55); margin: 0.5rem 0 1.2rem; }
+.sp-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 0.2rem; }
+
+/* ── FOOTER ── */
+.footer { background: var(--ink2); margin-top: 3.5rem; padding: 2.5rem; text-align: center; border-top: 3px double rgba(184,132,26,0.18); }
+.footer-q { font-family: var(--serif); font-style: italic; color: rgba(255,255,255,0.2); font-size: 0.9rem; margin-bottom: 0.5rem; }
+.footer-m { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.18); }
+.footer-m span { color: var(--gold-md); opacity: 0.55; }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.task-shell { animation: fadeUp 0.3s ease backwards; }
+@keyframes pop { 0%{transform:scale(0.8);opacity:0}70%{transform:scale(1.07)}100%{transform:scale(1);opacity:1} }
+.score-panel.show .sp-score { animation: pop 0.42s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-crown">
+    <span class="hero-crown-txt">История России · 7 класс</span>
+    <span class="hero-crown-txt">XVI век</span>
+  </div>
+  <div class="hero-main">
+    <div class="hero-ornament"><div class="hero-ornament-txt">Интерактивный урок</div></div>
+    <h1>Иван IV<em>Реформы Избранной рады</em></h1>
+    <div class="hero-dates">1547 — 1560 · Эпоха преобразований</div>
+    <div class="hero-rule"></div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>5</strong><span>заданий</span></div>
+      <div class="hero-stat"><strong>1547</strong><span>год венчания</span></div>
+      <div class="hero-stat"><strong>∞</strong><span>попыток</span></div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 65" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,35 Q360,70 720,25 Q1080,-10 1440,45 L1440,65 L0,65Z" fill="#FAF6EE"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ribbon">
+  <div class="rib">Задание 1: <b id="r1">—</b></div>
+  <div class="rib">Задание 2: <b id="r2">0/4</b></div>
+  <div class="rib">Задание 3: <b id="r3">—</b></div>
+  <div class="rib">Задание 4: <b id="r4">—</b></div>
+  <div class="rib">Задание 5: <b id="r5">—</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ ЗАДАНИЕ 1 ═══ -->
+  <div class="sec">
+    <div class="sec-tag">Задание 1 · Даты и факты</div>
+    <div class="sec-title">Знание хронологии</div>
+    <div class="sec-desc">Один правильный ответ. Выбери и сразу узнаешь пояснение.</div>
+  </div>
+
+  <div class="task-shell">
+    <div class="task-bar">
+      <span class="task-bar-lbl">Задание №1</span>
+      <span class="task-type">Single choice</span>
+    </div>
+    <div class="task-body">
+      <div class="t-q">В каком году Иван IV венчался на царство, приняв титул «царь всея Руси»?</div>
+      <div class="t-opts" id="opts1">
+        <button class="t-opt" onclick="pick1(0)"><span class="ol">A</span>1533 г.</button>
+        <button class="t-opt" onclick="pick1(1)"><span class="ol">B</span>1547 г.</button>
+        <button class="t-opt" onclick="pick1(2)"><span class="ol">C</span>1550 г.</button>
+        <button class="t-opt" onclick="pick1(3)"><span class="ol">D</span>1560 г.</button>
+      </div>
+      <div class="t-fb" id="fb1">
+        <b>1547 год.</b> 16 января в Успенском соборе Кремля митрополит Макарий возложил на Ивана IV шапку Мономаха. Иван стал <b>первым русским царём</b>. До него правителей называли великими князьями.
+      </div>
+      <button class="t-reveal-btn" id="rbtn1" onclick="revealNext(1)">Следующее задание →</button>
+    </div>
+  </div>
+
+  <div class="divider"><span>Задание 2</span></div>
+
+  <!-- ═══ ЗАДАНИЕ 2 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Соотнеси имя и роль в Избранной раде</div>
+    <div class="sec-desc">Выбери роль из выпадающего списка для каждого участника Избранной рады.</div>
+  </div>
+
+  <div class="task-shell">
+    <div class="task-bar">
+      <span class="task-bar-lbl">Задание №2</span>
+      <span class="task-type">Matching</span>
+    </div>
+    <div class="task-body">
+      <table class="match-table">
+        <tbody>
+          <tr class="match-row">
+            <td class="match-left" style="width:48%">
+              <div class="person-card"><div class="person-num">1</div><div class="person-name">Алексей Адашев</div></div>
+            </td>
+            <td class="match-right" style="width:52%">
+              <select class="role-select" id="ms1">
+                <option value="">— выбери роль —</option>
+                <option value="A">А) Священник, духовный наставник царя</option>
+                <option value="B">Б) Руководитель правительства, администратор</option>
+                <option value="V">В) Глава церкви, сторонник реформ</option>
+                <option value="G">Г) Полководец и советник</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="match-row" style="height:0.4rem"><td colspan="2"></td></tr>
+          <tr class="match-row">
+            <td class="match-left">
+              <div class="person-card"><div class="person-num">2</div><div class="person-name">Сильвестр</div></div>
+            </td>
+            <td class="match-right">
+              <select class="role-select" id="ms2">
+                <option value="">— выбери роль —</option>
+                <option value="A">А) Священник, духовный наставник царя</option>
+                <option value="B">Б) Руководитель правительства, администратор</option>
+                <option value="V">В) Глава церкви, сторонник реформ</option>
+                <option value="G">Г) Полководец и советник</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="match-row" style="height:0.4rem"><td colspan="2"></td></tr>
+          <tr class="match-row">
+            <td class="match-left">
+              <div class="person-card"><div class="person-num">3</div><div class="person-name">Митрополит Макарий</div></div>
+            </td>
+            <td class="match-right">
+              <select class="role-select" id="ms3">
+                <option value="">— выбери роль —</option>
+                <option value="A">А) Священник, духовный наставник царя</option>
+                <option value="B">Б) Руководитель правительства, администратор</option>
+                <option value="V">В) Глава церкви, сторонник реформ</option>
+                <option value="G">Г) Полководец и советник</option>
+              </select>
+            </td>
+          </tr>
+          <tr class="match-row" style="height:0.4rem"><td colspan="2"></td></tr>
+          <tr class="match-row">
+            <td class="match-left">
+              <div class="person-card"><div class="person-num">4</div><div class="person-name">Андрей Курбский</div></div>
+            </td>
+            <td class="match-right">
+              <select class="role-select" id="ms4">
+                <option value="">— выбери роль —</option>
+                <option value="A">А) Священник, духовный наставник царя</option>
+                <option value="B">Б) Руководитель правительства, администратор</option>
+                <option value="V">В) Глава церкви, сторонник реформ</option>
+                <option value="G">Г) Полководец и советник</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="match-controls">
+        <button class="btn-primary" onclick="checkMatch()">Проверить</button>
+        <button class="btn-ghost" onclick="resetMatch()">↩ Сбросить</button>
+        <span class="match-score" id="matchScore"></span>
+      </div>
+      <div class="match-exp" id="matchExp">
+        <b>Избранная рада</b> — неофициальный кружок советников Ивана IV. <b>Адашев</b> (Б) руководил реформами; <b>Сильвестр</b> (А) — священник-наставник; <b>Макарий</b> (В) — глава церкви; <b>Курбский</b> (Г) — военачальник и дипломат, позже бежавший в Литву.
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><span>Задание 3</span></div>
+
+  <!-- ═══ ЗАДАНИЕ 3 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Причинно-следственные связи</div>
+    <div class="sec-desc">Один ответ. Выбери и объясни своё понимание.</div>
+  </div>
+
+  <div class="task-shell">
+    <div class="task-bar">
+      <span class="task-bar-lbl">Задание №3</span>
+      <span class="task-type">Single choice с обоснованием</span>
+    </div>
+    <div class="task-body">
+      <div class="t-q">Почему Иван IV решил венчаться на царство, а не оставаться великим князем?</div>
+      <div class="t-opts" id="opts3">
+        <button class="t-opt" onclick="pick3(0)"><span class="ol">A</span>Потому что его отец Василий III был царём</button>
+        <button class="t-opt" onclick="pick3(1)"><span class="ol">B</span>Чтобы подчеркнуть независимость от Орды и равенство с европейскими императорами</button>
+        <button class="t-opt" onclick="pick3(2)"><span class="ol">C</span>Потому что его вынудили бояре</button>
+        <button class="t-opt" onclick="pick3(3)"><span class="ol">D</span>Чтобы отменить все налоги</button>
+      </div>
+      <div class="t-fb" id="fb3">
+        Титул «царь» (от лат. <b>caesar</b>) выше, чем «великий князь». Он означал: Московское государство <b>суверенно</b>, независимо от Орды (иго пало в 1480 г.), а его правитель равен императорам Европы и наследникам Византии. Подчёркивалось и <b>богоданное происхождение власти</b>.
+      </div>
+      <button class="t-reveal-btn" id="rbtn3" onclick="revealNext(3)">Следующее задание →</button>
+    </div>
+  </div>
+
+  <div class="divider"><span>Задание 4</span></div>
+
+  <!-- ═══ ЗАДАНИЕ 4 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Реформы Избранной рады — выбери все верные</div>
+    <div class="sec-desc">Множественный выбор. Отметь все правильные варианты, затем нажми «Проверить».</div>
+  </div>
+
+  <div class="task-shell">
+    <div class="task-bar">
+      <span class="task-bar-lbl">Задание №4</span>
+      <span class="task-type">Multiple choice</span>
+    </div>
+    <div class="task-body">
+      <div class="multi-meta">💡 Можно выбрать несколько вариантов</div>
+      <div class="t-opts-multi" id="opts4">
+        <div class="t-opt-multi" onclick="toggleMulti(this, 'A')">
+          <div class="t-checkbox">✓</div>
+          <span>А) Создание стрелецкого войска</span>
+        </div>
+        <div class="t-opt-multi" onclick="toggleMulti(this, 'B')">
+          <div class="t-checkbox">✓</div>
+          <span>Б) Введение опричнины</span>
+        </div>
+        <div class="t-opt-multi" onclick="toggleMulti(this, 'V')">
+          <div class="t-checkbox">✓</div>
+          <span>В) Принятие нового Судебника (1550 г.)</span>
+        </div>
+        <div class="t-opt-multi" onclick="toggleMulti(this, 'G')">
+          <div class="t-checkbox">✓</div>
+          <span>Г) Отмена Юрьева дня</span>
+        </div>
+        <div class="t-opt-multi" onclick="toggleMulti(this, 'D')">
+          <div class="t-checkbox">✓</div>
+          <span>Д) Земская реформа (выборные старосты вместо наместников)</span>
+        </div>
+        <div class="t-opt-multi" onclick="toggleMulti(this, 'E')">
+          <div class="t-checkbox">✓</div>
+          <span>Е) Присоединение Сибири</span>
+        </div>
+      </div>
+      <div class="match-controls" style="margin-top:1rem">
+        <button class="btn-primary" onclick="checkMulti()">Проверить</button>
+        <button class="btn-ghost" onclick="resetMulti()">↩ Сбросить</button>
+        <span class="match-score" id="multiScore"></span>
+      </div>
+      <div class="match-exp" id="multiExp">
+        <b>Верно: А, В, Д.</b> Избранная рада: военная реформа (стрельцы), судебная (Судебник 1550), земская (выборные органы). <b>Опричнина</b> — после распада Рады (1565). <b>Юрьев день</b> не отменялся (действовал с 1497). <b>Сибирь</b> — Ермак, 1580-е.
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><span>Задание 5</span></div>
+
+  <!-- ═══ ЗАДАНИЕ 5 ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Историческая задача — «Уложение о службе»</div>
+    <div class="sec-desc">Применение знаний. Посчитай и выбери правильный ответ.</div>
+  </div>
+
+  <div class="task-shell">
+    <div class="task-bar">
+      <span class="task-bar-lbl">Задание №5</span>
+      <span class="task-type">Расчётная задача</span>
+    </div>
+    <div class="task-body">
+      <div class="t-context">
+        Ты — дворянин в 1555 году. У тебя есть поместье размером <b>200 четвертей</b> земли. По «Уложению о службе» (1555–1556 гг.) — 1 вооружённый воин с каждых 100 четвертей.
+      </div>
+
+      <div class="calc-visual">
+        <div class="calc-estate">
+          <div class="calc-field x2">🌾🌾</div>
+          <span class="calc-equals">200 ÷ 100 =</span>
+          <div style="display:flex;gap:0.4rem" id="calcSoldiers">
+            <div class="calc-soldier" title="1-й воин">⚔️</div>
+            <div class="calc-soldier" title="2-й воин" style="opacity:0.3" id="s2">⚔️</div>
+          </div>
+        </div>
+        <div>
+          <div class="calc-label">Формула:</div>
+          <div class="calc-formula">200 четв. ÷ 100 = ? воинов</div>
+        </div>
+      </div>
+
+      <div class="t-q">Сколько вооружённых воинов обязан выставить дворянин с 200 четвертей земли?</div>
+      <div class="t-opts" id="opts5">
+        <button class="t-opt" onclick="pick5(0)"><span class="ol">A</span>1 воина</button>
+        <button class="t-opt" onclick="pick5(1)"><span class="ol">B</span>2 воинов</button>
+        <button class="t-opt" onclick="pick5(2)"><span class="ol">C</span>3 воинов</button>
+        <button class="t-opt" onclick="pick5(3)"><span class="ol">D</span>5 воинов</button>
+      </div>
+      <div class="t-fb" id="fb5">
+        <b>2 воина</b> (200 ÷ 100 = 2). Уложение 1555–1556 гг.: с каждых 100 четвертей (≈50 га) — один конный вооружённый воин. Это позволило создать крупное <b>поместное войско</b> без дополнительных затрат казны.
+      </div>
+      <button class="t-reveal-btn" id="rbtn5" onclick="showSummary()">📊 Итоговый результат →</button>
+    </div>
+  </div>
+
+  <!-- ═══ SUMMARY ═══ -->
+  <div class="score-panel" id="scorePanel" style="display:none">
+    <div class="sp-label">Итого правильных заданий</div>
+    <div class="sp-score" id="spScore">0<sup>/5</sup></div>
+    <div class="sp-msg" id="spMsg"></div>
+    <button class="btn-ghost" onclick="resetAll()" style="margin-top:.3rem">↩ Начать сначала</button>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-q">«И собрал он весь народ Московской земли, и поставил их вокруг себя…»</div>
+  <div class="footer-m">Урок истории · <span>Иван IV · Реформы Избранной рады · XVI век</span></div>
+</div>
+
+<script>
+/* ════════════════════════════
+   SCORING
+════════════════════════════ */
+const score = {t1:null, t2:null, t3:null, t4:null, t5:null};
+
+function updateRibbon() {
+  ['t1','t2','t3','t4','t5'].forEach((k,i) => {
+    const el = document.getElementById('r'+(i+1));
+    if(score[k]===null) el.textContent = '—';
+    else if(score[k]===true) el.textContent = '✓';
+    else if(score[k]===false) el.textContent = '✗';
+    else el.textContent = score[k]; // for numeric
+  });
+}
+
+function lockOpts(containerId) {
+  document.querySelectorAll(`#${containerId} .t-opt`).forEach(b=>{b.classList.add('locked');b.disabled=true;});
+}
+
+/* ════════════════════════════
+   TASK 1
+════════════════════════════ */
+function pick1(c) {
+  lockOpts('opts1');
+  const opts = document.querySelectorAll('#opts1 .t-opt');
+  const ok = c === 1; // B = 1547
+  opts[c].classList.add(ok?'correct':'wrong');
+  if(!ok) opts[1].classList.add('correct');
+  document.getElementById('fb1').classList.add('show');
+  document.getElementById('rbtn1').classList.add('show');
+  score.t1 = ok;
+  updateRibbon();
+}
+function revealNext(n) {
+  document.getElementById('rbtn'+n).classList.remove('show');
+  // scroll to next
+}
+
+/* ════════════════════════════
+   TASK 2 — MATCHING
+════════════════════════════ */
+const MATCH_ANS = {ms1:'B', ms2:'A', ms3:'V', ms4:'G'};
+
+function checkMatch() {
+  let ok=0;
+  ['ms1','ms2','ms3','ms4'].forEach(id=>{
+    const sel=document.getElementById(id);
+    sel.classList.remove('correct','wrong');
+    if(!sel.value) return;
+    if(sel.value === MATCH_ANS[id]){ sel.classList.add('correct'); ok++; }
+    else { sel.classList.add('wrong'); }
+    sel.disabled=true;
+  });
+  document.getElementById('matchScore').textContent = `Верно: ${ok} из 4`;
+  document.getElementById('matchExp').classList.add('show');
+  score.t2 = ok+'/4';
+  updateRibbon();
+  document.getElementById('r2').textContent = ok+'/4';
+}
+
+function resetMatch() {
+  ['ms1','ms2','ms3','ms4'].forEach(id=>{
+    const s=document.getElementById(id);
+    s.value=''; s.disabled=false; s.classList.remove('correct','wrong');
+  });
+  document.getElementById('matchScore').textContent='';
+  document.getElementById('matchExp').classList.remove('show');
+  score.t2=null; updateRibbon();
+}
+
+/* ════════════════════════════
+   TASK 3
+════════════════════════════ */
+function pick3(c) {
+  lockOpts('opts3');
+  const opts = document.querySelectorAll('#opts3 .t-opt');
+  const ok = c === 1; // B
+  opts[c].classList.add(ok?'correct':'wrong');
+  if(!ok) opts[1].classList.add('correct');
+  const fb=document.getElementById('fb3');
+  fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  document.getElementById('rbtn3').classList.add('show');
+  score.t3 = ok; updateRibbon();
+}
+
+/* ════════════════════════════
+   TASK 4 — MULTIPLE CHOICE
+════════════════════════════ */
+const multiCorrect = new Set(['A','V','D']); // А, В, Д
+const multiChosen  = new Set();
+
+function toggleMulti(el, val) {
+  if(el.classList.contains('locked')) return;
+  if(multiChosen.has(val)){ multiChosen.delete(val); el.classList.remove('chosen'); }
+  else { multiChosen.add(val); el.classList.add('chosen'); }
+}
+
+function checkMulti() {
+  const opts = document.querySelectorAll('#opts4 .t-opt-multi');
+  const keys = ['A','B','V','G','D','E'];
+  let ok=0;
+  opts.forEach((el,i)=>{
+    el.classList.add('locked');
+    const k=keys[i];
+    const chosen=multiChosen.has(k), correct=multiCorrect.has(k);
+    el.classList.remove('chosen');
+    if(chosen && correct){ el.classList.add('correct'); ok++; }
+    else if(chosen && !correct){ el.classList.add('wrong'); }
+    else if(!chosen && correct){ el.classList.add('missed'); }
+  });
+  const total=3;
+  document.getElementById('multiScore').textContent=`Верно: ${ok} из ${total}`;
+  document.getElementById('multiExp').classList.add('show');
+  score.t4 = ok+'/'+total;
+  document.getElementById('r4').textContent = ok+'/'+total;
+  updateRibbon();
+}
+
+function resetMulti() {
+  multiChosen.clear();
+  document.querySelectorAll('#opts4 .t-opt-multi').forEach(el=>{
+    el.classList.remove('chosen','correct','wrong','missed','locked');
+  });
+  document.getElementById('multiScore').textContent='';
+  document.getElementById('multiExp').classList.remove('show');
+  score.t4=null; updateRibbon();
+}
+
+/* ════════════════════════════
+   TASK 5
+════════════════════════════ */
+function pick5(c) {
+  lockOpts('opts5');
+  const opts = document.querySelectorAll('#opts5 .t-opt');
+  const ok = c === 1; // B = 2
+  opts[c].classList.add(ok?'correct':'wrong');
+  if(!ok) opts[1].classList.add('correct');
+  const fb=document.getElementById('fb5');
+  fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  // animate the second soldier
+  if(ok) document.getElementById('s2').style.opacity='1';
+  document.getElementById('rbtn5').classList.add('show');
+  score.t5 = ok; updateRibbon();
+}
+
+function showSummary() {
+  const panel = document.getElementById('scorePanel');
+  panel.style.display='block';
+  // count
+  let correct=0, total=5;
+  if(score.t1===true) correct++;
+  if(score.t3===true) correct++;
+  if(score.t5===true) correct++;
+  // parse numeric
+  if(score.t2) { const parts=score.t2.split('/'); if(parseInt(parts[0])>=3) correct++; }
+  if(score.t4) { const parts=score.t4.split('/'); if(parseInt(parts[0])>=2) correct++; }
+  document.getElementById('spScore').innerHTML = correct+'<sup>/'+total+'</sup>';
+  const msgs=[
+    [5,5,'🏆 Превосходно! Ты отлично знаешь эпоху Ивана IV.'],
+    [4,4,'👍 Очень хорошо! Одно задание с погрешностью.'],
+    [3,3,'📚 Неплохо. Повтори реформы Избранной рады.'],
+    [0,2,'🔍 Изучи материал ещё раз — и результат улучшится!']
+  ].find(([a,b])=>correct>=a&&correct<=b);
+  document.getElementById('spMsg').textContent = msgs[2];
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function resetAll() {
+  location.reload();
+}
+</script>
+</body>
+</html>
