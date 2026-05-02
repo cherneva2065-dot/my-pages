@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СПП — Тренажёр по сложноподчинённому предложению</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0A0A12;
+  --bg2:       #12121E;
+  --bg3:       #1A1A2E;
+  --surface:   #20203A;
+  --surf2:     #282844;
+  --purple:    #7C3AED;
+  --purple2:   #9D5AF0;
+  --purple-lt: #F0EAFF;
+  --purple-md: #C4A8F8;
+  --cyan:      #06B6D4;
+  --cyan-lt:   #E0F8FF;
+  --green:     #10B981;
+  --green-lt:  #D1FAE5;
+  --red:       #EF4444;
+  --red-lt:    #FEE2E2;
+  --amber:     #F59E0B;
+  --amber-lt:  #FEF3C7;
+  --text:      #F0EEF8;
+  --text2:     rgba(240,238,248,0.65);
+  --muted:     rgba(240,238,248,0.35);
+  --border:    rgba(124,58,237,0.2);
+  --border2:   rgba(124,58,237,0.35);
+  --mono:      'JetBrains Mono', monospace;
+  --display:   'Unbounded', sans-serif;
+  --sans:      'Inter', system-ui, sans-serif;
+  --radius:    12px;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; overflow: hidden;
+  padding: 5.5rem 2rem 5rem;
+  text-align: center;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(124,58,237,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,58,237,0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero-glow {
+  position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
+  width: 900px; height: 500px;
+  background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, rgba(6,182,212,0.05) 50%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.35);
+  border-radius: 99px; padding: 5px 16px;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--purple-md); margin-bottom: 1.5rem;
+}
+.hero-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple2); animation: blink 1.6s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
+
+.hero h1 {
+  position: relative;
+  font-family: var(--display); font-size: clamp(2.2rem, 6vw, 5rem);
+  font-weight: 900; line-height: 1; letter-spacing: -0.02em;
+  color: var(--text); max-width: 680px; margin: 0 auto 0.5rem;
+}
+.hero h1 .hi1 { color: var(--purple-md); }
+.hero h1 .hi2 { color: var(--cyan); }
+.hero-abbr {
+  position: relative;
+  font-family: var(--mono); font-size: 0.95rem;
+  color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem;
+}
+.hero-counters {
+  position: relative;
+  display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+}
+.hero-counter {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 10px; padding: 0.65rem 1.4rem; text-align: center;
+  backdrop-filter: blur(4px);
+}
+.hero-counter strong { display: block; font-family: var(--display); font-size: 1.8rem; font-weight: 700; color: var(--purple-md); line-height: 1; }
+.hero-counter span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* ── SCORE BAR ── */
+.scorebar {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 0.6rem 1.5rem;
+  display: flex; justify-content: center; align-items: center; gap: 2.5rem; flex-wrap: wrap;
+}
+.sb { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+.sb b { color: var(--purple-md); margin-left: 4px; font-size: 12px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.5rem; }
+
+.sec { padding: 3rem 0 1rem; }
+.sec-tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--purple2); margin-bottom: 0.4rem;
+}
+.sec-title {
+  font-family: var(--display); font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: var(--text);
+}
+.sec-desc { font-size: 0.87rem; color: var(--text2); margin-top: 0.35rem; }
+
+.divider {
+  display: flex; align-items: center; gap: 1rem; padding: 2rem 0 0.3rem;
+}
+.divider::before, .divider::after { content:''; flex:1; height:1px; background: var(--border); }
+.divider span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+/* ══════════════════════════════
+   QUIZ SHELL
+══════════════════════════════ */
+.quiz-shell {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.quiz-top {
+  background: var(--bg3); padding: 0.9rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.quiz-top-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.q-prog { display: flex; gap: 3px; }
+.qp { width: 18px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.1); transition: background 0.25s; }
+.qp.done { background: var(--purple2); }
+.qp.cur  { background: rgba(157,90,240,0.45); }
+
+.quiz-inner { padding: 1.6rem; }
+.q-num { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem; }
+.q-text { font-size: 1.05rem; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 1.1rem; }
+.q-text code { font-family: var(--mono); font-size: 0.95rem; background: var(--surf2); border: 1px solid var(--border2); border-radius: 5px; padding: 1px 7px; color: var(--purple-md); }
+
+.q-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 9px; padding: 0.75rem 1rem;
+  cursor: pointer; font-size: 0.9rem; color: var(--text);
+  font-family: var(--sans); text-align: left;
+  transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4;
+}
+.q-opt:hover:not(.locked) { border-color: var(--purple2); background: rgba(124,58,237,0.12); transform: translateX(3px); }
+.q-opt .ql {
+  width: 24px; height: 24px; border-radius: 6px;
+  background: var(--bg3); border: 1px solid var(--border);
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; color: var(--muted);
+}
+.q-opt.correct { background: rgba(16,185,129,0.1); border-color: var(--green); }
+.q-opt.correct .ql { background: var(--green); color: var(--bg); border-color: var(--green); }
+.q-opt.wrong   { background: rgba(239,68,68,0.1); border-color: var(--red); }
+.q-opt.wrong   .ql { background: var(--red); color: #fff; border-color: var(--red); }
+.q-opt.locked  { cursor: default; }
+
+.q-fb {
+  display: none; margin-top: 0.9rem;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-left: 3px solid var(--purple2);
+  border-radius: 0 8px 8px 0; padding: 0.7rem 1rem;
+  font-size: 0.83rem; color: var(--text2); line-height: 1.6;
+  font-family: var(--mono);
+}
+.q-fb.show { display: block; }
+.q-fb.err { border-left-color: var(--red); }
+.q-fb b { color: var(--text); }
+
+.q-nxt {
+  display: none; margin-top: 1rem;
+  background: var(--purple); color: #fff;
+  border: none; padding: 0.65rem 1.4rem; border-radius: 9px;
+  font-family: var(--display); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.03em; cursor: pointer; transition: background 0.14s;
+}
+.q-nxt.show { display: inline-block; }
+.q-nxt:hover { background: var(--purple2); }
+
+/* QUIZ RESULT */
+.quiz-result { display: none; text-align: center; padding: 2.5rem 1.5rem; }
+.quiz-result.show { display: block; }
+.qr-score { font-family: var(--display); font-size: 5.5rem; font-weight: 900; color: var(--purple-md); line-height: 1; letter-spacing: -0.03em; }
+.qr-score sup { font-family: var(--mono); font-size: 2.5rem; font-weight: 400; color: var(--muted); }
+.qr-badge { display: inline-block; font-size: 1.8rem; margin: 0.3rem 0; }
+.qr-rank { font-family: var(--display); font-size: 1rem; font-weight: 700; color: var(--cyan); margin-bottom: 0.25rem; letter-spacing: -0.01em; }
+.qr-note { font-size: 0.87rem; color: var(--text2); margin-bottom: 1.4rem; max-width: 380px; margin-inline: auto; margin-bottom: 1.4rem; }
+.btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 0.55rem 1.2rem; border-radius: 9px; font-family: var(--sans); font-size: 0.84rem; cursor: pointer; transition: border-color 0.14s, color 0.14s; }
+.btn-ghost:hover { border-color: var(--text); color: var(--text); }
+
+/* ══════════════════════════════
+   SENTENCE CONSTRUCTOR
+══════════════════════════════ */
+.constructor-box {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.ctor-head { background: var(--bg3); padding: 0.9rem 1.4rem; border-bottom: 1px solid var(--border); }
+.ctor-head-inner { display: flex; align-items: center; gap: 10px; }
+.ctor-led { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); animation: blink 1.8s ease-in-out infinite; }
+.ctor-head-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); }
+
+.ctor-body { padding: 1.5rem; }
+.ctor-task { font-size: 0.9rem; font-weight: 500; color: var(--text2); margin-bottom: 1.2rem; line-height: 1.6; }
+.ctor-task strong { color: var(--text); }
+
+.ctor-drop-zone {
+  min-height: 54px;
+  background: var(--bg3); border: 2px dashed var(--border2);
+  border-radius: 10px; padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;
+  transition: border-color 0.14s, background 0.14s;
+}
+.ctor-drop-zone.drag-over { border-color: var(--purple2); background: rgba(124,58,237,0.08); }
+.ctor-drop-zone.has-comma { border-color: var(--cyan); }
+.ctor-drop-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+
+.word-bank {
+  display: flex; flex-wrap: wrap; gap: 0.45rem;
+  margin-bottom: 1.1rem;
+}
+.word-token {
+  background: var(--surface); border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 5px 14px;
+  font-family: var(--mono); font-size: 0.88rem; font-weight: 600;
+  cursor: grab; color: var(--text);
+  transition: border-color 0.14s, background 0.14s, transform 0.1s;
+  user-select: none;
+}
+.word-token:hover { border-color: var(--purple2); background: rgba(124,58,237,0.15); transform: translateY(-2px); }
+.word-token.placed { opacity: 0.3; cursor: default; pointer-events: none; text-decoration: line-through; }
+.word-token.special { color: var(--cyan); border-color: rgba(6,182,212,0.35); }
+.word-token.special:hover { border-color: var(--cyan); background: rgba(6,182,212,0.12); }
+
+.placed-token {
+  background: rgba(124,58,237,0.2); border: 1.5px solid var(--purple2);
+  border-radius: 7px; padding: 4px 12px;
+  font-family: var(--mono); font-size: 0.88rem; font-weight: 600;
+  color: var(--purple-md); cursor: pointer;
+  transition: background 0.14s;
+}
+.placed-token:hover { background: rgba(239,68,68,0.2); border-color: var(--red); color: var(--red); }
+.placed-comma {
+  font-family: var(--mono); font-size: 1.1rem; font-weight: 700;
+  color: var(--cyan); padding: 0 3px;
+}
+
+.ctor-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+.btn-check-ctor {
+  background: var(--purple); color: #fff; border: none;
+  padding: 0.62rem 1.4rem; border-radius: 9px;
+  font-family: var(--display); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.03em; cursor: pointer; transition: background 0.14s;
+}
+.btn-check-ctor:hover { background: var(--purple2); }
+.ctor-msg {
+  font-family: var(--mono); font-size: 11px; color: var(--muted); min-height: 1.2em;
+}
+.ctor-msg.ok  { color: var(--green); }
+.ctor-msg.ng  { color: var(--red); }
+.ctor-msg.hint { color: var(--cyan); }
+
+.ctor-alt {
+  display: none; margin-top: 1rem;
+  background: var(--bg3); border: 1px solid rgba(6,182,212,0.25);
+  border-radius: 9px; padding: 0.8rem 1rem;
+  font-size: 0.85rem; color: var(--text2); line-height: 1.6;
+}
+.ctor-alt.show { display: block; }
+.ctor-alt b { color: var(--cyan); font-family: var(--mono); }
+
+/* ══════════════════════════════
+   CHEAT SHEET
+══════════════════════════════ */
+.cheatsheet {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+}
+.cs-head { background: var(--bg3); padding: 0.85rem 1.4rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.cs-head-icon { font-size: 1.2rem; }
+.cs-head-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--purple-md); }
+
+.cs-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+.cs-table th { background: rgba(124,58,237,0.12); color: var(--purple-md); font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.55rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border); }
+.cs-table td { padding: 0.55rem 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text2); line-height: 1.5; vertical-align: middle; }
+.cs-table tr:last-child td { border-bottom: none; }
+.cs-table tr:hover td { background: rgba(124,58,237,0.05); }
+.cs-type { font-weight: 600; color: var(--text); }
+.cs-q    { font-family: var(--mono); font-size: 0.78rem; color: var(--cyan); }
+.cs-union { font-family: var(--mono); font-size: 0.78rem; color: var(--purple-md); }
+.cs-ex { font-style: italic; font-size: 0.78rem; }
+
+/* ── PROGRESS ── */
+.pbar-wrap { height: 3px; background: var(--border); margin-bottom: 1rem; overflow: hidden; border-radius: 2px; }
+.pbar-fill { height: 100%; background: var(--purple2); border-radius: 2px; width: 0%; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+
+/* ── FOOTER ── */
+.footer { background: var(--bg2); border-top: 1px solid var(--border); margin-top: 3.5rem; padding: 2rem; text-align: center; }
+.footer p { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.footer span { color: var(--purple-md); }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)} }
+.quiz-shell, .constructor-box, .cheatsheet { animation: fadeUp 0.32s ease backwards; }
+@keyframes pop { 0%{transform:scale(0.78);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-score { animation: pop 0.42s ease forwards; }
+@keyframes shake { 0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}60%{transform:translateX(5px)} }
+.ctor-drop-zone.shake-anim { animation: shake 0.3s ease; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag"><span class="dot"></span>Русский язык · ОГЭ / ЕГЭ</div>
+  <h1><span class="hi1">СПП</span> — <span class="hi2">тренажёр</span></h1>
+  <p class="hero-abbr">Сложноподчинённое предложение: теория на практике</p>
+  <div class="hero-counters">
+    <div class="hero-counter"><strong>10</strong><span>вопросов</span></div>
+    <div class="hero-counter"><strong>2</strong><span>конструктора</span></div>
+    <div class="hero-counter"><strong>+шпаргалка</strong><span>в конце</span></div>
+  </div>
+</div>
+
+<div class="scorebar">
+  <div class="sb">Тест: <b id="sbQ">0/10</b></div>
+  <div class="sb">Конструктор: <b id="sbC">—</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ QUIZ ═══ -->
+  <div class="sec">
+    <div class="sec-tag">Тренажёр</div>
+    <div class="sec-title">🧠 Проверь себя: 10 вопросов</div>
+    <div class="sec-desc">Ответь на каждый вопрос — сразу увидишь объяснение. В конце — результат и рекомендация.</div>
+  </div>
+
+  <div class="pbar-wrap"><div class="pbar-fill" id="pbarFill"></div></div>
+
+  <div class="quiz-shell">
+    <div class="quiz-top">
+      <span class="quiz-top-lbl">СПП · 10 заданий</span>
+      <div class="q-prog" id="qProg"></div>
+    </div>
+    <div id="qInner" class="quiz-inner"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="qr-score" id="qrScore">0<sup>/10</sup></div>
+      <div class="qr-badge" id="qrBadge"></div>
+      <div class="qr-rank"  id="qrRank"></div>
+      <div class="qr-note"  id="qrNote"></div>
+      <button class="btn-ghost" onclick="quizReset()">↩ Пройти снова</button>
+    </div>
+  </div>
+
+  <div class="divider"><span>Конструктор СПП</span></div>
+
+  <!-- ═══ CONSTRUCTOR ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">⚙️ Конструктор предложений</div>
+    <div class="sec-desc">Нажимай слова в нужном порядке, чтобы составить правильное СПП. Запятая расставляется автоматически!</div>
+  </div>
+
+  <div class="constructor-box">
+    <div class="ctor-head">
+      <div class="ctor-head-inner">
+        <div class="ctor-led"></div>
+        <div class="ctor-head-lbl">Интерактивный конструктор</div>
+      </div>
+    </div>
+    <div class="ctor-body">
+      <div class="ctor-task"><strong>Задание:</strong> Составь из слов правильное СПП. Нажми на слово — оно встанет в предложение. Нажми на уже размещённое слово — оно вернётся в банк.</div>
+
+      <div class="ctor-drop-zone" id="dropZone">
+        <span class="ctor-drop-label">Нажимай слова снизу → они появятся здесь</span>
+      </div>
+
+      <div class="word-bank" id="wordBank"></div>
+
+      <div class="ctor-controls">
+        <button class="btn-check-ctor" onclick="checkConstructor()">Проверить</button>
+        <button class="btn-ghost" onclick="resetConstructor()">↩ Сбросить</button>
+        <button class="btn-ghost" onclick="showHint()" id="hintBtn">💡 Подсказка</button>
+        <span class="ctor-msg" id="ctorMsg"></span>
+      </div>
+
+      <div class="ctor-alt" id="ctorAlt">
+        <b>Альтернативный порядок:</b> Придаточная часть может стоять перед главной:<br>
+        «<b>Когда сделаю уроки, я вернусь</b>» — запятая после придаточной в начале.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECOND CONSTRUCTOR ═══ -->
+  <div class="constructor-box" style="margin-top:1rem">
+    <div class="ctor-head">
+      <div class="ctor-head-inner">
+        <div class="ctor-led" style="background:var(--amber)"></div>
+        <div class="ctor-head-lbl" style="color:var(--amber)">Конструктор №2 — определительное СПП</div>
+      </div>
+    </div>
+    <div class="ctor-body">
+      <div class="ctor-task"><strong>Задание:</strong> Составь СПП с определительной придаточной.</div>
+      <div class="ctor-drop-zone" id="dropZone2">
+        <span class="ctor-drop-label">Нажимай слова снизу → они появятся здесь</span>
+      </div>
+      <div class="word-bank" id="wordBank2"></div>
+      <div class="ctor-controls">
+        <button class="btn-check-ctor" onclick="checkConstructor2()" style="background:var(--amber)">Проверить</button>
+        <button class="btn-ghost" onclick="resetConstructor2()">↩ Сбросить</button>
+        <span class="ctor-msg" id="ctorMsg2"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><span>Шпаргалка</span></div>
+
+  <!-- ═══ CHEATSHEET ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">📋 Шпаргалка по типам придаточных</div>
+    <div class="sec-desc">Главное за одну таблицу — типы, вопросы, союзы, примеры.</div>
+  </div>
+
+  <div class="cheatsheet">
+    <div class="cs-head">
+      <div class="cs-head-icon">📌</div>
+      <div class="cs-head-lbl">Типы придаточных · Союзы · Вопросы</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="cs-table">
+        <thead>
+          <tr>
+            <th>Тип</th>
+            <th>Вопрос</th>
+            <th>Союзы / союзные слова</th>
+            <th>Пример</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cs-type">Определительная</span></td>
+            <td><span class="cs-q">Какой? Который?</span></td>
+            <td><span class="cs-union">КОТОРЫЙ, ГДЕ, КУДА, ОТКУДА</span></td>
+            <td><span class="cs-ex">Дом, где я живу, стар.</span></td>
+          </tr>
+          <tr>
+            <td><span class="cs-type">Изъяснительная</span></td>
+            <td><span class="cs-q">Что? Кого? О ком?</span></td>
+            <td><span class="cs-union">ЧТО, ЧТОБЫ, КАК, ЛИ</span></td>
+            <td><span class="cs-ex">Знаю, что ты придёшь.</span></td>
+          </tr>
+          <tr>
+            <td><span class="cs-type">Обстоятельственная<br>— времени</span></td>
+            <td><span class="cs-q">Когда? Как долго?</span></td>
+            <td><span class="cs-union">КОГДА, ПОКА, КАК ТОЛЬКО</span></td>
+            <td><span class="cs-ex">Вернусь, когда снег растает.</span></td>
+          </tr>
+          <tr>
+            <td><span class="cs-type">Обстоятельственная<br>— причины</span></td>
+            <td><span class="cs-q">Почему? Отчего?</span></td>
+            <td><span class="cs-union">ПОТОМУ ЧТО, ТАК КАК, ИБО</span></td>
+            <td><span class="cs-ex">Он устал, потому что работал.</span></td>
+          </tr>
+          <tr>
+            <td><span class="cs-type">Обстоятельственная<br>— цели</span></td>
+            <td><span class="cs-q">Зачем? С какой целью?</span></td>
+            <td><span class="cs-union">ЧТОБЫ, ДЛЯ ТОГО ЧТОБЫ</span></td>
+            <td><span class="cs-ex">Учусь, чтобы стать врачом.</span></td>
+          </tr>
+          <tr>
+            <td><span class="cs-type">Обстоятельственная<br>— условия</span></td>
+            <td><span class="cs-q">При каком условии?</span></td>
+            <td><span class="cs-union">ЕСЛИ, КОГДА, РАЗ</span></td>
+            <td><span class="cs-ex">Если успею, приду.</span></td>
+          </tr>
+          <tr>
+            <td><span class="cs-type">Сравнительная</span></td>
+            <td><span class="cs-q">Как? Подобно чему?</span></td>
+            <td><span class="cs-union">КАК, СЛОВНО, БУДТО, КАК БУДТО</span></td>
+            <td><span class="cs-ex">Он бежал, как будто летел.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Тренажёр по русскому языку · <span>СПП — Сложноподчинённое предложение</span> · ОГЭ / ЕГЭ</p>
+</div>
+
+<script>
+/* ════════════════════════════════
+   QUIZ DATA
+════════════════════════════════ */
+const QS = [
+  {
+    num:1, tag:'Найди СПП',
+    q:'Выбери сложноподчинённое предложение (СПП):',
+    opts:[
+      'Солнце светило, но было холодно.',
+      'Я знаю, что ты придёшь.',
+      'Солнце светило и грело.',
+      'Наступила осень — птицы улетели.'
+    ],
+    ans:1,
+    fb:'<b>А</b> — ССП (союз «но»). <b>Б</b> — СПП ✓ (подчинительный союз «что», одна часть зависит от другой). <b>В</b> — простое с однородными. <b>Г</b> — БСП.'
+  },
+  {
+    num:2, tag:'Определение',
+    q:'Выбери правильное определение СПП:',
+    opts:[
+      'Сложное предложение, в котором части равноправны и соединены сочинительными союзами.',
+      'Сложное предложение, в котором одна часть зависит от другой, соединены подчинительным союзом.',
+      'Сложное предложение, в котором части соединены только интонацией.',
+      'Простое предложение с однородными членами.'
+    ],
+    ans:1,
+    fb:'<b>А</b> — ССП. <b>Б</b> — СПП ✓. <b>В</b> — БСП. <b>Г</b> — простое предложение. Главный признак СПП: зависимость одной части от другой.'
+  },
+  {
+    num:3, tag:'Придаточная часть',
+    q:'«Я вернусь, когда растает снег». Найди придаточную часть:',
+    opts:[
+      'Я вернусь',
+      'когда растает снег',
+      'вернусь, когда',
+      'растает снег'
+    ],
+    ans:1,
+    fb:'<b>Придаточная часть</b> — «когда растает снег». Она отвечает на вопрос «когда?», заданный от главной части «я вернусь».'
+  },
+  {
+    num:4, tag:'Вопрос к придаточной',
+    q:'«Дом, который построил дед, стоит на холме». Какой вопрос задаётся к придаточной?',
+    opts:['Где?', 'Что?', 'Какой?', 'Почему?'],
+    ans:2,
+    fb:'Дом <b>(какой?)</b> который построил дед → это определительная придаточная. Союзное слово «который» — член предложения.'
+  },
+  {
+    num:5, tag:'Тип придаточной',
+    q:'«Я знаю, что ты придёшь». Определи тип придаточной:',
+    opts:['Определительная','Изъяснительная','Обстоятельственная','Присоединительная'],
+    ans:1,
+    fb:'Знаю <b>(что?)</b> — вопрос падежный, значит это <b>изъяснительная</b> придаточная. Она поясняет содержание главной части.'
+  },
+  {
+    num:6, tag:'Тип придаточной',
+    q:'«Мы вышли на улицу, когда дождь закончился». Тип придаточной:',
+    opts:['Определительная','Изъяснительная','Обстоятельственная (времени)','Сравнительная'],
+    ans:2,
+    fb:'Вышли <b>(когда?)</b> — это <b>обстоятельственная придаточная времени</b>. Союз «когда» не является членом предложения, его нельзя заменить существительным.'
+  },
+  {
+    num:7, tag:'Союз vs союзное слово',
+    q:'«Я знаю, что случилось». «Что» здесь — это:',
+    opts:['Союзное слово ✓','Союз','Частица','Местоимение (обычное)'],
+    ans:0,
+    fb:'«Что» — <b>союзное слово</b> (местоимение в роли союза). Проверка: его <b>нельзя убрать</b> без потери смысла, оно является подлежащим («что случилось» = «что» — субъект действия).'
+  },
+  {
+    num:8, tag:'Союз vs союзное слово',
+    q:'«Я знаю, что ты пришёл». «Что» здесь — это:',
+    opts:['Союз','Союзное слово','Частица','Предлог'],
+    ans:0,
+    fb:'«Что» — <b>союз</b>. Проверка: его можно убрать без потери смысла («Я знаю: ты пришёл»). Союз не является членом предложения.'
+  },
+  {
+    num:9, tag:'Пунктуация',
+    q:'«Я вернусь когда растает снег». Где нужна запятая?',
+    opts:[
+      'Я вернусь, когда растает снег',
+      'Я вернусь когда, растает снег',
+      'Я, вернусь когда растает снег',
+      'Запятая не нужна'
+    ],
+    ans:0,
+    fb:'Придаточная часть <b>всегда отделяется запятой</b> от главной. «Я вернусь, | когда растает снег» — запятая перед «когда».'
+  },
+  {
+    num:10, tag:'Определительная придаточная',
+    q:'Какое предложение является СПП с придаточной <b>определительной</b>?',
+    opts:[
+      'Я знаю, где ты живёшь.',
+      'Книга, которую я читал, интересная.',
+      'Я вернусь, когда растает снег.',
+      'Он сказал, что придёт вечером.'
+    ],
+    ans:1,
+    fb:'<b>А</b> — изъяснительная (знаю что? где живёшь). <b>Б</b> — определительная ✓ (книга какая? которую читал). <b>В</b> — обстоятельственная (вернусь когда?). <b>Г</b> — изъяснительная.'
+  },
+];
+
+let qi = 0, qsc = 0;
+
+function renderQ() {
+  const q = QS[qi];
+  document.getElementById('qResult').classList.remove('show');
+  document.getElementById('qInner').style.display = '';
+
+  document.getElementById('qProg').innerHTML = QS.map((_,i) =>
+    `<div class="qp ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  document.getElementById('pbarFill').style.width = (qi/10*100) + '%';
+
+  document.getElementById('qInner').innerHTML = `
+    <div class="q-num">Вопрос ${q.num} / 10 · ${q.tag}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="q-opt" onclick="pickQ(${i})">
+        <span class="ql">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qFb"></div>
+    <button class="q-nxt" id="qNxt" onclick="nextQ()">${qi<9?'Следующий →':'Результат →'}</button>`;
+}
+
+function pickQ(c) {
+  const q = QS[qi];
+  document.querySelectorAll('.q-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok = c === q.ans;
+  document.querySelectorAll('.q-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+  const fb = document.getElementById('qFb');
+  fb.innerHTML = q.fb; fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) qsc++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('sbQ').textContent = qsc + '/10';
+}
+
+function nextQ() {
+  qi++;
+  if(qi >= 10) { showQR(); return; }
+  renderQ();
+}
+
+function showQR() {
+  document.getElementById('qInner').style.display = 'none';
+  document.getElementById('qResult').classList.add('show');
+  document.getElementById('pbarFill').style.width = '100%';
+  document.getElementById('qrScore').innerHTML = qsc + '<sup>/10</sup>';
+  document.getElementById('qProg').innerHTML = QS.map(()=>`<div class="qp done"></div>`).join('');
+  const err = 10 - qsc;
+  const ranks = [
+    [0,  '🏆', 'ЭКСПЕРТ ПО СПП', 'Все десять верно — ты готов к ОГЭ и ЕГЭ! Пользуйся шпаргалкой ниже как бонусом.'],
+    [2,  '👍', 'ХОРОШО', 'Повтори типы придаточных — особенно определительные. 1–2 ошибки не критичны.'],
+    [4,  '📚', 'СРЕДНЕ', 'Изучи шпаргалку ниже и таблицу союзов. Обрати внимание на разницу союза и союзного слова.'],
+    [10, '🚨', 'НАДО ПОДТЯНУТЬ', 'Начни с шпаргалки — там всё структурировано. Потом пересмотри видеоурок.']
+  ].find(([n]) => err <= n);
+  document.getElementById('qrBadge').textContent = ranks[1];
+  document.getElementById('qrRank').textContent = ranks[2];
+  document.getElementById('qrNote').textContent = ranks[3];
+}
+
+function quizReset() {
+  qi = 0; qsc = 0;
+  document.getElementById('sbQ').textContent = '0/10';
+  document.getElementById('pbarFill').style.width = '0%';
+  renderQ();
+}
+
+renderQ();
+
+/* ════════════════════════════════
+   CONSTRUCTOR 1 — TIME CLAUSE
+════════════════════════════════ */
+// Correct: "Я вернусь , когда сделаю уроки"
+// Words: Я вернусь когда сделаю уроки
+// Comma before "когда"
+const WORDS1 = [
+  {id:0, text:'Я',       comma_after: false},
+  {id:1, text:'вернусь', comma_after: true},  // comma goes after this
+  {id:2, text:'когда',   comma_after: false, special:true},
+  {id:3, text:'сделаю',  comma_after: false},
+  {id:4, text:'уроки',   comma_after: false},
+];
+const CORRECT1 = [0,1,2,3,4]; // order by id
+
+let placed1 = [];
+
+function renderBank1() {
+  const bank = document.getElementById('wordBank');
+  bank.innerHTML = '';
+  WORDS1.forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'word-token' + (w.special ? ' special' : '') + (placed1.includes(w.id) ? ' placed' : '');
+    el.textContent = w.text;
+    el.dataset.id = w.id;
+    el.addEventListener('click', () => addWord1(w.id));
+    bank.appendChild(el);
+  });
+}
+
+function renderDropZone1() {
+  const zone = document.getElementById('dropZone');
+  if(placed1.length === 0) {
+    zone.innerHTML = '<span class="ctor-drop-label">Нажимай слова снизу → они появятся здесь</span>';
+    return;
+  }
+  zone.innerHTML = '';
+  placed1.forEach((wid, idx) => {
+    const w = WORDS1[wid];
+    const tok = document.createElement('div');
+    tok.className = 'placed-token';
+    tok.textContent = w.text;
+    tok.addEventListener('click', () => removeWord1(wid));
+    zone.appendChild(tok);
+    // Show comma after 'вернусь' (id=1) if next word is 'когда' (id=2)
+    if(w.id === 1 && placed1[idx+1] === 2) {
+      const comma = document.createElement('span');
+      comma.className = 'placed-comma';
+      comma.textContent = ',';
+      zone.appendChild(comma);
+    }
+  });
+}
+
+function addWord1(id) {
+  if(placed1.includes(id)) return;
+  placed1.push(id);
+  document.getElementById('ctorMsg').textContent = '';
+  document.getElementById('ctorMsg').className = 'ctor-msg';
+  renderBank1();
+  renderDropZone1();
+}
+
+function removeWord1(id) {
+  placed1 = placed1.filter(x => x !== id);
+  document.getElementById('ctorMsg').textContent = '';
+  document.getElementById('ctorMsg').className = 'ctor-msg';
+  renderBank1();
+  renderDropZone1();
+}
+
+function checkConstructor() {
+  const msg = document.getElementById('ctorMsg');
+  const alt = document.getElementById('ctorAlt');
+  if(placed1.length < 5) { msg.textContent = 'Добавь все слова!'; msg.className='ctor-msg ng'; return; }
+  const ok = JSON.stringify(placed1) === JSON.stringify(CORRECT1);
+  if(ok) {
+    msg.textContent = '✓ Верно! «Я вернусь, когда сделаю уроки» — запятая перед союзом «когда».';
+    msg.className = 'ctor-msg ok';
+    alt.classList.add('show');
+    document.getElementById('sbC').textContent = 'готово ✓';
+  } else {
+    msg.textContent = '✗ Порядок неверный — попробуй ещё раз.';
+    msg.className = 'ctor-msg ng';
+    const zone = document.getElementById('dropZone');
+    zone.classList.add('shake-anim');
+    setTimeout(() => zone.classList.remove('shake-anim'), 400);
+  }
+}
+
+function showHint() {
+  const msg = document.getElementById('ctorMsg');
+  msg.textContent = '💡 Подсказка: начни с «Я», затем «вернусь», потом союз «когда», затем придаточная.';
+  msg.className = 'ctor-msg hint';
+}
+
+function resetConstructor() {
+  placed1 = [];
+  document.getElementById('ctorMsg').textContent = '';
+  document.getElementById('ctorMsg').className = 'ctor-msg';
+  document.getElementById('ctorAlt').classList.remove('show');
+  renderBank1();
+  renderDropZone1();
+}
+
+renderBank1();
+renderDropZone1();
+
+/* ════════════════════════════════
+   CONSTRUCTOR 2 — RELATIVE CLAUSE
+════════════════════════════════ */
+// Correct: "Книга , которую я читал , интересная"
+const WORDS2 = [
+  {id:0, text:'Книга'},
+  {id:1, text:'которую', special:true},
+  {id:2, text:'я'},
+  {id:3, text:'читал'},
+  {id:4, text:'интересная'},
+];
+const CORRECT2 = [0,1,2,3,4];
+let placed2 = [];
+
+function renderBank2() {
+  const bank = document.getElementById('wordBank2');
+  bank.innerHTML = '';
+  WORDS2.forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'word-token' + (w.special ? ' special' : '') + (placed2.includes(w.id) ? ' placed' : '');
+    el.textContent = w.text;
+    el.dataset.id = w.id;
+    el.addEventListener('click', () => addWord2(w.id));
+    bank.appendChild(el);
+  });
+}
+
+function renderDropZone2() {
+  const zone = document.getElementById('dropZone2');
+  if(placed2.length === 0) {
+    zone.innerHTML = '<span class="ctor-drop-label">Нажимай слова снизу → они появятся здесь</span>';
+    return;
+  }
+  zone.innerHTML = '';
+  placed2.forEach((wid, idx) => {
+    const w = WORDS2[wid];
+    const tok = document.createElement('div');
+    tok.className = 'placed-token';
+    tok.textContent = w.text;
+    tok.addEventListener('click', () => removeWord2(wid));
+    zone.appendChild(tok);
+    // comma before "которую" (id=1) — shown after "Книга" (id=0)
+    if(w.id === 0 && placed2[idx+1] === 1) {
+      const c = document.createElement('span');
+      c.className = 'placed-comma'; c.textContent = ',';
+      zone.appendChild(c);
+    }
+    // comma after "читал" (id=3) if next is "интересная" (id=4)
+    if(w.id === 3 && placed2[idx+1] === 4) {
+      const c = document.createElement('span');
+      c.className = 'placed-comma'; c.textContent = ',';
+      zone.appendChild(c);
+    }
+  });
+}
+
+function addWord2(id) {
+  if(placed2.includes(id)) return;
+  placed2.push(id);
+  document.getElementById('ctorMsg2').textContent = '';
+  document.getElementById('ctorMsg2').className = 'ctor-msg';
+  renderBank2();
+  renderDropZone2();
+}
+
+function removeWord2(id) {
+  placed2 = placed2.filter(x => x !== id);
+  document.getElementById('ctorMsg2').textContent = '';
+  document.getElementById('ctorMsg2').className = 'ctor-msg';
+  renderBank2();
+  renderDropZone2();
+}
+
+function checkConstructor2() {
+  const msg = document.getElementById('ctorMsg2');
+  if(placed2.length < 5) { msg.textContent = 'Добавь все слова!'; msg.className='ctor-msg ng'; return; }
+  const ok = JSON.stringify(placed2) === JSON.stringify(CORRECT2);
+  if(ok) {
+    msg.textContent = '✓ Верно! «Книга, которую я читал, интересная» — придаточная выделяется запятыми с обеих сторон.';
+    msg.className = 'ctor-msg ok';
+  } else {
+    msg.textContent = '✗ Порядок неверный — попробуй ещё раз.';
+    msg.className = 'ctor-msg ng';
+    const zone = document.getElementById('dropZone2');
+    zone.classList.add('shake-anim');
+    setTimeout(() => zone.classList.remove('shake-anim'), 400);
+  }
+}
+
+function resetConstructor2() {
+  placed2 = [];
+  document.getElementById('ctorMsg2').textContent = '';
+  document.getElementById('ctorMsg2').className = 'ctor-msg';
+  renderBank2();
+  renderDropZone2();
+}
+
+renderBank2();
+renderDropZone2();
+</script>
+</body>
+</html>
