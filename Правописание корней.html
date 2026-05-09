@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Упражнения — Правописание корней</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --text: #18181a;
+    --muted: #6b6b70;
+    --accent: #2563eb;
+    --accent-bg: #eff6ff;
+    --success: #16a34a;
+    --success-bg: #f0fdf4;
+    --error: #dc2626;
+    --error-bg: #fef2f2;
+    --warning: #d97706;
+    --warning-bg: #fffbeb;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .page-label {
+    display: inline-block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-bg);
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.15;
+  }
+
+  .page-sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .progress-bar-wrap {
+    background: rgba(0,0,0,0.06);
+    border-radius: 100px;
+    height: 6px;
+    margin: 32px 0 8px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  .score-badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .task-card {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.2s;
+  }
+
+  .task-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+  .task-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .task-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    background: var(--accent-bg);
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .task-type {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .task-q {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 22px;
+  }
+
+  /* Task 1 — Classify */
+  .classify-word {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .classify-word .blank {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .option-btn {
+    background: #f9f9f8;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+
+  .option-btn:hover:not([disabled]) {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .option-btn.correct {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  .option-btn.wrong {
+    background: var(--error-bg);
+    border-color: var(--error);
+    color: var(--error);
+  }
+
+  .option-btn.reveal {
+    background: var(--success-bg);
+    border-color: var(--success);
+    color: var(--success);
+    opacity: 0.6;
+  }
+
+  /* Task 2 — Fill in the blank */
+  .sentence {
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .fill-input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    width: 80px;
+    text-align: center;
+    outline: none;
+    padding: 0 4px;
+    transition: border-color 0.2s;
+  }
+
+  .fill-input.correct-input { border-color: var(--success); color: var(--success); }
+  .fill-input.wrong-input { border-color: var(--error); color: var(--error); }
+
+  .fill-check-btn {
+    background: var(--text);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.15s;
+  }
+
+  .fill-check-btn:hover { opacity: 0.85; }
+
+  /* Task 3 — Sort/Match */
+  .sort-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .sort-col {
+    background: #f5f4f0;
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 160px;
+  }
+
+  .sort-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .word-chip {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: grab;
+    margin-bottom: 6px;
+    text-align: center;
+    user-select: none;
+    transition: all 0.15s;
+    display: block;
+  }
+
+  .word-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .word-chip.dragging { opacity: 0.4; }
+  .word-chip.correct-chip { border-color: var(--success); color: var(--success); background: var(--success-bg); }
+  .word-chip.wrong-chip { border-color: var(--error); color: var(--error); background: var(--error-bg); }
+
+  .sort-col.drag-over {
+    background: var(--accent-bg);
+    border: 2px dashed var(--accent);
+  }
+
+  .words-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    min-height: 44px;
+    padding: 10px;
+    background: #f5f4f0;
+    border-radius: 12px;
+  }
+
+  .pool-chip {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.15s;
+  }
+
+  .pool-chip:hover { border-color: var(--accent); }
+  .pool-chip.placed { display: none; }
+
+  /* Task 4 — Multiple words fill */
+  .multi-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .multi-table td {
+    padding: 10px 12px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .multi-table tr:last-child td { border-bottom: none; }
+
+  .multi-table .word-col { font-weight: 600; color: var(--text); }
+  .multi-table .rule-col { font-size: 13px; color: var(--muted); }
+
+  .inline-input {
+    border: none;
+    border-bottom: 2px solid rgba(0,0,0,0.15);
+    background: transparent;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+    width: 28px;
+    text-align: center;
+    outline: none;
+    padding: 0 2px;
+    transition: border-color 0.2s;
+  }
+
+  .inline-input:focus { border-color: var(--accent); }
+  .inline-input.ok { border-color: var(--success); color: var(--success); }
+  .inline-input.err { border-color: var(--error); color: var(--error); }
+
+  /* Feedback */
+  .feedback {
+    display: none;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.success { background: var(--success-bg); color: #15803d; }
+  .feedback.error { background: var(--error-bg); color: #b91c1c; }
+  .feedback.info { background: var(--warning-bg); color: #92400e; }
+
+  /* Result screen */
+  .result-screen {
+    display: none;
+    text-align: center;
+    padding: 48px 32px;
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  .result-screen.show { display: block; }
+
+  .result-emoji {
+    font-size: 56px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .result-score {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+  }
+
+  .result-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .result-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .restart-btn {
+    background: var(--text);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 32px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .restart-btn:hover { opacity: 0.85; }
+
+  .check-all-btn {
+    background: var(--text);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: opacity 0.15s;
+    display: block;
+    width: 100%;
+  }
+
+  .check-all-btn:hover { opacity: 0.85; }
+
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-header">
+    <div class="page-label">Тренажёр</div>
+    <div class="page-title">Правописание корней</div>
+    <div class="page-sub">4 упражнения · от простого к сложному · мгновенная проверка</div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+  </div>
+  <div class="progress-label">
+    <span id="progress-text">0 из 4 выполнено</span>
+    <span class="score-badge" id="score-badge">Очки: 0</span>
+  </div>
+
+  <!-- TASK 1: Classify the type -->
+  <div class="task-card" id="task1">
+    <div class="task-header">
+      <div class="task-num">1</div>
+      <div class="task-type">Определи тип</div>
+    </div>
+    <div class="task-q">К какому типу относится безударная гласная в выделенном корне?</div>
+
+    <div id="t1-words" style="margin-bottom: 18px;">
+      <span class="classify-word" id="t1-current"></span>
+    </div>
+
+    <div class="options-grid" id="t1-options">
+      <button class="option-btn" onclick="checkT1('Проверяемая', this)">Проверяемая<br><span style="font-size:11px;opacity:0.6">подбираю ударное слово</span></button>
+      <button class="option-btn" onclick="checkT1('Непроверяемая', this)">Непроверяемая<br><span style="font-size:11px;opacity:0.6">словарное слово</span></button>
+      <button class="option-btn" onclick="checkT1('Чередующаяся', this)">Чередующаяся<br><span style="font-size:11px;opacity:0.6">зависит от условия</span></button>
+      <button class="option-btn" onclick="checkT1('Ы/И', this)">И→Ы после приставки<br><span style="font-size:11px;opacity:0.6">приставка на согласную</span></button>
+    </div>
+
+    <div class="feedback" id="t1-feedback"></div>
+    <p class="hint" id="t1-counter"></p>
+  </div>
+
+  <!-- TASK 2: Fill in blanks (cheredovaniye) -->
+  <div class="task-card" id="task2">
+    <div class="task-header">
+      <div class="task-num">2</div>
+      <div class="task-type">Вставь букву</div>
+    </div>
+    <div class="task-q">Вставь пропущенную гласную в чередующийся корень. Объясни условие выбора.</div>
+
+    <table class="multi-table">
+      <tr>
+        <td class="word-col">з<input class="inline-input" id="i1" maxlength="1" placeholder="?">ря</td>
+        <td class="rule-col">корень зар-/зор-, без ударения →</td>
+      </tr>
+      <tr>
+        <td class="word-col">к<input class="inline-input" id="i2" maxlength="1" placeholder="?">снуться</td>
+        <td class="rule-col">корень кас-/кос-, нет суффикса -а- →</td>
+      </tr>
+      <tr>
+        <td class="word-col">соб<input class="inline-input" id="i3" maxlength="1" placeholder="?">рать</td>
+        <td class="rule-col">корень бер-/бир-, есть суффикс -а- →</td>
+      </tr>
+      <tr>
+        <td class="word-col">выр<input class="inline-input" id="i4" maxlength="1" placeholder="?">внять дорожку</td>
+        <td class="rule-col">корень равн-/ровн-, значение «гладкий» →</td>
+      </tr>
+      <tr>
+        <td class="word-col">пол<input class="inline-input" id="i5" maxlength="1" placeholder="?">гать</td>
+        <td class="rule-col">корень лаг-/лож-, есть суффикс -а- →</td>
+      </tr>
+    </table>
+
+    <button class="check-all-btn" onclick="checkT2()">Проверить</button>
+    <div class="feedback" id="t2-feedback"></div>
+  </div>
+
+  <!-- TASK 3: Drag to sort -->
+  <div class="task-card" id="task3">
+    <div class="task-header">
+      <div class="task-num">3</div>
+      <div class="task-type">Рассортируй слова</div>
+    </div>
+    <div class="task-q">Перетащи слова в нужную группу по типу орфограммы в корне.</div>
+
+    <div class="words-pool" id="pool">
+      <div class="pool-chip" draggable="true" data-word="гореть" data-cat="cher" ondragstart="drag(event)">гореть</div>
+      <div class="pool-chip" draggable="true" data-word="трава" data-cat="prov" ondragstart="drag(event)">трава</div>
+      <div class="pool-chip" draggable="true" data-word="корова" data-cat="slov" ondragstart="drag(event)">корова</div>
+      <div class="pool-chip" draggable="true" data-word="замирать" data-cat="cher" ondragstart="drag(event)">замирать</div>
+      <div class="pool-chip" draggable="true" data-word="стена" data-cat="prov" ondragstart="drag(event)">стена</div>
+      <div class="pool-chip" draggable="true" data-word="футбол" data-cat="slov" ondragstart="drag(event)">футбол</div>
+      <div class="pool-chip" draggable="true" data-word="касаться" data-cat="cher" ondragstart="drag(event)">касаться</div>
+      <div class="pool-chip" draggable="true" data-word="гора" data-cat="prov" ondragstart="drag(event)">гора</div>
+      <div class="pool-chip" draggable="true" data-word="вокзал" data-cat="slov" ondragstart="drag(event)">вокзал</div>
+    </div>
+
+    <div class="sort-container">
+      <div class="sort-col" id="col-prov" ondragover="allowDrop(event)" ondrop="dropTo(event, 'prov')">
+        <div class="sort-col-title">Проверяемые</div>
+      </div>
+      <div class="sort-col" id="col-cher" ondragover="allowDrop(event)" ondrop="dropTo(event, 'cher')">
+        <div class="sort-col-title">Чередующиеся</div>
+      </div>
+      <div class="sort-col" id="col-slov" ondragover="allowDrop(event)" ondrop="dropTo(event, 'slov')">
+        <div class="sort-col-title">Словарные</div>
+      </div>
+    </div>
+
+    <button class="check-all-btn" onclick="checkT3()">Проверить</button>
+    <div class="feedback" id="t3-feedback"></div>
+    <p class="hint">Перетаскивай слова из серого поля в нужную колонку</p>
+  </div>
+
+  <!-- TASK 4: И/Ы after prefix -->
+  <div class="task-card" id="task4">
+    <div class="task-header">
+      <div class="task-num">4</div>
+      <div class="task-type">И или Ы?</div>
+    </div>
+    <div class="task-q">Вставь И или Ы после приставки. Объясни правило для каждого случая.</div>
+
+    <table class="multi-table">
+      <tr>
+        <td class="word-col">раз<input class="inline-input" id="j1" maxlength="1" placeholder="?">скать</td>
+        <td class="rule-col">русская приставка на согласную →</td>
+      </tr>
+      <tr>
+        <td class="word-col">сверх<input class="inline-input" id="j2" maxlength="1" placeholder="?">нтересный</td>
+        <td class="rule-col">приставка сверх- → исключение</td>
+      </tr>
+      <tr>
+        <td class="word-col">суперr<input class="inline-input" id="j3" maxlength="1" placeholder="?">гра</td>
+        <td class="rule-col">иноязычная приставка →</td>
+      </tr>
+      <tr>
+        <td class="word-col">пред<input class="inline-input" id="j4" maxlength="1" placeholder="?">стория</td>
+        <td class="rule-col">русская приставка на согласную →</td>
+      </tr>
+      <tr>
+        <td class="word-col">дез<input class="inline-input" id="j5" maxlength="1" placeholder="?">нфекция</td>
+        <td class="rule-col">иноязычная приставка →</td>
+      </tr>
+    </table>
+
+    <button class="check-all-btn" onclick="checkT4()">Проверить</button>
+    <div class="feedback" id="t4-feedback"></div>
+  </div>
+
+  <!-- Result -->
+  <div class="result-screen" id="result-screen">
+    <span class="result-emoji" id="res-emoji">🎉</span>
+    <div class="result-score" id="res-score">0/4</div>
+    <div class="result-title" id="res-title">Молодец!</div>
+    <div class="result-sub" id="res-sub">Ты выполнил все упражнения</div>
+    <button class="restart-btn" onclick="restart()">Начать заново</button>
+  </div>
+</div>
+
+<script>
+let score = 0;
+let done = 0;
+const total = 4;
+const taskDone = [false, false, false, false];
+
+// Task 1 data
+const t1data = [
+  { word: "з_ря", display: "з<span class='blank'>_</span>ря", answer: "Чередующаяся", hint: "Корень зар-/зор-: без ударения пишем А → заря" },
+  { word: "вода", display: "в<span class='blank'>_</span>да", answer: "Проверяемая", hint: "Проверяем ударением: вóды → пишем О" },
+  { word: "к_рова", display: "к<span class='blank'>_</span>рова", answer: "Непроверяемая", hint: "Словарное слово: проверить ударением нельзя, запоминаем" },
+  { word: "разыскать", display: "раз<span class='blank'>ы</span>скать", answer: "Ы/И", hint: "После русской приставки РАЗ- на согласную: И → Ы" },
+  { word: "собирать", display: "соб<span class='blank'>_</span>рать", answer: "Чередующаяся", hint: "Корень бир-/бер-: есть суффикс -а- → пишем И (собирать)" },
+  { word: "стена", display: "ст<span class='blank'>_</span>на", answer: "Проверяемая", hint: "Проверяем: стéны → пишем Е" },
+];
+let t1index = 0;
+let t1score = 0;
+let t1attempts = 0;
+
+function renderT1() {
+  const item = t1data[t1index];
+  document.getElementById('t1-current').innerHTML = item.display;
+  document.getElementById('t1-counter').textContent = `Слово ${t1index + 1} из ${t1data.length}`;
+  document.getElementById('t1-feedback').className = 'feedback';
+  document.getElementById('t1-feedback').textContent = '';
+  const btns = document.querySelectorAll('#t1-options .option-btn');
+  btns.forEach(b => { b.disabled = false; b.className = 'option-btn'; });
+}
+
+renderT1();
+
+function checkT1(answer, btn) {
+  const item = t1data[t1index];
+  const btns = document.querySelectorAll('#t1-options .option-btn');
+  btns.forEach(b => b.disabled = true);
+
+  if (answer === item.answer) {
+    btn.className = 'option-btn correct';
+    showFeedback('t1-feedback', 'success', '✓ Верно! ' + item.hint);
+    t1score++;
+  } else {
+    btn.className = 'option-btn wrong';
+    btns.forEach(b => { if (b.textContent.startsWith(item.answer)) b.className = 'option-btn reveal'; });
+    showFeedback('t1-feedback', 'error', '✗ Не совсем. ' + item.hint);
+  }
+
+  setTimeout(() => {
+    t1index++;
+    if (t1index < t1data.length) {
+      renderT1();
+    } else {
+      if (!taskDone[0]) {
+        taskDone[0] = true;
+        done++;
+        score += t1score;
+        updateProgress();
+        showFeedback('t1-feedback', t1score >= 5 ? 'success' : 'info',
+          `Блок завершён: ${t1score} из ${t1data.length} верных. ${t1score >= 5 ? 'Отлично!' : 'Повтори правила чередующихся корней.'}`);
+        document.querySelectorAll('#t1-options .option-btn').forEach(b => b.disabled = true);
+        document.getElementById('t1-counter').textContent = `Завершено: ${t1score}/${t1data.length}`;
+      }
+    }
+  }, 1800);
+}
+
+// Task 2
+const t2answers = ['а','о','и','о','а'];
+const t2ids = ['i1','i2','i3','i4','i5'];
+const t2hints = [
+  'заря → зар-/зор-, без ударения — А',
+  'коснуться → кос-/кас-, нет суффикса -а- → О',
+  'собирать → бир-/бер-, есть суффикс -а- → И',
+  'выровнять → ровн-, значение «гладкий, ровный»',
+  'полагать → лаг-/лож-, есть суффикс -а- → А',
+];
+
+function checkT2() {
+  if (taskDone[1]) return;
+  let correct = 0;
+  let errors = [];
+  t2ids.forEach((id, i) => {
+    const inp = document.getElementById(id);
+    const val = inp.value.trim().toLowerCase();
+    if (val === t2answers[i]) {
+      inp.className = 'inline-input ok';
+      correct++;
+    } else {
+      inp.className = 'inline-input err';
+      inp.value = t2answers[i];
+      errors.push(t2hints[i]);
+    }
+  });
+
+  taskDone[1] = true;
+  done++;
+  score += correct;
+  updateProgress();
+
+  if (correct === 5) {
+    showFeedback('t2-feedback', 'success', `✓ Все верно! Чередующиеся корни освоены на отлично.`);
+  } else {
+    showFeedback('t2-feedback', 'error', `${correct}/5 верных. Разбор ошибок:\n• ` + errors.slice(0,3).join('\n• '));
+  }
+}
+
+// Task 3 — drag & drop
+let draggedWord = null;
+let draggedCat = null;
+let placedWords = {};
+
+function drag(e) {
+  draggedWord = e.target.dataset.word;
+  draggedCat = e.target.dataset.cat;
+  e.target.classList.add('dragging');
+  e.dataTransfer.setData('text/plain', draggedWord);
+}
+
+function allowDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+
+document.querySelectorAll('.sort-col').forEach(col => {
+  col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+});
+
+function dropTo(e, colCat) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const word = e.dataTransfer.getData('text/plain');
+  const chip = document.querySelector(`.pool-chip[data-word="${word}"]`);
+  if (!chip) return;
+
+  chip.classList.add('placed');
+  placedWords[word] = colCat;
+
+  const placed = document.createElement('div');
+  placed.className = 'word-chip';
+  placed.textContent = word;
+  placed.dataset.word = word;
+  placed.dataset.cat = chip.dataset.cat;
+  e.currentTarget.appendChild(placed);
+}
+
+function checkT3() {
+  if (taskDone[2]) return;
+  const allWords = document.querySelectorAll('.pool-chip');
+  let correct = 0;
+  let total3 = 0;
+
+  document.querySelectorAll('.sort-col .word-chip').forEach(chip => {
+    const col = chip.closest('.sort-col');
+    const colId = col.id.replace('col-', '');
+    total3++;
+    if (chip.dataset.cat === colId) {
+      chip.classList.add('correct-chip');
+      correct++;
+    } else {
+      chip.classList.add('wrong-chip');
+    }
+  });
+
+  const poolRemaining = document.querySelectorAll('.pool-chip:not(.placed)').length;
+
+  taskDone[2] = true;
+  done++;
+  score += correct;
+  updateProgress();
+
+  if (correct === 9 && poolRemaining === 0) {
+    showFeedback('t3-feedback', 'success', `✓ Все 9 слов распределены верно! Отлично.`);
+  } else if (correct >= 6) {
+    showFeedback('t3-feedback', 'info', `${correct} из ${total3} верных. Обрати внимание: чередующиеся корни не проверяются ударением!`);
+  } else {
+    showFeedback('t3-feedback', 'error', `${correct} из ${total3} верных. Повтори три принципа орфографии.`);
+  }
+}
+
+// Task 4
+const t4answers = ['ы','и','и','ы','и'];
+const t4ids = ['j1','j2','j3','j4','j5'];
+const t4hints = [
+  'РАЗ- — русская приставка на согласную → И→Ы: разЫскать',
+  'СВЕРХ- — исключение из правила, всегда сохраняем И: сверхИнтересный',
+  'СУПЕР- — иноязычная приставка → сохраняем И: суперИгра',
+  'ПРЕД- — русская приставка на Д → И→Ы: предЫстория',
+  'ДЕЗ- — иноязычная приставка → сохраняем И: дезИнфекция',
+];
+
+function checkT4() {
+  if (taskDone[3]) return;
+  let correct = 0;
+  let errors = [];
+  t4ids.forEach((id, i) => {
+    const inp = document.getElementById(id);
+    const val = inp.value.trim().toLowerCase();
+    if (val === t4answers[i]) {
+      inp.className = 'inline-input ok';
+      correct++;
+    } else {
+      inp.className = 'inline-input err';
+      inp.value = t4answers[i];
+      errors.push(t4hints[i]);
+    }
+  });
+
+  taskDone[3] = true;
+  done++;
+  score += correct;
+  updateProgress();
+
+  if (correct === 5) {
+    showFeedback('t4-feedback', 'success', '✓ Отлично! Правило И/Ы после приставок освоено.');
+  } else {
+    showFeedback('t4-feedback', 'error', `${correct}/5 верных.\n• ` + errors.join('\n• '));
+  }
+
+  if (done === total) {
+    setTimeout(showResult, 1200);
+  }
+}
+
+function showFeedback(id, type, text) {
+  const el = document.getElementById(id);
+  el.className = 'feedback show ' + type;
+  el.innerHTML = text.replace(/\n/g, '<br>');
+}
+
+function updateProgress() {
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${done} из ${total} выполнено`;
+  document.getElementById('score-badge').textContent = `Очки: ${score}`;
+}
+
+function showResult() {
+  document.getElementById('result-screen').className = 'result-screen show';
+  document.getElementById('result-screen').scrollIntoView({ behavior: 'smooth' });
+
+  const pct = score;
+  document.getElementById('res-score').textContent = score + ' очков';
+
+  if (score >= 20) {
+    document.getElementById('res-emoji').textContent = '🏆';
+    document.getElementById('res-title').textContent = 'Блестящий результат!';
+    document.getElementById('res-sub').textContent = 'Ты отлично знаешь правописание корней. Можно переходить к ОГЭ/ЕГЭ!';
+  } else if (score >= 13) {
+    document.getElementById('res-emoji').textContent = '💪';
+    document.getElementById('res-title').textContent = 'Хороший уровень!';
+    document.getElementById('res-sub').textContent = 'Основы усвоены. Повтори чередующиеся корни — там чаще всего ошибки.';
+  } else {
+    document.getElementById('res-emoji').textContent = '📖';
+    document.getElementById('res-title').textContent = 'Нужно повторить';
+    document.getElementById('res-sub').textContent = 'Пересмотри видеоурок «Три кита орфографии» и разбери правила ещё раз.';
+  }
+}
+
+function restart() {
+  location.reload();
+}
+</script>
+</body>
+</html>
