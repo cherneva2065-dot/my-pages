@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Липиды — Интерактивный урок биологии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #F0F8F4;
+  --bg2:       #E4F2EC;
+  --bg3:       #D4E8DC;
+  --white:     #FDFFFE;
+  --teal:      #0A7A62;
+  --teal2:     #0D9478;
+  --teal-lt:   #DDF5EE;
+  --teal-md:   #90D8C4;
+  --amber:     #C07808;
+  --amber-lt:  #FEF3DC;
+  --amber-md:  #F0C870;
+  --rose:      #B52030;
+  --rose-lt:   #FAECEE;
+  --indigo:    #2840A0;
+  --indigo-lt: #EBF0FE;
+  --green:     #1A6438;
+  --green-lt:  #E4F2EA;
+  --ink:       #0A1810;
+  --ink2:      #142820;
+  --muted:     #4A6858;
+  --border:    rgba(10,122,98,0.15);
+  --border2:   rgba(10,122,98,0.26);
+  --serif:     'Playfair Display', Georgia, serif;
+  --sans:      'Inter', system-ui, sans-serif;
+  --mono:      'IBM Plex Mono', monospace;
+  --radius:    13px;
+}
+
+body { font-family: var(--sans); background: var(--bg); color: var(--ink); min-height: 100vh; line-height: 1.65; }
+
+/* ── HERO ── */
+.hero { background: var(--ink2); position: relative; overflow: hidden; }
+.hero-organic {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 30%, rgba(13,148,120,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(181,32,48,0.08) 0%, transparent 45%),
+    radial-gradient(circle at 55% 15%, rgba(144,216,196,0.08) 0%, transparent 40%);
+}
+.hero-inner { padding: 5rem 2rem 5.5rem; text-align: center; position: relative; }
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(13,148,120,0.18); border: 1px solid rgba(144,216,196,0.35);
+  border-radius: 99px; padding: 5px 18px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--teal-md); margin-bottom: 1.4rem;
+}
+.hero-chip .mol { font-size: 14px; }
+.hero h1 { font-family: var(--serif); font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; color: #fff; line-height: 0.95; letter-spacing: -0.01em; max-width: 680px; margin: 0 auto 0.3rem; }
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--teal-md); }
+.hero-sub { position: relative; font-size: 1rem; color: rgba(255,255,255,0.42); max-width: 440px; margin: 0 auto 2.5rem; }
+.hero-stats { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+.hero-stat { background: rgba(255,255,255,0.07); border: 1px solid rgba(144,216,196,0.2); border-radius: 10px; padding: 0.7rem 1.4rem; text-align: center; }
+.hero-stat strong { display: block; font-family: var(--mono); font-size: 1.6rem; font-weight: 600; color: var(--teal-md); line-height: 1; }
+.hero-stat span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+.hero-wave { position: absolute; bottom: -1px; left: 0; right: 0; line-height: 0; }
+.hero-wave svg { display: block; width: 100%; }
+
+/* ── RIBBON ── */
+.ribbon { background: var(--teal); padding: 0.6rem 1.5rem; display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.rib { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; }
+.rib b { color: #A8F0DC; margin-left: 4px; }
+
+/* ── LAYOUT ── */
+.wrap { max-width: 840px; margin: 0 auto; padding: 0 1.5rem; }
+.sec { padding: 3rem 0 1rem; }
+.sec-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--teal2); margin-bottom: 0.35rem; }
+.sec-title { font-family: var(--serif); font-size: clamp(1.4rem,3.5vw,2rem); font-weight: 700; line-height: 1.2; color: var(--ink); }
+.sec-desc { font-size: 0.87rem; color: var(--muted); margin-top: 0.3rem; }
+
+.sep { display: flex; align-items: center; gap: 1rem; padding: 2rem 0 0.3rem; }
+.sep::before,.sep::after { content:''; flex:1; height:1px; background:var(--bg3); }
+.sep span { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+
+/* ══════════════ QUIZ ══════════════ */
+.quiz-shell { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.quiz-top { background: var(--ink2); padding: 0.9rem 1.4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+.quiz-top-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.32); }
+.q-segs { display: flex; gap: 4px; }
+.qseg { height: 3px; width: 24px; border-radius: 2px; background: rgba(255,255,255,0.15); transition: background 0.25s; }
+.qseg.done { background: var(--teal-md); } .qseg.cur { background: rgba(144,216,196,0.45); }
+
+.quiz-body { padding: 1.5rem; }
+.q-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.45rem; }
+.q-text { font-family: var(--serif); font-size: 1.08rem; font-weight: 700; color: var(--ink); line-height: 1.45; margin-bottom: 1.1rem; }
+.q-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.q-opt { display: flex; align-items: flex-start; gap: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 0.72rem 1rem; cursor: pointer; font-size: 0.9rem; color: var(--ink); font-family: var(--sans); text-align: left; transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4; }
+.q-opt:hover:not(.locked) { border-color: var(--teal2); background: var(--teal-lt); transform: translateX(3px); }
+.q-opt .ql { width: 24px; height: 24px; border-radius: 6px; background: var(--bg2); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); }
+.q-opt.correct .ql { background: var(--green); color: #fff; }
+.q-opt.wrong { background: var(--rose-lt); border-color: var(--rose); }
+.q-opt.wrong .ql { background: var(--rose); color: #fff; }
+.q-opt.locked { cursor: default; }
+
+.q-fb { display: none; margin-top: 0.85rem; background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--teal2); border-radius: 0 8px 8px 0; padding: 0.65rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; font-family: var(--mono); }
+.q-fb.show { display: block; } .q-fb.err { border-left-color: var(--rose); }
+.q-fb b { color: var(--ink); }
+
+.q-nxt { display: none; margin-top: 1rem; background: var(--teal); color: #fff; border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.q-nxt.show { display: inline-block; } .q-nxt:hover { background: var(--teal2); }
+
+.quiz-result { display: none; text-align: center; padding: 2.5rem 1.5rem; }
+.quiz-result.show { display: block; }
+.qr-score { font-family: var(--serif); font-size: 5.5rem; font-weight: 700; color: var(--teal); line-height: 1; letter-spacing: -0.03em; }
+.qr-score sup { font-family: var(--mono); font-size: 2rem; font-weight: 400; color: var(--muted); }
+.qr-rank { font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--ink2); margin: 0.3rem 0 0.2rem; }
+.qr-note { font-size: 0.87rem; color: var(--muted); margin-bottom: 1.3rem; max-width: 380px; margin-inline: auto; }
+.btn-soft { background: transparent; border: 1px solid var(--border2); color: var(--muted); padding: 0.52rem 1.2rem; border-radius: 9px; font-family: var(--sans); font-size: 0.84rem; cursor: pointer; transition: border-color 0.14s, color 0.14s; }
+.btn-soft:hover { border-color: var(--ink); color: var(--ink); }
+
+/* ══════════════ TRUE/FALSE ══════════════ */
+.tf-list { display: flex; flex-direction: column; gap: 0.65rem; }
+.tf-card { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); padding: 1rem 1.2rem; transition: border-color 0.2s, background 0.2s; }
+.tf-card.ans-v { border-color: var(--green); background: var(--green-lt); }
+.tf-card.ans-n { border-color: var(--amber); background: var(--amber-lt); }
+.tf-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.tf-num { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.2rem; }
+.tf-stmt { font-size: 0.95rem; font-weight: 500; color: var(--ink); line-height: 1.5; flex: 1; }
+.tf-btns { display: flex; gap: 0.4rem; flex-shrink: 0; margin-top: 2px; }
+.tf-btn { padding: 5px 14px; border-radius: 7px; border: 1.5px solid var(--border2); background: var(--bg); font-family: var(--sans); font-size: 0.82rem; font-weight: 600; cursor: pointer; color: var(--ink2); transition: border-color 0.14s, background 0.14s; }
+.tf-btn:hover:not(:disabled) { border-color: var(--teal2); background: var(--teal-lt); }
+.tf-btn:disabled { cursor: default; opacity: 0.5; }
+.tf-btn.right  { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-btn.wrong  { background: var(--rose-lt); border-color: var(--rose); color: var(--rose); }
+.tf-btn.reveal { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.tf-exp { display: none; font-size: 0.81rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(10,122,98,0.1); line-height: 1.55; }
+.tf-exp.show { display: block; }
+.tf-exp .vv { color: var(--green); font-style: normal; font-weight: 600; }
+.tf-exp .vn { color: var(--amber); font-style: normal; font-weight: 600; }
+.tf-tally { display: none; text-align: center; margin-top: 1rem; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+.tf-tally.show { display: block; } .tf-tally b { color: var(--teal2); }
+
+/* ══════════════ ACCORDION ══════════════ */
+.acc-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.acc-item { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.acc-head { display: flex; align-items: center; gap: 12px; padding: 1rem 1.2rem; cursor: pointer; transition: background 0.14s; user-select: none; }
+.acc-head:hover { background: var(--teal-lt); }
+.acc-num { width: 28px; height: 28px; border-radius: 8px; background: var(--teal); color: #fff; font-family: var(--mono); font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.acc-q { font-size: 0.92rem; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.4; }
+.acc-arrow { color: var(--muted); transition: transform 0.2s; }
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
+.acc-body { display: none; padding: 0 1.2rem 1.1rem; font-size: 0.87rem; color: var(--muted); line-height: 1.7; background: var(--bg); border-top: 1px solid var(--border); }
+.acc-body.show { display: block; }
+.acc-body b { color: var(--teal); font-weight: 600; }
+
+/* ══════════════ LAB SORT ══════════════ */
+.lab-samples { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem; margin-bottom: 1.2rem; }
+@media(max-width:540px){ .lab-samples { grid-template-columns: 1fr; } }
+.sample-card { background: var(--white); border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 1rem; cursor: pointer; user-select: none; transition: border-color 0.14s, background 0.14s, transform 0.1s; }
+.sample-card:hover:not(.placed) { border-color: var(--teal2); background: var(--teal-lt); transform: translateY(-2px); }
+.sample-card.selected { border-color: var(--amber); background: var(--amber-lt); box-shadow: 0 0 0 2px rgba(192,120,8,0.25); }
+.sample-card.placed { opacity: 0.45; cursor: default; pointer-events: none; }
+.sample-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+.sample-title { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal2); margin-bottom: 0.3rem; }
+.sample-text { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+.containers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
+@media(max-width:540px){ .containers { grid-template-columns: 1fr; } }
+.container-box { background: var(--white); border: 2px dashed var(--border2); border-radius: var(--radius); cursor: pointer; transition: border-color 0.14s, background 0.14s; overflow: hidden; }
+.container-box:hover { border-color: var(--teal2); border-style: solid; }
+.container-head { padding: 0.7rem 0.9rem; text-align: center; }
+.container-head.ct-tri  { background: var(--amber-lt); }
+.container-head.ct-phos { background: var(--teal-lt); }
+.container-head.ct-wax  { background: var(--indigo-lt); }
+.container-head .ct-icon { font-size: 1.4rem; display: block; margin-bottom: 0.2rem; }
+.container-head h4 { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.ct-tri h4  { color: var(--amber); }
+.ct-phos h4 { color: var(--teal); }
+.ct-wax h4  { color: var(--indigo); }
+.container-body { min-height: 60px; padding: 0.5rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.placed-in-ct { border-radius: 6px; padding: 4px 8px; font-family: var(--mono); font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+.placed-in-ct:hover { opacity: 0.7; }
+.placed-in-ct.ct-tri-item  { background: #FDEBBF; color: var(--amber); }
+.placed-in-ct.ct-phos-item { background: var(--teal-lt); color: var(--teal); }
+.placed-in-ct.ct-wax-item  { background: var(--indigo-lt); color: var(--indigo); }
+.placed-in-ct.correct { outline: 2px solid var(--green); }
+.placed-in-ct.wrong   { outline: 2px solid var(--rose); background: var(--rose-lt); color: var(--rose); }
+
+.lab-fb { display: none; margin-top: 1rem; background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--teal2); border-radius: 0 9px 9px 0; padding: 0.75rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.65; font-family: var(--mono); }
+.lab-fb.show { display: block; }
+.lab-controls { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+.btn-primary { background: var(--teal); color: #fff; border: none; padding: 0.62rem 1.4rem; border-radius: 9px; font-family: var(--sans); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.14s; }
+.btn-primary:hover { background: var(--teal2); }
+
+/* ══════════════ CLINICAL CASE ══════════════ */
+.case-shell { background: var(--white); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.case-head { background: var(--ink2); padding: 1.1rem 1.4rem; display: flex; align-items: center; gap: 14px; }
+.case-head-icon { font-size: 2.2rem; flex-shrink: 0; }
+.case-head-txt h3 { font-family: var(--serif); font-size: 1rem; color: #fff; font-weight: 700; margin-bottom: 0.2rem; }
+.case-head-txt p  { font-size: 11px; color: rgba(255,255,255,0.4); font-family: var(--mono); }
+.case-body { padding: 1.4rem; }
+.case-scenario { font-family: var(--serif); font-style: italic; font-size: 0.97rem; color: var(--ink); line-height: 1.75; background: var(--teal-lt); border-left: 3px solid var(--teal2); border-radius: 0 9px 9px 0; padding: 1rem 1.1rem; margin-bottom: 1.3rem; }
+.case-scenario b { font-style: normal; color: var(--teal); }
+.case-q-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal2); margin-bottom: 0.4rem; }
+.case-q-text { font-size: 1rem; font-weight: 600; color: var(--ink); line-height: 1.45; margin-bottom: 1rem; }
+
+.case-opts { display: flex; flex-direction: column; gap: 0.45rem; }
+.case-opt { display: flex; align-items: flex-start; gap: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 0.72rem 1rem; cursor: pointer; font-size: 0.9rem; color: var(--ink); font-family: var(--sans); text-align: left; transition: border-color 0.14s, background 0.14s, transform 0.1s; line-height: 1.4; }
+.case-opt:hover:not(.locked) { border-color: var(--teal2); background: var(--teal-lt); transform: translateX(3px); }
+.case-opt .ol { width: 24px; height: 24px; border-radius: 6px; background: var(--bg2); font-family: var(--mono); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--muted); }
+.case-opt.correct { background: var(--green-lt); border-color: var(--green); } .case-opt.correct .ol { background: var(--green); color: #fff; }
+.case-opt.wrong   { background: var(--rose-lt); border-color: var(--rose); }   .case-opt.wrong   .ol { background: var(--rose); color: #fff; }
+.case-opt.locked  { cursor: default; }
+
+.case-multi-opts { display: flex; flex-direction: column; gap: 0.4rem; }
+.case-multi-opt { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 9px; padding: 0.65rem 1rem; cursor: pointer; font-size: 0.9rem; color: var(--ink); font-family: var(--sans); transition: border-color 0.14s, background 0.14s; user-select: none; }
+.case-multi-opt:hover:not(.locked) { border-color: var(--teal2); background: var(--teal-lt); }
+.case-multi-opt.chosen { border-color: var(--teal2); background: var(--teal-lt); }
+.case-multi-opt.correct { border-color: var(--green); background: var(--green-lt); cursor: default; }
+.case-multi-opt.wrong   { border-color: var(--rose); background: var(--rose-lt); cursor: default; }
+.case-multi-opt.locked { cursor: default; }
+.cmo-check { width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--border2); background: var(--bg); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: transparent; transition: all 0.14s; }
+.case-multi-opt.chosen  .cmo-check { background: var(--teal2); border-color: var(--teal2); color: #fff; }
+.case-multi-opt.correct .cmo-check { background: var(--green); border-color: var(--green); color: #fff; }
+.case-multi-opt.wrong   .cmo-check { background: var(--rose); border-color: var(--rose); color: #fff; }
+
+.diet-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: var(--bg); border-radius: 9px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 1rem; }
+.diet-table th { background: var(--ink2); color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.55rem 0.9rem; text-align: left; }
+.diet-table td { padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--ink); line-height: 1.4; }
+.diet-table tr:last-child td { border-bottom: none; }
+.diet-table tr:nth-child(even) td { background: var(--bg2); }
+
+.case-fb { display: none; margin-top: 0.9rem; background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid var(--teal2); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+.case-fb.show { display: block; }
+.case-fb.err { border-left-color: var(--rose); }
+.case-fb b { color: var(--ink); }
+
+.case-q-block { margin-bottom: 1.5rem; }
+.case-q-block + .case-q-block { padding-top: 1.2rem; border-top: 1px solid var(--border); }
+
+.case-final { display: none; border-radius: var(--radius); padding: 1.2rem 1.4rem; text-align: center; margin-top: 1rem; }
+.case-final.show { display: block; }
+.case-final.ok-final  { background: var(--green-lt); border: 1px solid var(--green); }
+.case-final.err-final { background: var(--amber-lt); border: 1px solid var(--amber); }
+.case-final h4 { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 0.5rem; }
+.case-final.ok-final h4  { color: var(--green); }
+.case-final.err-final h4 { color: var(--amber); }
+.case-final p { font-size: 0.87rem; color: var(--muted); line-height: 1.65; text-align: left; }
+
+/* ── FOOTER ── */
+.footer { background: var(--ink2); margin-top: 3.5rem; padding: 2.5rem; text-align: center; }
+.footer p { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+.footer span { color: var(--teal-md); opacity: 0.7; }
+
+/* ── ANIMS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.quiz-shell,.tf-list,.acc-list,.case-shell { animation: fadeUp 0.3s ease backwards; }
+.tf-card:nth-child(2){animation-delay:.04s}.tf-card:nth-child(3){animation-delay:.08s}
+.tf-card:nth-child(4){animation-delay:.12s}.tf-card:nth-child(5){animation-delay:.16s}
+.tf-card:nth-child(6){animation-delay:.20s}.tf-card:nth-child(7){animation-delay:.24s}
+@keyframes pop { 0%{transform:scale(0.78);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1} }
+.quiz-result.show .qr-score { animation: pop 0.42s ease forwards; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-organic"></div>
+  <div class="hero-inner">
+    <div class="hero-chip"><span class="mol">🧬</span>Биология · 10 класс · ЕГЭ</div>
+    <h1>Липиды:<br><em>строение и функции</em></h1>
+    <p class="hero-sub">Пять интерактивных заданий — от теории до клинического кейса</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>6</strong><span>вопросов</span></div>
+      <div class="hero-stat"><strong>5</strong><span>заданий</span></div>
+      <div class="hero-stat"><strong>🩺</strong><span>клиника</span></div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,45 Q360,5 720,50 Q1080,88 1440,25 L1440,70 L0,70Z" fill="#F0F8F4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="ribbon">
+  <div class="rib">Опрос: <b id="r1">0/6</b></div>
+  <div class="rib">В/Н: <b id="r2">0/7</b></div>
+  <div class="rib">Закрепление: <b id="r3">0/5</b></div>
+  <div class="rib">Лаборатория: <b id="r4">—</b></div>
+  <div class="rib">Кейс: <b id="r5">0/3</b></div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══ TASK 1 — QUIZ ═══ -->
+  <div class="sec">
+    <div class="sec-tag">Задание 1</div>
+    <div class="sec-title">Опрос — 6 вопросов</div>
+    <div class="sec-desc">Один верный ответ. После выбора — объяснение.</div>
+  </div>
+
+  <div class="quiz-shell">
+    <div class="quiz-top">
+      <span class="quiz-top-lbl">Липиды · 6 вопросов</span>
+      <div class="q-segs" id="qSegs"></div>
+    </div>
+    <div id="qBody" class="quiz-body"></div>
+    <div class="quiz-result" id="qResult">
+      <div class="qr-score" id="qrScore">0<sup>/6</sup></div>
+      <div class="qr-rank" id="qrRank"></div>
+      <div class="qr-note" id="qrNote"></div>
+      <button class="btn-soft" onclick="quizReset()" style="margin-top:.4rem">↩ Ещё раз</button>
+    </div>
+  </div>
+
+  <div class="sep"><span>Задание 2</span></div>
+
+  <!-- ═══ TASK 2 — TF ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">«Верно / Неверно»</div>
+    <div class="sec-desc">7 утверждений о липидах. Нажми «Верно» или «Нет».</div>
+  </div>
+  <div class="tf-list" id="tfList"></div>
+  <div class="tf-tally" id="tfTally"></div>
+
+  <div class="sep"><span>Задание 3</span></div>
+
+  <!-- ═══ TASK 3 — ACCORDION ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">Тест на закрепление — разверни ответ</div>
+    <div class="sec-desc">Прочитай вопрос → ответь устно → разверни и сравни с эталоном.</div>
+  </div>
+  <div class="acc-list" id="accList"></div>
+
+  <div class="sep"><span>Задание 4</span></div>
+
+  <!-- ═══ TASK 4 — LAB ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">🔬 Лаборатория — определи тип липида</div>
+    <div class="sec-desc">Нажми образец → нажми контейнер, куда его поместить. Нажми размещённый образец — вернётся обратно.</div>
+  </div>
+
+  <div class="lab-samples" id="labSamples">
+    <div class="sample-card" id="sc-0" onclick="selectSample(0)">
+      <span class="sample-icon">🫙</span>
+      <div class="sample-title">Образец №1</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.3rem">Подсолнечное масло</div>
+      <div class="sample-text">Жидкое при комнатной температуре. Состоит из глицерина и трёх жирных кислот (преимущественно ненасыщенных).</div>
+    </div>
+    <div class="sample-card" id="sc-1" onclick="selectSample(1)">
+      <span class="sample-icon">🔬</span>
+      <div class="sample-title">Образец №2</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.3rem">Фрагмент мембраны</div>
+      <div class="sample-text">Образует двойной слой в воде. Есть гидрофильная головка и два хвоста. Содержит фосфорную кислоту.</div>
+    </div>
+    <div class="sample-card" id="sc-2" onclick="selectSample(2)">
+      <span class="sample-icon">🩸</span>
+      <div class="sample-title">Образец №3</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.3rem">Ушная сера</div>
+      <div class="sample-text">Вязкое, защищает от воды и бактерий. Сложный эфир жирной кислоты и одноатомного спирта.</div>
+    </div>
+    <div class="sample-card" id="sc-3" onclick="selectSample(3)">
+      <span class="sample-icon">🌸</span>
+      <div class="sample-title">Образец №4</div>
+      <div style="font-weight:600;font-size:.9rem;margin-bottom:.3rem">Лавандовое масло</div>
+      <div class="sample-text">Сильный запах, используется в парфюмерии. Состоит из изопреновых единиц.</div>
+    </div>
+  </div>
+
+  <div class="containers">
+    <div class="container-box" onclick="placeInContainer('tri')">
+      <div class="container-head ct-tri"><span class="ct-icon">🫙</span><h4>Триглицериды</h4></div>
+      <div class="container-body" id="ct-tri"></div>
+    </div>
+    <div class="container-box" onclick="placeInContainer('phos')">
+      <div class="container-head ct-phos"><span class="ct-icon">🔬</span><h4>Фосфолипиды</h4></div>
+      <div class="container-body" id="ct-phos"></div>
+    </div>
+    <div class="container-box" onclick="placeInContainer('wax')">
+      <div class="container-head ct-wax"><span class="ct-icon">🌸</span><h4>Воски / Терпены</h4></div>
+      <div class="container-body" id="ct-wax"></div>
+    </div>
+  </div>
+
+  <div class="lab-controls">
+    <button class="btn-primary" onclick="checkLab()">Проверить</button>
+    <button class="btn-soft" onclick="resetLab()">↩ Сбросить</button>
+    <span style="font-family:var(--mono);font-size:11px;color:var(--muted)" id="labScore"></span>
+  </div>
+  <div class="lab-fb" id="labFb"></div>
+
+  <div class="sep"><span>Задание 5</span></div>
+
+  <!-- ═══ TASK 5 — CASE ═══ -->
+  <div class="sec" style="padding-top:.4rem">
+    <div class="sec-title">🩺 Клинический кейс — Диета пациентки</div>
+    <div class="sec-desc">Прочитай ситуацию и ответь на 3 вопроса. Используй знания о функциях липидов.</div>
+  </div>
+
+  <div class="case-shell">
+    <div class="case-head">
+      <div class="case-head-icon">👩‍⚕️</div>
+      <div class="case-head-txt">
+        <h3>Клинический разбор</h3>
+        <p>Применение знаний к реальной ситуации</p>
+      </div>
+    </div>
+    <div class="case-body">
+      <div class="case-scenario">
+        К врачу-диетологу обратилась пациентка, 28 лет. Жалобы: <b>сухая шелушащаяся кожа, ломкие ногти, постоянная усталость, плохое заживление мелких ран.</b> Зимой постоянно мёрзнет даже в тёплой одежде.<br><br>
+        Она сидит на строгой диете: <b>исключила все жиры</b>. Ест только обезжиренные продукты, каши на воде, овощи, куриную грудку, хлеб без масла.
+      </div>
+
+      <!-- Вопрос 1 -->
+      <div class="case-q-block">
+        <div class="case-q-tag">Вопрос 1 / 3</div>
+        <div class="case-q-text">Какое наиболее вероятное функциональное нарушение можно предположить?</div>
+        <div class="case-opts" id="caseOpts1">
+          <button class="case-opt" onclick="pickCase1(0)"><span class="ol">А</span>Дефицит углеводов — мозг не получает глюкозу</button>
+          <button class="case-opt" onclick="pickCase1(1)"><span class="ol">Б</span>Дефицит липидов — нарушение функций, связанных с жирами</button>
+          <button class="case-opt" onclick="pickCase1(2)"><span class="ol">В</span>Дефицит белков — недостаток строительного материала</button>
+          <button class="case-opt" onclick="pickCase1(3)"><span class="ol">Г</span>Гипервитаминоз — переизбыток витаминов</button>
+        </div>
+        <div class="case-fb" id="caseFb1">
+          <b>Верно!</b> Пациентка исключила все жиры, а её симптомы (сухая кожа, плохое заживление, зябкость) напрямую связаны с функциями липидов. Дефицит углеводов дал бы слабость, но не сухость кожи. Белки — мышцы и иммунитет. Гипервитаминоз здесь ни при чём.
+        </div>
+      </div>
+
+      <!-- Вопрос 2 -->
+      <div class="case-q-block" id="caseBlock2" style="display:none">
+        <div class="case-q-tag">Вопрос 2 / 3 · Можно выбрать несколько</div>
+        <div class="case-q-text">Какие функции липидов нарушены у пациентки?</div>
+        <div class="case-multi-opts" id="caseOpts2">
+          <div class="case-multi-opt" data-v="str" onclick="toggleCM(this)"><div class="cmo-check">✓</div><span>🧱 Структурная — кожа и мембраны клеток обновляются медленнее</span></div>
+          <div class="case-multi-opt" data-v="thermo" onclick="toggleCM(this)"><div class="cmo-check">✓</div><span>🌡 Теплоизоляционная — зябнет из-за нехватки подкожного жира</span></div>
+          <div class="case-multi-opt" data-v="water" onclick="toggleCM(this)"><div class="cmo-check">✓</div><span>💧 Водоотталкивающая — сухая кожа теряет влагу</span></div>
+          <div class="case-multi-opt" data-v="reg" onclick="toggleCM(this)"><div class="cmo-check">✓</div><span>📡 Регуляторная — холестерин нужен для синтеза гормонов</span></div>
+          <div class="case-multi-opt" data-v="prot" onclick="toggleCM(this)"><div class="cmo-check">✓</div><span>🛡 Защитная — жировая прослойка вокруг органов</span></div>
+        </div>
+        <div style="margin-top:.8rem">
+          <button class="btn-primary" onclick="checkCase2()">Проверить</button>
+        </div>
+        <div class="case-fb" id="caseFb2">
+          <b>Правильно!</b> Все перечисленные функции нарушены. Структурная — мембраны клеток кожи не обновляются. Теплоизоляционная — нет подкожного жира. Водоотталкивающая — кожа сухая. Регуляторная — холестерин нужен для гормонов. Защитная — нет жировой подушки вокруг органов.
+        </div>
+      </div>
+
+      <!-- Вопрос 3 -->
+      <div class="case-q-block" id="caseBlock3" style="display:none">
+        <div class="case-q-tag">Вопрос 3 / 3 · Дневник питания</div>
+        <div class="case-q-text">Какой приём пищи нужно скорректировать в первую очередь?</div>
+        <table class="diet-table">
+          <thead><tr><th>Приём</th><th>Блюдо</th></tr></thead>
+          <tbody>
+            <tr><td>Завтрак</td><td>Овсяная каша на воде, зелёный чай</td></tr>
+            <tr><td>Обед</td><td>Салат из капусты и моркови (без масла), куриная грудка</td></tr>
+            <tr><td>Полдник</td><td>Яблоко</td></tr>
+            <tr><td>Ужин</td><td>Гречка (без масла), овощное рагу, хлеб</td></tr>
+          </tbody>
+        </table>
+        <div class="case-opts" id="caseOpts3">
+          <button class="case-opt" onclick="pickCase3(0)"><span class="ol">А</span>Заменить зелёный чай на кофе</button>
+          <button class="case-opt" onclick="pickCase3(1)"><span class="ol">Б</span>Добавить 1–2 чайные ложки растительного масла в салат или кашу</button>
+          <button class="case-opt" onclick="pickCase3(2)"><span class="ol">В</span>Убрать яблоко — в нём много сахара</button>
+          <button class="case-opt" onclick="pickCase3(3)"><span class="ol">Г</span>Заменить куриную грудку на свинину</button>
+        </div>
+        <div class="case-fb" id="caseFb3">
+          <b>Абсолютно верно!</b> Растительное масло — источник ненасыщенных жирных кислот. Это поможет улучшить состояние кожи (структурная функция), начать усваивать витамины A, D, E, K и дать организму сырьё для гормонов. Замена чая (А) не связана с липидами. Убрать яблоко (В) — вредно. Свинина (Г) добавит жиры, но лучше начинать с растительных.
+        </div>
+      </div>
+
+      <div class="case-final" id="caseFinal">
+        <h4 id="caseFinalTitle"></h4>
+        <p id="caseFinalMsg"></p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Интерактивный урок биологии · <span>Липиды: строение и функции</span> · ЕГЭ</p>
+</div>
+
+<script>
+/* ════════════════════════
+   TASK 1 — QUIZ
+════════════════════════ */
+const QS=[
+  {tag:'Свойства',q:'Какое свойство объединяет все липиды?',opts:['Растворяются в воде','Не растворяются в воде (гидрофобны)','Содержат азот','Всегда твёрдые'],ans:1,fb:'<b>Гидрофобность</b> — главный признак всех липидов. Именно это свойство объясняет их роль в мембранах и как водоотталкивающих покрытий.'},
+  {tag:'Структура',q:'Из чего состоит триглицерид?',opts:['Глицерин + 2 жирные кислоты','Глюкоза + глицерин','Глицерин + 3 жирные кислоты','Фосфорная кислота + холестерин'],ans:2,fb:'Три = <b>три жирные кислоты</b>. Глицерин (3-атомный спирт) + 3 жирные кислоты, соединённые сложноэфирными связями.'},
+  {tag:'Мембраны',q:'Какие липиды являются основой клеточных мембран?',opts:['Триглицериды','Воски','Фосфолипиды','Терпены'],ans:2,fb:'<b>Фосфолипиды</b>: гидрофильная головка (с фосфатом) + гидрофобные хвосты. Самосборка в бислой — основа всех мембран.'},
+  {tag:'Энергия',q:'Сколько ккал выделяется при окислении 1 г жира?',opts:['4 ккал','9 ккал','17 ккал','38 ккал'],ans:1,fb:'<b>9 ккал/г</b> — почти вдвое больше, чем у белков и углеводов (4 ккал/г). Именно поэтому жиры — самый ёмкий источник энергии.'},
+  {tag:'Витамины',q:'Какой витамин НЕ является жирорастворимым?',opts:['Витамин A','Витамин C','Витамин D','Витамин E'],ans:1,fb:'<b>Витамин C</b> — водорастворимый. Жирорастворимые: A, D, E, K. Им нужны липиды для всасывания в кишечнике.'},
+  {tag:'Воски',q:'Что такое воски с биологической точки зрения?',opts:['Триглицериды с короткими цепями','Сложные эфиры жирных кислот и одноатомных спиртов','Разновидность углеводов','Фосфолипиды с восковым хвостом'],ans:1,fb:'Воск = <b>жирная кислота + одноатомный спирт</b> (не глицерин). Функции: защита листьев, кожи, пера птиц от потери воды.'},
+];
+let qi=0,qsc=0;
+function renderQ(){
+  const q=QS[qi];
+  document.getElementById('qResult').classList.remove('show');
+  document.getElementById('qBody').style.display='';
+  document.getElementById('qSegs').innerHTML=QS.map((_,i)=>`<div class="qseg ${i<qi?'done':i===qi?'cur':''}"></div>`).join('');
+  document.getElementById('qBody').innerHTML=`
+    <div class="q-tag">Вопрос ${qi+1}/6 · ${q.tag}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-opts" id="qOpts">
+      ${q.opts.map((o,i)=>`<button class="q-opt" onclick="pickQ(${i})"><span class="ql">${String.fromCharCode(1040+i)}</span>${o}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qFb"></div>
+    <button class="q-nxt" id="qNxt" onclick="nextQ()">${qi<5?'Далее →':'Результат →'}</button>`;
+}
+function pickQ(c){
+  const q=QS[qi];
+  document.querySelectorAll('.q-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok=c===q.ans;
+  document.querySelectorAll('.q-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+  const fb=document.getElementById('qFb'); fb.innerHTML=q.fb; fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) qsc++;
+  document.getElementById('qNxt').classList.add('show');
+  document.getElementById('r1').textContent=qsc+'/6';
+}
+function nextQ(){qi++;if(qi>=6){showQR();return;}renderQ();}
+function showQR(){
+  document.getElementById('qBody').style.display='none';
+  document.getElementById('qResult').classList.add('show');
+  document.getElementById('qrScore').innerHTML=qsc+'<sup>/6</sup>';
+  const ranks=[[6,6,'🏆 Биохимик-эксперт!','Все шесть верно — липиды для тебя не секрет.'],[5,5,'👍 Отлично','Один вопрос — пересмотри функции воска и мембран.'],[3,4,'📚 Хорошо','Повтори структуру триглицеридов и фосфолипидов.'],[0,2,'🔍 Нужно повторить','Изучи строение липидов — тест поможет!']].find(([a,b])=>qsc>=a&&qsc<=b);
+  document.getElementById('qrRank').textContent=ranks[2];
+  document.getElementById('qrNote').textContent=ranks[3];
+  document.getElementById('qSegs').innerHTML=QS.map(()=>`<div class="qseg done"></div>`).join('');
+}
+function quizReset(){qi=0;qsc=0;document.getElementById('r1').textContent='0/6';renderQ();}
+renderQ();
+
+/* ════════════════════════
+   TASK 2 — TF
+════════════════════════ */
+const TF=[
+  {n:1,stmt:'Липиды растворяются в воде.',ans:false,exp:'<span class="vn">✗ Неверно.</span> Липиды гидрофобны — отталкивают воду. Именно это свойство определяет их роль в мембранах.'},
+  {n:2,stmt:'Фосфолипиды имеют гидрофильную головку и гидрофобные хвосты.',ans:true,exp:'<span class="vv">✓ Верно.</span> Двойственная природа фосфолипидов (амфифильность) — основа самосборки мембранного бислоя.'},
+  {n:3,stmt:'Насыщенные жирные кислоты содержат двойные связи.',ans:false,exp:'<span class="vn">✗ Неверно.</span> Двойные связи — у ненасыщенных. Насыщенные = все связи одинарные, цепь прямая, жир твёрдый.'},
+  {n:4,stmt:'Холестерин относится к стероидам.',ans:true,exp:'<span class="vv">✓ Верно.</span> Холестерин — стероидный липид. Из него синтезируются половые гормоны, желчные кислоты, витамин D.'},
+  {n:5,stmt:'Терпены отвечают за запахи растений.',ans:true,exp:'<span class="vv">✓ Верно.</span> Терпены — летучие изопреновые соединения. Они составляют основу эфирных масел и ароматов растений.'},
+  {n:6,stmt:'Жиры — самый калорийный источник энергии.',ans:true,exp:'<span class="vv">✓ Верно.</span> 9 ккал/г — против 4 ккал/г у углеводов и белков. Жир в 2+ раза эффективнее как «топливо».'},
+  {n:7,stmt:'Растительные масла содержат преимущественно насыщенные жирные кислоты.',ans:false,exp:'<span class="vn">✗ Неверно.</span> В растительных маслах преобладают ненасыщенные. Именно поэтому они жидкие, а животные жиры — твёрдые.'},
+];
+let tfOk=0,tfDone=0;
+function renderTF(){
+  tfOk=0;tfDone=0;
+  document.getElementById('tfTally').classList.remove('show');
+  document.getElementById('r2').textContent='0/7';
+  const list=document.getElementById('tfList'); list.innerHTML='';
+  TF.forEach((item,i)=>{
+    const c=document.createElement('div'); c.className='tf-card'; c.id='tfc-'+i;
+    c.innerHTML=`<div class="tf-row"><div style="flex:1"><div class="tf-num">Утверждение ${item.n}</div><div class="tf-stmt">${item.stmt}</div><div class="tf-exp" id="tfe-${i}">${item.exp}</div></div><div class="tf-btns"><button class="tf-btn" id="tfv-${i}" onclick="pickTF(${i},true)">✓</button><button class="tf-btn" id="tfn-${i}" onclick="pickTF(${i},false)">✗</button></div></div>`;
+    list.appendChild(c);
+  });
+}
+function pickTF(i,ua){
+  const item=TF[i]; const vb=document.getElementById('tfv-'+i),nb=document.getElementById('tfn-'+i);
+  vb.disabled=true; nb.disabled=true;
+  const ok=ua===item.ans;
+  (ua?vb:nb).classList.add(ok?'right':'wrong');
+  if(!ok)(item.ans?vb:nb).classList.add('reveal');
+  document.getElementById('tfe-'+i).classList.add('show');
+  document.getElementById('tfc-'+i).classList.add(item.ans?'ans-v':'ans-n');
+  if(ok) tfOk++; tfDone++;
+  document.getElementById('r2').textContent=tfOk+'/7';
+  if(tfDone===7){ const t=document.getElementById('tfTally'); t.innerHTML=`Итог: <b>${tfOk}/7</b> — ${['Повтори!','Неплохо!','Хорошо!','Отлично!','Блестяще!','Блестяще!','Идеально!','Идеально!'][tfOk]}`; t.classList.add('show'); }
+}
+renderTF();
+
+/* ════════════════════════
+   TASK 3 — ACCORDION
+════════════════════════ */
+const ACC=[
+  {n:1,q:'Почему фосфолипиды в водной среде самопроизвольно образуют бислой?',a:'<b>Гидрофобные хвосты</b> стремятся избежать контакта с водой → прячутся внутрь. <b>Гидрофильные головки</b> обращены к воде. Это самосборка за счёт гидрофобных взаимодействий — минимум свободной энергии.'},
+  {n:2,q:'Почему животные жиры твёрдые, а растительные масла — жидкие?',a:'В животных жирах преобладают <b>насыщенные</b> жирные кислоты (без двойных связей). Цепи прямые, плотно упаковываются — жир твёрдый. В растительных маслах — <b>ненасыщенные</b> (с двойными связями). Цепи изогнуты, не упаковываются — масло жидкое.'},
+  {n:3,q:'Почему морковь со сметаной полезнее, чем без неё?',a:'Витамин A — <b>жирорастворимый</b>. Без липидов он не всасывается в кишечнике. Жир из сметаны помогает витамину A раствориться и попасть в лимфу и кровь. То же самое — с витаминами D, E, K.'},
+  {n:4,q:'Перечислите не менее 4 функций липидов.',a:'<b>Энергетическая</b> (9 ккал/г), <b>запасающая</b> (жировые депо), <b>структурная</b> (основа мембран — фосфолипиды), <b>теплоизоляционная</b> (подкожный жир), <b>защитная</b> (амортизация органов), <b>регуляторная</b> (гормоны из холестерина), <b>водоотталкивающая</b> (воски на листьях, коже).'},
+  {n:5,q:'Чем простые липиды отличаются от сложных? Приведите примеры.',a:'<b>Простые</b>: только C, H, O. Примеры: триглицериды (жиры и масла), воски. <b>Сложные</b>: дополнительные группы. Примеры: фосфолипиды (+фосфор), гликолипиды (+углеводы), липопротеины (+белки).'},
+];
+let accOpen=new Set();
+function buildAcc(){
+  accOpen.clear(); document.getElementById('r3').textContent='0/5';
+  const list=document.getElementById('accList'); list.innerHTML='';
+  ACC.forEach((item,i)=>{
+    const el=document.createElement('div'); el.className='acc-item'; el.id='acc-'+i;
+    el.innerHTML=`<div class="acc-head" onclick="toggleAcc(${i})"><div class="acc-num">${item.n}</div><div class="acc-q">${item.q}</div><span class="acc-arrow">▼</span></div><div class="acc-body" id="accb-${i}">${item.a}</div>`;
+    list.appendChild(el);
+  });
+}
+function toggleAcc(i){
+  const el=document.getElementById('acc-'+i),body=document.getElementById('accb-'+i);
+  const open=el.classList.contains('open');
+  if(!open){ el.classList.add('open'); body.classList.add('show'); accOpen.add(i); document.getElementById('r3').textContent=accOpen.size+'/5'; }
+  else { el.classList.remove('open'); body.classList.remove('show'); }
+}
+buildAcc();
+
+/* ════════════════════════
+   TASK 4 — LAB
+════════════════════════ */
+const LAB_CORRECT=['tri','phos','wax','wax'];
+const LAB_NAMES=['Подсолнечное масло','Клеточная мембрана','Ушная сера','Лавандовое масло'];
+const LAB_EXP=['Масло — жидкий триглицерид (глицерин + 3 ненасыщенные жирные кислоты).','Мембрана состоит из фосфолипидного бислоя. Гидрофильная головка с фосфатом + два гидрофобных хвоста.','Ушная сера — воск (сложный эфир жирной кислоты + одноатомный спирт). Защищает от воды.','Лавандовое масло — терпены (изопреновые единицы). Летучие, отвечают за запах.'];
+let labSelected=null,labPlacements={};
+
+function selectSample(i){
+  document.querySelectorAll('.sample-card').forEach(c=>c.classList.remove('selected'));
+  if(document.getElementById('sc-'+i).classList.contains('placed')) return;
+  if(labSelected===i){labSelected=null;return;}
+  labSelected=i;
+  document.getElementById('sc-'+i).classList.add('selected');
+}
+
+function placeInContainer(cat){
+  if(labSelected===null) return;
+  const i=labSelected;
+  document.getElementById('sc-'+i).classList.remove('selected'); document.getElementById('sc-'+i).classList.add('placed');
+  labPlacements[i]=cat; labSelected=null;
+  renderContainers();
+}
+
+function renderContainers(){
+  ['tri','phos','wax'].forEach(c=>document.getElementById('ct-'+c).innerHTML='');
+  Object.entries(labPlacements).forEach(([i,cat])=>{
+    const el=document.createElement('div');
+    el.className='placed-in-ct ct-'+cat+'-item'; el.title='Нажми, чтобы вернуть';
+    el.innerHTML='🔙 '+LAB_NAMES[i];
+    el.addEventListener('click',()=>{
+      delete labPlacements[i];
+      document.getElementById('sc-'+i).classList.remove('placed','selected');
+      renderContainers();
+      document.getElementById('labScore').textContent='';
+      document.getElementById('labFb').classList.remove('show');
+    });
+    document.getElementById('ct-'+cat).appendChild(el);
+  });
+}
+
+function checkLab(){
+  if(Object.keys(labPlacements).length<4){ document.getElementById('labFb').innerHTML='Размести все 4 образца!'; document.getElementById('labFb').classList.add('show'); return; }
+  let ok=0;
+  ['tri','phos','wax'].forEach(c=>{ const body=document.getElementById('ct-'+c); body.querySelectorAll('.placed-in-ct').forEach(el=>el.classList.remove('correct','wrong')); });
+  Object.entries(labPlacements).forEach(([i,cat])=>{
+    const correct=cat===LAB_CORRECT[i];
+    if(correct) ok++;
+    const chips=document.querySelectorAll('#ct-'+cat+' .placed-in-ct');
+    chips.forEach(c=>{ if(c.textContent.includes(LAB_NAMES[i])){ c.classList.add(correct?'correct':'wrong'); } });
+  });
+  document.getElementById('labScore').textContent=`Верно: ${ok}/4`;
+  document.getElementById('r4').textContent=ok+'/4';
+  const fb=document.getElementById('labFb');
+  if(ok===4){
+    fb.innerHTML='<b>✅ Отлично!</b> Все четыре образца классифицированы верно. Вы различаете триглицерид, фосфолипид, воск и терпен!<br><br>'+LAB_EXP.map((e,i)=>`<b>№${i+1}:</b> ${e}`).join('<br>');
+  } else {
+    fb.innerHTML='<b>🔄 Есть ошибки.</b> Вспомни: фосфолипиды содержат фосфат и образуют мембраны. Триглицериды = глицерин + 3 кислоты. Воски и терпены — защита и запахи.<br><br>'+LAB_EXP.map((e,i)=>`<b>№${i+1}:</b> ${e}`).join('<br>');
+  }
+  fb.classList.add('show');
+}
+function resetLab(){ labSelected=null; labPlacements={}; document.querySelectorAll('.sample-card').forEach(c=>c.classList.remove('placed','selected')); renderContainers(); document.getElementById('labScore').textContent=''; document.getElementById('labFb').classList.remove('show'); document.getElementById('r4').textContent='—'; }
+
+/* ════════════════════════
+   TASK 5 — CLINICAL CASE
+════════════════════════ */
+let caseScore=0;
+const multiCorrect=new Set(['str','thermo','water','reg','prot']);
+const multiChosen=new Set();
+
+function pickCase1(c){
+  document.querySelectorAll('#caseOpts1 .case-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok=c===1;
+  document.querySelectorAll('#caseOpts1 .case-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('#caseOpts1 .case-opt')[1].classList.add('correct');
+  const fb=document.getElementById('caseFb1'); fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) caseScore++;
+  document.getElementById('r5').textContent=caseScore+'/3';
+  setTimeout(()=>document.getElementById('caseBlock2').style.display='block',400);
+}
+
+function toggleCM(el){
+  if(el.classList.contains('locked')) return;
+  const v=el.dataset.v;
+  if(multiChosen.has(v)){multiChosen.delete(v);el.classList.remove('chosen');}
+  else{multiChosen.add(v);el.classList.add('chosen');}
+}
+
+function checkCase2(){
+  document.querySelectorAll('#caseOpts2 .case-multi-opt').forEach(el=>{
+    el.classList.add('locked');
+    const v=el.dataset.v;
+    el.classList.remove('chosen');
+    el.classList.add(multiCorrect.has(v)?'correct':'wrong');
+  });
+  const allRight=[...multiCorrect].every(v=>multiChosen.has(v)) && multiChosen.size===multiCorrect.size;
+  const fb=document.getElementById('caseFb2'); fb.classList.add('show');
+  if(allRight) caseScore++;
+  document.getElementById('r5').textContent=caseScore+'/3';
+  setTimeout(()=>document.getElementById('caseBlock3').style.display='block',400);
+}
+
+function pickCase3(c){
+  document.querySelectorAll('#caseOpts3 .case-opt').forEach(b=>{b.classList.add('locked');b.disabled=true;});
+  const ok=c===1;
+  document.querySelectorAll('#caseOpts3 .case-opt')[c].classList.add(ok?'correct':'wrong');
+  if(!ok) document.querySelectorAll('#caseOpts3 .case-opt')[1].classList.add('correct');
+  const fb=document.getElementById('caseFb3'); fb.classList.add('show');
+  if(!ok) fb.classList.add('err');
+  if(ok) caseScore++;
+  document.getElementById('r5').textContent=caseScore+'/3';
+  const final=document.getElementById('caseFinal'); final.classList.add('show');
+  if(caseScore>=2){
+    final.classList.add('ok-final');
+    document.getElementById('caseFinalTitle').textContent='🩺 Поздравляем!';
+    document.getElementById('caseFinalMsg').innerHTML='Вы успешно провели клинический разбор. Теперь понимаете, почему жиры нельзя исключать полностью. Пациентке через месяц стало лучше: она добавила 2 ст.л. оливкового масла в день — кожа перестала шелушиться, мёрзнуть стала меньше.';
+  } else {
+    final.classList.add('err-final');
+    document.getElementById('caseFinalTitle').textContent='📋 Запомни!';
+    document.getElementById('caseFinalMsg').innerHTML='Липиды — это не просто «лишний вес». Строительный материал мембран → сухая кожа. Теплоизоляция → зябкость. Основа гормонов и жирорастворимых витаминов. Защита органов. Обезжиренные диеты бывают опасны. Всё хорошо в меру.';
+  }
+}
+</script>
+</body>
+</html>
